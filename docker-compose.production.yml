@@ -1,0 +1,41 @@
+version: '3.3'
+services:
+  web:
+    volumes:
+      - type: volume
+        source: frozen
+        target: /www/frozen
+        volume:
+          read_only: true
+      - type: volume
+        source: certbot_etc_letsencrypt
+        target: /etc/letsencrypt
+        volume:
+          read_only: true
+    depends_on:
+      - chill
+  chill:
+    build:
+      context: ./
+      dockerfile: freeze.Dockerfile
+    volumes:
+      - type: volume
+        source: frozen
+        target: /usr/run/frozen
+    command: freeze
+  certbot:
+    build: ./certbot/
+    volumes:
+      - type: volume
+        source: certbot_etc_letsencrypt
+        target: /etc/letsencrypt
+      - type: volume
+        source: certbot_lib_letsencrypt
+        target: /var/lib/letsencrypt
+      - type: volume
+        source: root
+        target: /www/root
+volumes:
+  frozen:
+  certbot_etc_letsencrypt:
+  certbot_lib_letsencrypt:
