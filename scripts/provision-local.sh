@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd $HOME/llama;
+# Run from your local machine to create certs for development.
 
 touch .htpasswd;
 

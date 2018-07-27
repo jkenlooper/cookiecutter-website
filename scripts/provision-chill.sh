@@ -1,14 +1,14 @@
 #!/bin/bash -e
 
-SRC_DIR=/usr/local/src/llama3-weboftomorrow-com/
+# Run as dev user to install chill and create the db from the dump file.
 
-#virtualenv $SRC_DIR
+cd /usr/local/src/llama3-weboftomorrow-com/
 
-$SRC_DIR/bin/pip install psycopg2
-$SRC_DIR/bin/pip install psycopg2
+virtualenv .
 
-$SRC_DIR/bin/pip install https://github.com/jkenlooper/chill/archive/develop.zip
+# Install latest chill on develop branch
+./bin/pip install https://github.com/jkenlooper/chill/archive/develop.zip
 
-# Remove and recreate the db from the db.dump.sql.
-#rm -f db && cat db.dump.sql | sqlite3 db
+# Create the sqlite database file
+cat db.dump.sql | sqlite3 /var/lib/llama3-weboftomorrow-com/sqlite3/db
 
