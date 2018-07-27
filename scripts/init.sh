@@ -7,6 +7,7 @@ apt-get --yes update
 apt-get --yes upgrade
 
 apt-get --yes install software-properties-common
+apt-get --yes install ssh rsync curl
 
 #apt-get --yes install iptables-persistent
 
@@ -37,11 +38,25 @@ sed --in-place "s/^PasswordAuthentication yes$/PasswordAuthentication no/" /etc/
 systemctl reload sshd
 
 # Update /etc/hosts with web, api, stats
-echo "127.0.1.1  web" >> /etc/hosts
-echo "127.0.1.1  api" >> /etc/hosts
-echo "127.0.1.1  chill" >> /etc/hosts
+#echo "127.0.1.1  web" >> /etc/hosts
+#echo "127.0.1.1  api" >> /etc/hosts
+#echo "127.0.1.1  chill" >> /etc/hosts
 
-apt-get install --yes rsync curl
 
 # chill dependencies
-apt-get --yes install python python-dev python-pip sqlite python-psycopg2
+apt-get --yes install python python-dev python-pip sqlite python-psycopg2 virtualenv
+
+#pip install psycopg2
+pip install https://github.com/jkenlooper/chill/archive/develop.zip
+
+
+# Create file hierarchies
+mkdir -p /usr/local/src/llama3-weboftomorrow-com/
+chown -R dev:dev /usr/local/src/llama3-weboftomorrow-com/
+
+mkdir -p /var/lib/llama3-weboftomorrow-com/sqlite3/
+chown -R dev:dev /var/lib/llama3-weboftomorrow-com/sqlite3/
+
+mkdir -p /srv/llama3-weboftomorrow-com/root
+chown -R dev:dev /srv/llama3-weboftomorrow-com/root
+

@@ -1,28 +1,28 @@
 #!/bin/bash
 
+REMOTE=$1
 
 # Sync source files to build server
 rsync --archive --progress --itemize-changes \
-  api \
-  chill \
-  certbot \
+  db.dump.sql \
   package.json \
-  README.md \
-  root \
-  scripts \
   site.cfg \
-  stats \
+  scripts \
   templates \
-  web \
-  dev@llama-1:/home/dev/llama/
-
-
-# Sync built files back to local
-rsync --archive --progress --itemize-changes \
-  dev@llama-1:/home/dev/llama/{db.dump.sql,node_modules,package-lock.json} \
-  ./
+  documents \
+  queries \
+  dev@$REMOTE:/usr/local/src/llama3-weboftomorrow-com/
 
 rsync --archive --progress --itemize-changes \
-  dev@llama-1:/home/dev/llama/web/rootCA.pem \
-  ./
+  root \
+  dev@$REMOTE:/srv/llama3-weboftomorrow-com/
 
+## Sync built files back to local
+#rsync --archive --progress --itemize-changes \
+#  dev@$REMOTE:/home/dev/llama/{db.dump.sql,node_modules,package-lock.json} \
+#  ./
+#
+#rsync --archive --progress --itemize-changes \
+#  dev@$REMOTE:/home/dev/llama/web/rootCA.pem \
+#  ./
+#
