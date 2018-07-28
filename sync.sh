@@ -20,7 +20,7 @@ rsync --archive --progress --itemize-changes \
 
 rsync --archive --progress --itemize-changes \
   web/web-nginx.development.conf \
-  dev@$REMOTE:/etc/nginx/conf.d/llama3-weboftomorrow-com.conf
+  dev@$REMOTE:/etc/nginx/sites-available/llama3-weboftomorrow-com.conf
 
 rsync --archive --progress --itemize-changes \
   web/snippets \

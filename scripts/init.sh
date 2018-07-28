@@ -46,6 +46,8 @@ systemctl reload sshd
 # chill dependencies
 apt-get --yes install python python-dev python-pip sqlite python-psycopg2 virtualenv
 
+# Install nginx
+apt-get --yes install nginx
 
 # Create file hierarchies
 mkdir -p /usr/local/src/llama3-weboftomorrow-com/
@@ -57,7 +59,20 @@ chown -R dev:dev /var/lib/llama3-weboftomorrow-com/sqlite3/
 mkdir -p /srv/llama3-weboftomorrow-com/root
 chown -R dev:dev /srv/llama3-weboftomorrow-com/root
 
-mkdir -p /var/log/llama3-weboftomorrow-com
-#chown -R dev:dev /var/log/llama3-weboftomorrow-com
+mkdir -p /var/log/nginx/llama3-weboftomorrow-com
 
 mkdir -p /var/log/awstats
+
+
+rm -f /etc/nginx/sites-enabled/default
+
+touch /etc/nginx/sites-available/llama3-weboftomorrow-com.conf
+chown dev:dev /etc/nginx/sites-available/llama3-weboftomorrow-com.conf
+ln -s /etc/nginx/sites-available/llama3-weboftomorrow-com.conf /etc/nginx/sites-enabled/llama3-weboftomorrow-com.conf
+chown -R dev:dev /etc/nginx/sites-available
+
+mkdir -p /etc/nginx/snippets/
+chown -R dev:dev /etc/nginx/snippets
+
+mkdir -p /etc/nginx/ssl/
+chown -R dev:dev /etc/nginx/ssl
