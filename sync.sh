@@ -7,10 +7,12 @@ rsync --archive --progress --itemize-changes \
   db.dump.sql \
   package.json \
   site.cfg \
+  requirements.txt \
   scripts \
   templates \
   documents \
   queries \
+  api \
   dev@$REMOTE:/usr/local/src/llama3-weboftomorrow-com/
 
 # Sync the files that require no further processing.
