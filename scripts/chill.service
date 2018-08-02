@@ -1,0 +1,37 @@
+# Should be placed in /etc/systemd/system/
+# sudo cp scripts/chill.service /etc/systemd/system/
+#
+# Start and enable the service
+# sudo systemctl start chill
+# sudo systemctl enable chill
+#
+# Stop the service
+# sudo systemctl stop chill
+#
+# View the end of log
+# sudo journalctl --pager-end _SYSTEMD_UNIT=chill.service
+#
+# Follow the log
+# sudo journalctl --follow _SYSTEMD_UNIT=chill.service
+#
+# View details about service
+# sudo systemctl show chill
+#
+# Check the status of the service
+# sudo systemctl status chill.service
+#
+# Reload if chill.service file has changed
+# sudo systemctl daemon-reload
+
+[Unit]
+Description=Chill llama3-weboftomorrow-com instance
+After=network.target
+
+[Service]
+User=dev
+Group=dev
+WorkingDirectory=/usr/local/src/llama3-weboftomorrow-com
+ExecStart=/usr/local/src/llama3-weboftomorrow-com/bin/chill run
+
+[Install]
+WantedBy=multi-user.target
