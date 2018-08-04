@@ -8,22 +8,17 @@
 #Use order only prerequisites for making directories
 
 SRV_DIR := /srv/llama3-weboftomorrow-com
-SRV_DIR := tmp/srv/llama3-weboftomorrow-com
+#SRV_DIR := tmp/srv/llama3-weboftomorrow-com
 
+all: rootfiles
 
-
-ROOT_FILES := $(wildcard root/*)
-SRVROOT_FILES := $(addprefix $(SRV_DIR)/,$(ROOT_FILES))
-
-all: $(SRVROOT_FILES)
-
-# Use rsync to sync each root/* file to the /srv/... directory.
-# TODO: how to delete files no longer in root/ ?
-$(SRV_DIR)/root/% : root/% | $(SRV_DIR)/root
-	rsync --archive \
+rootfiles: | $(SRV_DIR)/root
+	@rsync --archive \
 		--inplace \
+		--delete \
+		--exclude=.well-known \
 		--itemize-changes \
-		$< $@
+		root/ $(SRV_DIR)/root/
 
 $(SRV_DIR)/root:
 	mkdir -p $@;
