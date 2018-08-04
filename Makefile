@@ -19,22 +19,15 @@ all: $(SRVROOT_FILES)
 
 # Use rsync to sync each root/* file to the /srv/... directory.
 # TODO: how to delete files no longer in root/ ?
-# --exclude=.well-known/
 $(SRV_DIR)/root/% : root/% | $(SRV_DIR)/root
-	echo $|
 	rsync --archive \
 		--inplace \
-		--human-readable \
 		--itemize-changes \
 		$< $@
-	touch $@
-
-testfile :
-	touch testfile
 
 $(SRV_DIR)/root:
 	mkdir -p $@;
-	#chown -R dev:dev $@;
+	chown -R dev:dev $@;
 
 # all
 # 	create (optimize, resize) media files from source-media
