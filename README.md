@@ -2,7 +2,7 @@
 
 Website built with chill stuff and things
 
-This site is hosted at [http://llama3.weboftomorrow.com](http://llama3.weboftomorrow.com).
+This site is hosted at [llama3.weboftomorrow.com](http://llama3.weboftomorrow.com).
 
 It is based off of the [chill cookiecutter](https://github.com/jkenlooper/cookiecutter-chill).
 
@@ -177,6 +177,7 @@ the `certbot certonly` command in the certbot container.
 docker-compose -f docker-compose.yml -f docker-compose.production.yml up -d web
 ```
 
+TODO: this command handled by provision-certbot.sh script.
 ```
 docker-compose -f docker-compose.yml -f docker-compose.production.yml \
   run --rm certbot \
