@@ -3,15 +3,27 @@
 # make install;
 # make development; OR make production;
 
-.PHONY: all install development production clean
+SHELL=/bin/bash
+.PHONY: all install development production clean rootfiles
 
 #Use order only prerequisites for making directories
 
 SRV_DIR := /srv/llama3-weboftomorrow-com
 #SRV_DIR := tmp/srv/llama3-weboftomorrow-com
 
-all: rootfiles
+all: bin/chill
 
+install: rootfiles
+
+# Remove any created files in the src directory which were created by the
+# `make all` recipe.
+clean:
+
+# Remove files placed outside of src directory and uninstall app.
+uninstall:
+	./scripts/uninstall.sh
+
+# Run rsync everytime (rootfiles target is phony)
 rootfiles: | $(SRV_DIR)/root
 	@rsync --archive \
 		--inplace \
@@ -23,6 +35,17 @@ rootfiles: | $(SRV_DIR)/root
 $(SRV_DIR)/root:
 	mkdir -p $@;
 	chown -R dev:dev $@;
+
+# Build python apps and set virtualenv with pip
+bin/chill: requirements.txt bin/pip
+	./bin/pip install -r requirements.txt
+	touch $@;
+
+bin/pip:
+	virtualenv .
+	touch $@;
+
+
 
 # all
 # 	create (optimize, resize) media files from source-media
