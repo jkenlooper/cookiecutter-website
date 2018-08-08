@@ -36,6 +36,22 @@ $(SRV_DIR)/root:
 	mkdir -p $@;
 	chown -R dev:dev $@;
 
+# Run rsync checksum on nginx default.conf since other sites might also update
+# this file.
+/etc/nginx/sites-available/default.conf : web/snippets/server--default-server-ignore-all-other.conf
+	rsync --inplace \
+		--itemize-changes \
+		--dry-run \
+		--checksum \
+		$^ $@
+
+/etc/nginx/sites-available/llama3-weboftomorrow-com.conf : web/web-nginx.development.conf
+	rsync --inplace \
+		--itemize-changes \
+		--dry-run \
+		$^ $@
+
+
 # Build python apps and set virtualenv with pip
 bin/chill: requirements.txt bin/pip
 	./bin/pip install -r requirements.txt
@@ -68,6 +84,7 @@ bin/pip:
 # 		Only if db file is not there or has older timestamp?
 # 	requires running as sudo
 # 	install awstats and awstats.service
+# 	install watcher service for changes to nginx confs that will reload
 # 	create all directories
 # 	rsync to all directories
 # 	reload services if needed
