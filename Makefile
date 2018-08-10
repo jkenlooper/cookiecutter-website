@@ -1,64 +1,73 @@
-# Workflow should be:
-# make;
-# make install;
-# make development; OR make production;
+MAKEFLAGS += --warn-undefined-variables
+SHELL := bash
+.SHELLFLAGS := -eu -o pipefail -c
+.DEFAULT_GOAL := all
+.DELETE_ON_ERROR:
+.SUFFIXES:
 
-SHELL=/bin/bash
-.PHONY: all install development production clean rootfiles
+# Local pip is used by creating virtualenv and running `source ./bin/activate`
+
+#    all: the name of the default target
+#    check: runs tests, linters, and style enforcers
+#    clean: removes files created by all
+#    install:
+#    uninstall: undoes what install did
+
+# Workflow should be:
+# ./init.sh; # Sets up a new ubuntu server with base stuff and dev user
+# sudo make setup; # should only need to be run once
+# virtualenv .;
+# source ./bin/activate;
+# make;
+# sudo make install;
+# sudo make install.development; OR make production;
+#
 
 #Use order only prerequisites for making directories
 
-SRV_DIR := /srv/llama3-weboftomorrow-com
-#SRV_DIR := tmp/srv/llama3-weboftomorrow-com
+# Set to tmp/ when debugging the install.
+# make PREFIXDIR=${PWD}/tmp inspect.SRVDIR
+# make PREFIXDIR=${PWD}/tmp install.development
+PREFIXDIR :=
+SRVDIR := $(PREFIXDIR)/srv/llama3-weboftomorrow-com/
+NGINXDIR := $(PREFIXDIR)/etc/nginx/
 
+# For debugging what is set in variables
+inspect.%:
+	@echo $($*)
+
+ifeq ($(shell which pip),)
+$(error run "make setup" to install pip)
+endif
+
+# Always run.  Useful when target is like install.% .
+FORCE:
+
+.PHONY: all
 all: bin/chill
 
-install: rootfiles
+# make install.development
+# make install.production
+install.%: FORCE
+	./scripts/install.sh $* $(SRVDIR) $(NGINXDIR)
 
 # Remove any created files in the src directory which were created by the
 # `make all` recipe.
+.PHONY: clean
 clean:
 
 # Remove files placed outside of src directory and uninstall app.
 uninstall:
 	./scripts/uninstall.sh
 
-# Run rsync everytime (rootfiles target is phony)
-rootfiles: | $(SRV_DIR)/root
-	@rsync --archive \
-		--inplace \
-		--delete \
-		--exclude=.well-known \
-		--itemize-changes \
-		root/ $(SRV_DIR)/root/
-
-$(SRV_DIR)/root:
-	mkdir -p $@;
-	chown -R dev:dev $@;
-
-# Run rsync checksum on nginx default.conf since other sites might also update
-# this file.
-/etc/nginx/sites-available/default.conf : web/snippets/server--default-server-ignore-all-other.conf
-	rsync --inplace \
-		--itemize-changes \
-		--dry-run \
-		--checksum \
-		$^ $@
-
-/etc/nginx/sites-available/llama3-weboftomorrow-com.conf : web/web-nginx.development.conf
-	rsync --inplace \
-		--itemize-changes \
-		--dry-run \
-		$^ $@
+#TODO: Update init.sh so it can be run without interaction.  Rename to setup.sh.
+setup: .setup
+	./scripts/init.sh
+	touch .setup
 
 
-# Build python apps and set virtualenv with pip
-bin/chill: requirements.txt bin/pip
-	./bin/pip install -r requirements.txt
-	touch $@;
-
-bin/pip:
-	virtualenv .
+bin/chill: requirements.txt
+	pip install -r requirements.txt
 	touch $@;
 
 

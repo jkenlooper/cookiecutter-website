@@ -10,5 +10,5 @@ virtualenv .
 ./bin/pip install -r requirements.txt
 
 # Create the sqlite database file
-cat db.dump.sql | sqlite3 /var/lib/llama3-weboftomorrow-com/sqlite3/db
+sqlite3 /var/lib/llama3-weboftomorrow-com/sqlite3/db < db.dump.sql
 

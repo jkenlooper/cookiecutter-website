@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -eu -o pipefail
 
 # Run as root to set up a new ubuntu 16.04 server
 # https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-16-04
@@ -6,10 +7,7 @@
 apt-get --yes update
 apt-get --yes upgrade
 
-apt-get --yes install software-properties-common
-apt-get --yes install ssh rsync curl
-
-#apt-get --yes install iptables-persistent
+apt-get --yes install ssh
 
 ufw allow ssh
 
@@ -42,12 +40,6 @@ systemctl reload sshd
 #echo "127.0.1.1  api" >> /etc/hosts
 #echo "127.0.1.1  chill" >> /etc/hosts
 
-
-# chill dependencies
-apt-get --yes install python python-dev python-pip sqlite python-psycopg2 virtualenv
-
-# Install nginx
-apt-get --yes install nginx
 
 # Create file hierarchies
 mkdir -p /usr/local/src/llama3-weboftomorrow-com/
