@@ -40,31 +40,31 @@ systemctl reload sshd
 #echo "127.0.1.1  api" >> /etc/hosts
 #echo "127.0.1.1  chill" >> /etc/hosts
 
-
+# TODO: creating file hieracrchies is done in install.sh
 # Create file hierarchies
-mkdir -p /usr/local/src/llama3-weboftomorrow-com/
-chown -R dev:dev /usr/local/src/llama3-weboftomorrow-com/
-
-mkdir -p /var/lib/llama3-weboftomorrow-com/sqlite3/
-chown -R dev:dev /var/lib/llama3-weboftomorrow-com/sqlite3/
-
-mkdir -p /srv/llama3-weboftomorrow-com/root
-chown -R dev:dev /srv/llama3-weboftomorrow-com/root
-
-mkdir -p /var/log/nginx/llama3-weboftomorrow-com
-
-mkdir -p /var/log/awstats
-
-
-rm -f /etc/nginx/sites-enabled/default
-
-touch /etc/nginx/sites-available/llama3-weboftomorrow-com.conf
-chown dev:dev /etc/nginx/sites-available/llama3-weboftomorrow-com.conf
-ln -s /etc/nginx/sites-available/llama3-weboftomorrow-com.conf /etc/nginx/sites-enabled/llama3-weboftomorrow-com.conf
-chown -R dev:dev /etc/nginx/sites-available
-
-mkdir -p /etc/nginx/snippets/
-chown -R dev:dev /etc/nginx/snippets
-
-mkdir -p /etc/nginx/ssl/
-chown -R dev:dev /etc/nginx/ssl
+#mkdir -p /usr/local/src/llama3-weboftomorrow-com/
+#chown -R dev:dev /usr/local/src/llama3-weboftomorrow-com/
+#
+#mkdir -p /var/lib/llama3-weboftomorrow-com/sqlite3/
+#chown -R dev:dev /var/lib/llama3-weboftomorrow-com/sqlite3/
+#
+#mkdir -p /srv/llama3-weboftomorrow-com/root
+#chown -R dev:dev /srv/llama3-weboftomorrow-com/root
+#
+#mkdir -p /var/log/nginx/llama3-weboftomorrow-com
+#
+#mkdir -p /var/log/awstats
+#
+#
+#rm -f /etc/nginx/sites-enabled/default
+#
+#touch /etc/nginx/sites-available/llama3-weboftomorrow-com.conf
+#chown dev:dev /etc/nginx/sites-available/llama3-weboftomorrow-com.conf
+#ln -s /etc/nginx/sites-available/llama3-weboftomorrow-com.conf /etc/nginx/sites-enabled/llama3-weboftomorrow-com.conf
+#chown -R dev:dev /etc/nginx/sites-available
+#
+#mkdir -p /etc/nginx/snippets/
+#chown -R dev:dev /etc/nginx/snippets
+#
+#mkdir -p /etc/nginx/ssl/
+#chown -R dev:dev /etc/nginx/ssl

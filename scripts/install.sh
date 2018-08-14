@@ -34,3 +34,14 @@ rsync --inplace \
   --itemize-changes \
   web/default.conf web/llama3-weboftomorrow-com.*.conf "${NGINXDIR}sites-available/";
 echo rsynced web/default.conf web/llama3-weboftomorrow-com.*.conf to "${NGINXDIR}sites-available/";
+
+
+
+# Add crontab file in the cron directory
+#ADD crontab /etc/cron.d/awstats
+
+# Give execution rights on the cron job
+#RUN chmod 0644 /etc/cron.d/awstats
+
+# Add the conf
+#COPY awstats.llama3.weboftomorrow.com.conf /etc/awstats/

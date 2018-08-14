@@ -5,6 +5,7 @@ apt-get --yes install \
   software-properties-common \
   rsync \
   nginx \
+  cron \
   curl
 
 apt-get --yes install \
@@ -15,3 +16,5 @@ apt-get --yes install \
   python-psycopg2 \
   virtualenv
 
+apt-get --yes install \
+  awstats

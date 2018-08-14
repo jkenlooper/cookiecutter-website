@@ -14,7 +14,7 @@ SHELL := bash
 #    uninstall: undoes what install did
 
 # Workflow should be:
-# ./init.sh; # Sets up a new ubuntu server with base stuff and dev user
+# sudo ./init.sh; # Sets up a new ubuntu server with base stuff and dev user
 # sudo make setup; # should only need to be run once
 # virtualenv .;
 # source ./bin/activate;
@@ -36,9 +36,9 @@ NGINXDIR := $(PREFIXDIR)/etc/nginx/
 inspect.%:
 	@echo $($*)
 
-ifeq ($(shell which pip),)
-$(error run "make setup" to install pip)
-endif
+#ifeq ($(shell which pip),)
+#$(error run "make setup" to install pip)
+#endif
 
 # Always run.  Useful when target is like install.% .
 FORCE:
@@ -60,10 +60,9 @@ clean:
 uninstall:
 	./scripts/uninstall.sh
 
-#TODO: Update init.sh so it can be run without interaction.  Rename to setup.sh.
-setup: .setup
-	./scripts/init.sh
-	touch .setup
+.PHONY: setup
+setup:
+	./scripts/setup.sh
 
 
 bin/chill: requirements.txt
