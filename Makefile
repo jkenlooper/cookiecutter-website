@@ -5,6 +5,9 @@ SHELL := bash
 .DELETE_ON_ERROR:
 .SUFFIXES:
 
+mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
+project_dir := $(dir $(mkfile_path))
+
 # Local pip is used by creating virtualenv and running `source ./bin/activate`
 
 #    all: the name of the default target
@@ -15,12 +18,11 @@ SHELL := bash
 
 # Workflow should be:
 # sudo ./init.sh; # Sets up a new ubuntu server with base stuff and dev user
-# sudo make setup; # should only need to be run once
+# sudo ./scripts/setup.sh # should only need to be run once
 # virtualenv .;
 # source ./bin/activate;
 # make;
-# sudo make install;
-# sudo make install.development; OR make production;
+# sudo make install.development; OR sudo make install.production;
 #
 
 #Use order only prerequisites for making directories
@@ -31,6 +33,7 @@ SHELL := bash
 PREFIXDIR :=
 SRVDIR := $(PREFIXDIR)/srv/llama3-weboftomorrow-com/
 NGINXDIR := $(PREFIXDIR)/etc/nginx/
+SYSTEMDDIR := $(PREFIXDIR)/etc/systemd/system/
 
 # For debugging what is set in variables
 inspect.%:
@@ -49,20 +52,27 @@ all: bin/chill
 # make install.development
 # make install.production
 install.%: FORCE
+	mkdir -p $(SYSTEMDDIR);
+	./scripts/chill.service.sh $(project_dir) llama3-weboftomorrow-com-chill > $(SYSTEMDDIR)llama3-weboftomorrow-com-chill.service
+	-systemctl start llama3-weboftomorrow-com-chill
+	-systemctl enable llama3-weboftomorrow-com-chill
 	./scripts/install.sh $* $(SRVDIR) $(NGINXDIR)
 
 # Remove any created files in the src directory which were created by the
 # `make all` recipe.
 .PHONY: clean
 clean:
+	pip uninstall --yes -r requirements.txt
 
 # Remove files placed outside of src directory and uninstall app.
-uninstall:
-	./scripts/uninstall.sh
+uninstall.%: FORCE
+	-systemctl stop llama3-weboftomorrow-com-chill
+	-systemctl disable llama3-weboftomorrow-com-chill
+	rm $(SYSTEMDDIR)llama3-weboftomorrow-com-chill.service
+	./scripts/uninstall.sh $* $(SRVDIR) $(NGINXDIR)
 
 .PHONY: setup
 setup:
-	./scripts/setup.sh
 
 
 bin/chill: requirements.txt
