@@ -3,13 +3,16 @@
 set -eu -o pipefail
 
 ENVIRONMENT=$1
+DATABASEDIR=$2
 #SRCDIR=$2
 #SERVICENAME=$3
 
-if test $ENVIRONMENT == 'development'; then
+if test $"ENVIRONMENT" == 'development'; then
   HOST="'0.0.0.0'"
+  DEBUG=True
 else
   HOST="'127.0.0.1'"
+  DEBUG=False
 fi
 
 cat <<HERE
@@ -27,7 +30,7 @@ HOST = $HOST
 #   sqlite:///relative/path/to/file.db
 #   sqlite:////absolute/path/to/file.db
 # http://docs.sqlalchemy.org/en/latest/core/engines.html
-CHILL_DATABASE_URI = "sqlite:////var/lib/llama3-weboftomorrow-com/sqlite3/db"
+CHILL_DATABASE_URI = "sqlite:///${DATABASEDIR}db"
 
 # If using the ROOT_FOLDER then you will need to set the PUBLIC_URL_PREFIX to
 # something other than '/'.
@@ -49,7 +52,7 @@ CHILL_DATABASE_URI = "sqlite:////var/lib/llama3-weboftomorrow-com/sqlite3/db"
 # 'markdown' filter. For example:
 
 # {{ 'llamas-are-cool.md'|readfile|markdown }}
-DOCUMENT_FOLDER = "/usr/local/src/llama3-weboftomorrow-com/documents"
+DOCUMENT_FOLDER = "documents"
 
 # The media folder is used to send static files that are not related to the
 # 'theme' of a site.  This usually includes images and videos that are better
@@ -90,7 +93,7 @@ THEME_STATIC_PATH = "/theme/{0}/".format(VERSION or '0')
 
 # Where the jinja2 templates for the site are located.  Will default to the app
 # template_folder if not set.
-THEME_TEMPLATE_FOLDER = "/usr/local/src/llama3-weboftomorrow-com/templates"
+THEME_TEMPLATE_FOLDER = "templates"
 
 # Where all the custom SQL queries and such are located.  Chill uses a few
 # built-in ones and they can be overridden by adding a file with the same name
@@ -99,7 +102,7 @@ THEME_TEMPLATE_FOLDER = "/usr/local/src/llama3-weboftomorrow-com/templates"
 #THEME_SQL_FOLDER = "queries"
 
 # Helpful to have this set to True if you want to fix stuff.
-DEBUG=True
+DEBUG=$DEBUG
 
 # Caching with Flask-Cache
 CACHE_NO_NULL_WARNING = True

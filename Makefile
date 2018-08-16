@@ -39,21 +39,28 @@ ENVIRONMENT := development
 SRVDIR := $(PREFIXDIR)/srv/llama3-weboftomorrow-com/
 NGINXDIR := $(PREFIXDIR)/etc/nginx/
 SYSTEMDDIR := $(PREFIXDIR)/etc/systemd/system/
+DATABASEDIR := $(PREFIXDIR)/var/lib/llama3-weboftomorrow-com/sqlite3/
 
 # For debugging what is set in variables
 inspect.%:
 	@echo $($*)
 
-#ifeq ($(shell which pip),)
-#$(error run "make setup" to install pip)
-#endif
+ifeq ($(shell which virtualenv),)
+$(error run "./scripts/setup.sh" to install virtualenv)
+endif
+ifeq ($(shell ls bin/activate),)
+$(error run "virtualenv .")
+endif
+ifneq ($(shell which pip),$(project_dir)bin/pip)
+$(warning run "source bin/activate" to activate the virtualenv. Using $(shell which pip). Ignore this warning if using sudo make install.)
+endif
 
 # Always run.  Useful when target is like targetname.% .
 # Use $* to get the stem
 FORCE:
 
 .PHONY: all
-all: bin/chill site.cfg
+all: bin/chill site.cfg web/llama3-weboftomorrow-com.conf
 
 .PHONY: install
 install:
@@ -61,7 +68,7 @@ install:
 	./scripts/chill.service.sh $(project_dir) llama3-weboftomorrow-com-chill > $(SYSTEMDDIR)llama3-weboftomorrow-com-chill.service
 	-systemctl start llama3-weboftomorrow-com-chill
 	-systemctl enable llama3-weboftomorrow-com-chill
-	./scripts/install.sh $(ENVIRONMENT) $(SRVDIR) $(NGINXDIR)
+	./scripts/install.sh $(SRVDIR) $(NGINXDIR)
 
 # Remove any created files in the src directory which were created by the
 # `make all` recipe.
@@ -76,18 +83,19 @@ uninstall:
 	-systemctl stop llama3-weboftomorrow-com-chill
 	-systemctl disable llama3-weboftomorrow-com-chill
 	rm $(SYSTEMDDIR)llama3-weboftomorrow-com-chill.service
-	./scripts/uninstall.sh $(ENVIRONMENT) $(SRVDIR) $(NGINXDIR)
+	./scripts/uninstall.sh $(SRVDIR) $(NGINXDIR)
 
-.PHONY: setup
-setup:
-
+#####
 
 bin/chill: requirements.txt
 	pip install -r requirements.txt
 	touch $@;
 
 site.cfg: site.cfg.sh
-	./site.cfg.sh $(ENVIRONMENT)
+	./site.cfg.sh $(ENVIRONMENT) $(DATABASEDIR) > $(project_dir)site.cfg
+
+web/llama3-weboftomorrow-com.conf: web/llama3-weboftomorrow-com.conf.sh
+	./$^ $(ENVIRONMENT) > $@
 
 # all
 # 	create (optimize, resize) media files from source-media
