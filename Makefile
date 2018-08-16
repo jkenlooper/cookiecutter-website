@@ -21,16 +21,21 @@ project_dir := $(dir $(mkfile_path))
 # sudo ./scripts/setup.sh # should only need to be run once
 # virtualenv .;
 # source ./bin/activate;
-# make;
-# sudo make install.development; OR sudo make install.production;
+# make ENVIRONMENT=development;
+# sudo make ENVIRONMENT=development install;
+#
+# sudo make ENVIRONMENT=development uninstall;
+# make ENVIRONMENT=development clean;
 #
 
 #Use order only prerequisites for making directories
 
-# Set to tmp/ when debugging the install.
+# Set to tmp/ when debugging the install
 # make PREFIXDIR=${PWD}/tmp inspect.SRVDIR
-# make PREFIXDIR=${PWD}/tmp install.development
+# make PREFIXDIR=${PWD}/tmp ENVIRONMENT=development install
 PREFIXDIR :=
+# Set to development or production
+ENVIRONMENT := development
 SRVDIR := $(PREFIXDIR)/srv/llama3-weboftomorrow-com/
 NGINXDIR := $(PREFIXDIR)/etc/nginx/
 SYSTEMDDIR := $(PREFIXDIR)/etc/systemd/system/
@@ -43,33 +48,35 @@ inspect.%:
 #$(error run "make setup" to install pip)
 #endif
 
-# Always run.  Useful when target is like install.% .
+# Always run.  Useful when target is like targetname.% .
+# Use $* to get the stem
 FORCE:
 
 .PHONY: all
-all: bin/chill
+all: bin/chill site.cfg
 
-# make install.development
-# make install.production
-install.%: FORCE
+.PHONY: install
+install:
 	mkdir -p $(SYSTEMDDIR);
 	./scripts/chill.service.sh $(project_dir) llama3-weboftomorrow-com-chill > $(SYSTEMDDIR)llama3-weboftomorrow-com-chill.service
 	-systemctl start llama3-weboftomorrow-com-chill
 	-systemctl enable llama3-weboftomorrow-com-chill
-	./scripts/install.sh $* $(SRVDIR) $(NGINXDIR)
+	./scripts/install.sh $(ENVIRONMENT) $(SRVDIR) $(NGINXDIR)
 
 # Remove any created files in the src directory which were created by the
 # `make all` recipe.
 .PHONY: clean
 clean:
+	rm site.cfg
 	pip uninstall --yes -r requirements.txt
 
 # Remove files placed outside of src directory and uninstall app.
-uninstall.%: FORCE
+.PHONY: uninstall
+uninstall:
 	-systemctl stop llama3-weboftomorrow-com-chill
 	-systemctl disable llama3-weboftomorrow-com-chill
 	rm $(SYSTEMDDIR)llama3-weboftomorrow-com-chill.service
-	./scripts/uninstall.sh $* $(SRVDIR) $(NGINXDIR)
+	./scripts/uninstall.sh $(ENVIRONMENT) $(SRVDIR) $(NGINXDIR)
 
 .PHONY: setup
 setup:
@@ -79,7 +86,8 @@ bin/chill: requirements.txt
 	pip install -r requirements.txt
 	touch $@;
 
-
+site.cfg: site.cfg.sh
+	./site.cfg.sh $(ENVIRONMENT)
 
 # all
 # 	create (optimize, resize) media files from source-media

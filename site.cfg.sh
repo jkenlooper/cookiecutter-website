@@ -1,10 +1,25 @@
+#!/usr/bin/env bash
+
+set -eu -o pipefail
+
+ENVIRONMENT=$1
+#SRCDIR=$2
+#SERVICENAME=$3
+
+if test $ENVIRONMENT == 'development'; then
+  HOST="'0.0.0.0'"
+else
+  HOST="'127.0.0.1'"
+fi
+
+cat <<HERE
 
 # The site.cfg file is used to configure a flask app.  Refer to the flask
 # documentation for other configurations.  The below are used specifically by
 # Chill.
 
 # Set the HOST to 0.0.0.0 for being an externally visible server.
-HOST = '0.0.0.0'
+HOST = $HOST
 #PORT = 5000
 
 # Valid SQLite URL forms are:
@@ -102,3 +117,5 @@ FREEZER_BASE_URL = "http://llama3.weboftomorrow.com/"
 #import os
 #EXAMPLE_PUBLIC_KEY = os.getenv('EXAMPLE_PUBLIC_KEY')
 #EXAMPLE_SECRET_KEY = os.getenv('EXAMPLE_SECRET_KEY')
+
+HERE

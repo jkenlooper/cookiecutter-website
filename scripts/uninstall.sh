@@ -35,14 +35,3 @@ exit
 #COPY awstats.llama3.weboftomorrow.com.conf /etc/awstats/
 
 
-
-
-#shopt -s extglob
-
-#sudo systemctl stop chill
-#sudo systemctl disable chill
-#bin/pip uninstall --yes -r requirements.txt
-#virtualenv --clear .
-
-#rm -rf ${PWD}/${SRV_DIR}/root/!(.well-known|.|..)
-#ls -R '${PWD}/${SRV_DIR}/root/!(.well-known|.|..)'
