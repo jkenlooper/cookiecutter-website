@@ -59,8 +59,11 @@ endif
 # Use $* to get the stem
 FORCE:
 
+objects := site.cfg web/llama3-weboftomorrow-com.conf
+
+
 .PHONY: all
-all: bin/chill site.cfg web/llama3-weboftomorrow-com.conf
+all: bin/chill $(objects)
 
 .PHONY: install
 install:
@@ -74,7 +77,7 @@ install:
 # `make all` recipe.
 .PHONY: clean
 clean:
-	rm site.cfg
+	rm $(objects)
 	pip uninstall --yes -r requirements.txt
 
 # Remove files placed outside of src directory and uninstall app.
@@ -87,15 +90,24 @@ uninstall:
 
 #####
 
+web/dhparam.pem:
+	openssl dhparam -out $@ 2048
+
 bin/chill: requirements.txt
 	pip install -r requirements.txt
 	touch $@;
 
 site.cfg: site.cfg.sh
-	./site.cfg.sh $(ENVIRONMENT) $(DATABASEDIR) > $(project_dir)site.cfg
+	./$< $(ENVIRONMENT) $(DATABASEDIR) > $@
 
 web/llama3-weboftomorrow-com.conf: web/llama3-weboftomorrow-com.conf.sh
-	./$^ $(ENVIRONMENT) > $@
+	./$< $(ENVIRONMENT) > $@
+
+ifeq ($(ENVIRONMENT),production)
+# Only create the dhparam.pem if needed.
+objects += web/dhparam.pem
+web/llama3-weboftomorrow-com.conf: web/dhparam.pem
+endif
 
 # all
 # 	create (optimize, resize) media files from source-media

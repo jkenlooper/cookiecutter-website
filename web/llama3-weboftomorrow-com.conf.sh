@@ -32,7 +32,13 @@ server {
   add_header X-Frame-Options DENY;
   add_header X-Content-Type-Options nosniff;
 
+HERE
+if (test -f web/dhparam.pem); then
+cat <<HERE
   ssl_dhparam /etc/nginx/ssl/dhparam.pem;
+HERE
+fi
+cat <<HERE
 
 
   root /srv/llama3-weboftomorrow-com/root;

@@ -30,12 +30,17 @@ rsync --inplace \
   web/default.conf web/llama3-weboftomorrow-com.conf "${NGINXDIR}sites-available/";
 echo rsynced web/default.conf web/llama3-weboftomorrow-com.conf to "${NGINXDIR}sites-available/";
 
-#TODO: use generated conf
 mkdir -p "${NGINXDIR}sites-enabled";
 ln -sf "${NGINXDIR}sites-available/default.conf" "${NGINXDIR}sites-enabled/default.conf";
 ln -sf "${NGINXDIR}sites-available/llama3-weboftomorrow-com.conf"  "${NGINXDIR}sites-enabled/llama3-weboftomorrow-com.conf";
 
-
+if (test -f web/dhparam.pem); then
+mkdir -p "${NGINXDIR}ssl/"
+rsync --inplace \
+  --checksum \
+  --itemize-changes \
+  web/dhparam.pem "${NGINXDIR}ssl/dhparam.pem";
+fi
 
 # Add crontab file in the cron directory
 #ADD crontab /etc/cron.d/awstats
