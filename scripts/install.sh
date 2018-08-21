@@ -34,12 +34,28 @@ mkdir -p "${NGINXDIR}sites-enabled";
 ln -sf "${NGINXDIR}sites-available/default.conf" "${NGINXDIR}sites-enabled/default.conf";
 ln -sf "${NGINXDIR}sites-available/llama3-weboftomorrow-com.conf"  "${NGINXDIR}sites-enabled/llama3-weboftomorrow-com.conf";
 
+rsync --inplace \
+  --checksum \
+  --itemize-changes \
+  .htpasswd "${SRVDIR}";
+
 if (test -f web/dhparam.pem); then
 mkdir -p "${NGINXDIR}ssl/"
 rsync --inplace \
   --checksum \
   --itemize-changes \
   web/dhparam.pem "${NGINXDIR}ssl/dhparam.pem";
+fi
+
+# Create the root directory for stats. The awstats icons will be placed there.
+mkdir -p "${SRVDIR}stats"
+
+if (test -d /usr/share/awstats/icon); then
+rsync --archive \
+  --inplace \
+  --checksum \
+  --itemize-changes \
+  /usr/share/awstats/icon "${SRVDIR}stats/";
 fi
 
 # TODO: add stats icon dir to awstats root

@@ -245,7 +245,7 @@ DirCgi="/cgi-bin"
 # Example: "../icon"
 # Default: "/icon" (means you must copy icon directories in "/mywwwroot/icon")
 #
-DirIcons="/stats/icon"
+DirIcons="/icon"
 
 
 # When this parameter is set to 1, AWStats adds a button on report page to
