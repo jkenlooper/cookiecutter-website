@@ -42,6 +42,8 @@ rsync --inplace \
   web/dhparam.pem "${NGINXDIR}ssl/dhparam.pem";
 fi
 
+# TODO: add stats icon dir to awstats root
+
 # Add crontab file in the cron directory
 #ADD crontab /etc/cron.d/awstats
 

@@ -3,6 +3,8 @@
 set -eu -o pipefail
 
 ENVIRONMENT=$1
+SRVDIR=$2
+NGINXLOGDIR=$3
 
 cat <<HERE
 
@@ -41,12 +43,10 @@ fi
 cat <<HERE
 
 
-  root /srv/llama3-weboftomorrow-com/root;
+  root ${SRVDIR}root;
 
-  # Not using default /var/log/nginx/
-  # Logs can then more easily be consumed by stats container
-  access_log  /var/log/nginx/llama3-weboftomorrow-com/access.log;
-  error_log   /var/log/nginx/llama3-weboftomorrow-com/error.log;
+  access_log  ${NGINXLOGDIR}access.log;
+  error_log   ${NGINXLOGDIR}error.log;
 
   error_page 404 /notfound/;
 
@@ -59,8 +59,8 @@ cat <<HERE
     index  awstats.llama3.weboftomorrow.com.html;
     auth_basic            "Restricted";
     auth_basic_user_file  /www/.htpasswd;
-    access_log /var/log/nginx/llama3-weboftomorrow-com/access.awstats.log;
-    error_log /var/log/nginx/llama3-weboftomorrow-com/error.awstats.log;
+    access_log ${NGINXLOGDIR}access.awstats.log;
+    error_log ${NGINXLOGDIR}error.awstats.log;
     rewrite ^/stats/(.*)$  /$1 break;
   }
 

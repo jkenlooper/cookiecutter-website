@@ -1,3 +1,12 @@
+#!/usr/bin/env bash
+
+set -eu -o pipefail
+
+NGINXLOGDIR=$1
+
+cat <<HERE
+
+
 # AWSTATS CONFIGURE FILE 7.3
 #-----------------------------------------------------------------------------
 # Copy this file into awstats.www.mydomain.conf and edit this new config file
@@ -47,7 +56,7 @@
 # If there are several log files from load balancing servers :
 # Example: "/pathtotools/logresolvemerge.pl *.log |"
 #
-LogFile="/var/log/nginx/llama3-weboftomorrow-com/access.log"
+LogFile="${NGINXLOGDIR}access.log"
 
 
 # Enter the log file type you want to analyze.
@@ -1251,7 +1260,7 @@ MetaRobot=0
 
 
 # You can set Logo and LogoLink to use your own logo.
-# Logo must be the name of image file (must be in $DirIcons/other directory).
+# Logo must be the name of image file (must be in \$DirIcons/other directory).
 # LogoLink is the expected URL when clicking on Logo.
 # Default: "awstats_logo6.png"
 #
@@ -1597,3 +1606,4 @@ ExtraTrackedRowsLimit=500
 
 #Include ""
 
+HERE

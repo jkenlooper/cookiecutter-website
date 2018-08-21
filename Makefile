@@ -40,6 +40,7 @@ SRVDIR := $(PREFIXDIR)/srv/llama3-weboftomorrow-com/
 NGINXDIR := $(PREFIXDIR)/etc/nginx/
 SYSTEMDDIR := $(PREFIXDIR)/etc/systemd/system/
 DATABASEDIR := $(PREFIXDIR)/var/lib/llama3-weboftomorrow-com/sqlite3/
+NGINXLOGDIR := $(PREFIXDIR)/var/log/nginx/llama3-weboftomorrow-com/
 
 # For debugging what is set in variables
 inspect.%:
@@ -59,7 +60,7 @@ endif
 # Use $* to get the stem
 FORCE:
 
-objects := site.cfg web/llama3-weboftomorrow-com.conf
+objects := site.cfg web/llama3-weboftomorrow-com.conf stats/awstats.llama3.weboftomorrow.com.conf
 
 
 .PHONY: all
@@ -101,13 +102,16 @@ site.cfg: site.cfg.sh
 	./$< $(ENVIRONMENT) $(DATABASEDIR) > $@
 
 web/llama3-weboftomorrow-com.conf: web/llama3-weboftomorrow-com.conf.sh
-	./$< $(ENVIRONMENT) > $@
+	./$< $(ENVIRONMENT) $(SRVDIR) $(NGINXLOGDIR) > $@
 
 ifeq ($(ENVIRONMENT),production)
 # Only create the dhparam.pem if needed.
 objects += web/dhparam.pem
 web/llama3-weboftomorrow-com.conf: web/dhparam.pem
 endif
+
+stats/awstats.llama3.weboftomorrow.com.conf: stats/awstats.llama3.weboftomorrow.com.conf.sh
+	./$< $(NGINXLOGDIR) > $@
 
 # all
 # 	create (optimize, resize) media files from source-media

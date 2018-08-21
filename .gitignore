@@ -3,6 +3,7 @@
 /.htpasswd
 /site.cfg
 /web/llama3-weboftomorrow-com.conf
+/stats/awstats.llama3.weboftomorrow.com.conf
 /db
 /dist/
 /frozen/
