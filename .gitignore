@@ -4,6 +4,7 @@
 /site.cfg
 /web/llama3-weboftomorrow-com.conf
 /stats/awstats.llama3.weboftomorrow.com.conf
+/stats/awstats.llama3-weboftomorrow-com.crontab
 /db
 /dist/
 /frozen/

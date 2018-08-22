@@ -10,6 +10,11 @@ SRVDIR=$1
 # /etc/nginx/
 NGINXDIR=$2
 
+# /var/log/nginx/llama3-weboftomorrow-com/
+NGINXLOGDIR=$3
+
+# /var/log/awstats/llama3-weboftomorrow-com/
+AWSTATSLOGDIR=$4
 
 mkdir -p "${SRVDIR}root/";
 #chown -R dev:dev "${SRVDIR}root/";
@@ -20,6 +25,8 @@ rsync --archive \
   --itemize-changes \
   root/ "${SRVDIR}root/";
 echo "rsynced files in root/ to ${SRVDIR}root/";
+
+mkdir -p "${NGINXLOGDIR}";
 
 # Run rsync checksum on nginx default.conf since other sites might also update
 # this file.
@@ -58,13 +65,11 @@ rsync --archive \
   /usr/share/awstats/icon "${SRVDIR}stats/";
 fi
 
-# TODO: add stats icon dir to awstats root
+mkdir -p "${AWSTATSLOGDIR}"
 
 # Add crontab file in the cron directory
-#ADD crontab /etc/cron.d/awstats
+cp stats/awstats.llama3-weboftomorrow-com.crontab /etc/cron.d/
+chmod 0644 /etc/cron.d/awstats.llama3-weboftomorrow-com.crontab
 
-# Give execution rights on the cron job
-#RUN chmod 0644 /etc/cron.d/awstats
-
-# Add the conf
-#COPY awstats.llama3.weboftomorrow.com.conf /etc/awstats/
+# Add the awstats conf
+cp stats/awstats.llama3.weboftomorrow.com.conf /etc/awstats/

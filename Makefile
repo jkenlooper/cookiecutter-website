@@ -41,6 +41,7 @@ NGINXDIR := $(PREFIXDIR)/etc/nginx/
 SYSTEMDDIR := $(PREFIXDIR)/etc/systemd/system/
 DATABASEDIR := $(PREFIXDIR)/var/lib/llama3-weboftomorrow-com/sqlite3/
 NGINXLOGDIR := $(PREFIXDIR)/var/log/nginx/llama3-weboftomorrow-com/
+AWSTATSLOGDIR := $(PREFIXDIR)/var/log/awstats/llama3-weboftomorrow-com/
 
 # For debugging what is set in variables
 inspect.%:
@@ -60,7 +61,7 @@ endif
 # Use $* to get the stem
 FORCE:
 
-objects := site.cfg web/llama3-weboftomorrow-com.conf stats/awstats.llama3.weboftomorrow.com.conf
+objects := site.cfg web/llama3-weboftomorrow-com.conf stats/awstats.llama3.weboftomorrow.com.conf stats/awstats.llama3-weboftomorrow-com.crontab
 
 
 .PHONY: all
@@ -72,7 +73,7 @@ install:
 	./scripts/chill.service.sh $(project_dir) llama3-weboftomorrow-com-chill > $(SYSTEMDDIR)llama3-weboftomorrow-com-chill.service
 	-systemctl start llama3-weboftomorrow-com-chill
 	-systemctl enable llama3-weboftomorrow-com-chill
-	./scripts/install.sh $(SRVDIR) $(NGINXDIR)
+	./scripts/install.sh $(SRVDIR) $(NGINXDIR) $(NGINXLOGDIR) $(AWSTATSLOGDIR)
 
 # Remove any created files in the src directory which were created by the
 # `make all` recipe.
@@ -112,6 +113,10 @@ endif
 
 stats/awstats.llama3.weboftomorrow.com.conf: stats/awstats.llama3.weboftomorrow.com.conf.sh
 	./$< $(NGINXLOGDIR) > $@
+
+stats/awstats.llama3-weboftomorrow-com.crontab: stats/awstats.llama3-weboftomorrow-com.crontab.sh
+	./$< $(SRVDIR) $(AWSTATSLOGDIR) > $@
+
 
 # all
 # 	create (optimize, resize) media files from source-media

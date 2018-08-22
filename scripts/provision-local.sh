@@ -2,6 +2,7 @@
 
 # Run from your local machine to create certs for development.
 
+# TODO: create the .htpasswd file
 touch .htpasswd;
 
 openssl genrsa -des3 -out web/rootCA.key 2048
