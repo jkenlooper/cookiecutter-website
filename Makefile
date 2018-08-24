@@ -69,14 +69,18 @@ objects := site.cfg web/llama3-weboftomorrow-com.conf stats/awstats.llama3.webof
 web/dhparam.pem:
 	openssl dhparam -out $@ 2048
 
-bin/chill: requirements.txt
-	pip install -r requirements.txt
+bin/chill: chill/requirements.txt requirements.txt
+	pip install -r $<
 	touch $@;
-
 
 objects += chill/llama3-weboftomorrow-com-chill.service
 chill/llama3-weboftomorrow-com-chill.service: chill/llama3-weboftomorrow-com-chill.service.sh
 	./$< $(project_dir) llama3-weboftomorrow-com-chill > $@
+
+bin/llama3-weboftomorrow-com-api: api/requirements.txt requirements.txt
+	pip install -r $<
+	touch $@;
+
 
 site.cfg: site.cfg.sh
 	./$< $(ENVIRONMENT) $(DATABASEDIR) > $@
@@ -99,7 +103,7 @@ stats/awstats.llama3-weboftomorrow-com.crontab: stats/awstats.llama3-weboftomorr
 ######
 
 .PHONY: all
-all: bin/chill $(objects)
+all: bin/chill bin/llama3-weboftomorrow-com-api $(objects)
 
 .PHONY: install
 install:
@@ -110,7 +114,8 @@ install:
 .PHONY: clean
 clean:
 	rm $(objects)
-	pip uninstall --yes -r requirements.txt
+	pip uninstall --yes -r chill/requirements.txt
+	pip uninstall --yes -r api/requirements.txt
 
 # Remove files placed outside of src directory and uninstall app.
 .PHONY: uninstall

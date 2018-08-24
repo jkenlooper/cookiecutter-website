@@ -1,3 +1,2 @@
 flask==0.10.1
 gevent
-https://github.com/jkenlooper/chill/archive/develop.zip#egg=chill

@@ -30,3 +30,6 @@
 /lib/
 /local/
 /share/
+
+*.pyc
+*.egg-info/
