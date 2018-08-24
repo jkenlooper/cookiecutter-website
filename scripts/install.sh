@@ -16,6 +16,9 @@ NGINXLOGDIR=$3
 # /var/log/awstats/llama3-weboftomorrow-com/
 AWSTATSLOGDIR=$4
 
+# /etc/systemd/system/
+SYSTEMDDIR=$5
+
 mkdir -p "${SRVDIR}root/";
 #chown -R dev:dev "${SRVDIR}root/";
 rsync --archive \
@@ -73,3 +76,8 @@ chmod 0644 /etc/cron.d/awstats.llama3-weboftomorrow-com.crontab
 
 # Add the awstats conf
 cp stats/awstats.llama3.weboftomorrow.com.conf /etc/awstats/
+
+mkdir -p "${SYSTEMDDIR}"
+cp chill/llama3-weboftomorrow-com-chill.service "${SYSTEMDDIR}"
+systemctl start llama3-weboftomorrow-com-chill || echo "can't start service"
+systemctl enable llama3-weboftomorrow-com-chill || echo "can't enable service"

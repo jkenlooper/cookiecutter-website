@@ -64,32 +64,6 @@ FORCE:
 objects := site.cfg web/llama3-weboftomorrow-com.conf stats/awstats.llama3.weboftomorrow.com.conf stats/awstats.llama3-weboftomorrow-com.crontab
 
 
-.PHONY: all
-all: bin/chill $(objects)
-
-.PHONY: install
-install:
-	mkdir -p $(SYSTEMDDIR);
-	./scripts/chill.service.sh $(project_dir) llama3-weboftomorrow-com-chill > $(SYSTEMDDIR)llama3-weboftomorrow-com-chill.service
-	-systemctl start llama3-weboftomorrow-com-chill
-	-systemctl enable llama3-weboftomorrow-com-chill
-	./scripts/install.sh $(SRVDIR) $(NGINXDIR) $(NGINXLOGDIR) $(AWSTATSLOGDIR)
-
-# Remove any created files in the src directory which were created by the
-# `make all` recipe.
-.PHONY: clean
-clean:
-	rm $(objects)
-	pip uninstall --yes -r requirements.txt
-
-# Remove files placed outside of src directory and uninstall app.
-.PHONY: uninstall
-uninstall:
-	-systemctl stop llama3-weboftomorrow-com-chill
-	-systemctl disable llama3-weboftomorrow-com-chill
-	rm $(SYSTEMDDIR)llama3-weboftomorrow-com-chill.service
-	./scripts/uninstall.sh $(SRVDIR) $(NGINXDIR)
-
 #####
 
 web/dhparam.pem:
@@ -98,6 +72,11 @@ web/dhparam.pem:
 bin/chill: requirements.txt
 	pip install -r requirements.txt
 	touch $@;
+
+
+objects += chill/llama3-weboftomorrow-com-chill.service
+chill/llama3-weboftomorrow-com-chill.service: chill/llama3-weboftomorrow-com-chill.service.sh
+	./$< $(project_dir) llama3-weboftomorrow-com-chill > $@
 
 site.cfg: site.cfg.sh
 	./$< $(ENVIRONMENT) $(DATABASEDIR) > $@
@@ -117,6 +96,29 @@ stats/awstats.llama3.weboftomorrow.com.conf: stats/awstats.llama3.weboftomorrow.
 stats/awstats.llama3-weboftomorrow-com.crontab: stats/awstats.llama3-weboftomorrow-com.crontab.sh
 	./$< $(SRVDIR) $(AWSTATSLOGDIR) > $@
 
+######
+
+.PHONY: all
+all: bin/chill $(objects)
+
+.PHONY: install
+install:
+	./scripts/install.sh $(SRVDIR) $(NGINXDIR) $(NGINXLOGDIR) $(AWSTATSLOGDIR) $(SYSTEMDDIR)
+
+# Remove any created files in the src directory which were created by the
+# `make all` recipe.
+.PHONY: clean
+clean:
+	rm $(objects)
+	pip uninstall --yes -r requirements.txt
+
+# Remove files placed outside of src directory and uninstall app.
+.PHONY: uninstall
+uninstall:
+	-systemctl stop llama3-weboftomorrow-com-chill
+	-systemctl disable llama3-weboftomorrow-com-chill
+	rm $(SYSTEMDDIR)llama3-weboftomorrow-com-chill.service
+	./scripts/uninstall.sh $(SRVDIR) $(NGINXDIR)
 
 # all
 # 	create (optimize, resize) media files from source-media

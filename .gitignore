@@ -5,6 +5,7 @@
 /web/llama3-weboftomorrow-com.conf
 /stats/awstats.llama3.weboftomorrow.com.conf
 /stats/awstats.llama3-weboftomorrow-com.crontab
+/chill/llama3-weboftomorrow-com-chill.service
 /db
 /dist/
 /frozen/

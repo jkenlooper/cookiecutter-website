@@ -13,3 +13,5 @@ RUN pip install -r requirements.txt
 COPY ./site.cfg /code/
 COPY ./package.json /code/
 COPY ./api/src /code/src
+
+#command: python src/api/app.py site.cfg
