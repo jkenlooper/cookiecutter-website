@@ -19,6 +19,9 @@ AWSTATSLOGDIR=$4
 # /etc/systemd/system/
 SYSTEMDDIR=$5
 
+# /var/lib/llama3-weboftomorrow-com/sqlite3/
+DATABASEDIR=$6
+
 mkdir -p "${SRVDIR}root/";
 #chown -R dev:dev "${SRVDIR}root/";
 rsync --archive \
@@ -76,6 +79,12 @@ chmod 0644 /etc/cron.d/awstats.llama3-weboftomorrow-com.crontab
 
 # Add the awstats conf
 cp stats/awstats.llama3.weboftomorrow.com.conf /etc/awstats/
+
+# Create the sqlite database file if not there.
+if (test ! -f /var/lib/llama3-weboftomorrow-com/sqlite3/db); then
+    echo "Creating database from db.dump.sql"
+    sqlite3 /var/lib/llama3-weboftomorrow-com/sqlite3/db < db.dump.sql
+fi
 
 mkdir -p "${SYSTEMDDIR}"
 cp chill/llama3-weboftomorrow-com-chill.service "${SYSTEMDDIR}"

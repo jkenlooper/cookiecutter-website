@@ -1,10 +1,61 @@
-# Llama3 Weboftomorrow com
+# WIP
 
-Website built with chill stuff and things
-
-This site is hosted at [llama3.weboftomorrow.com](http://llama3.weboftomorrow.com).
+This is a work in progress and always will be.  It will later be converted to
+a cookiecutter as a starting point to create a website with some pre-configured
+things.
 
 It is based off of the [chill cookiecutter](https://github.com/jkenlooper/cookiecutter-chill).
+
+Written for a Linux machine that is Debian based.  Only tested on Ubuntu.  Use
+ [VirtualBox](https://www.virtualbox.org/) or something similar if not on
+ a Linux machine.
+
+## Get started
+
+Run the `bin/init.sh` script to configure the server with ssh and a user if needed.
+
+The `bin/setup.sh` is used to install dependencies for the server.
+
+To have TLS (SSL) on your development machine run the `bin/provision-local.sh`
+script. That will use `openssl` to create some certs in the web/ directory.
+The rootCA.pem should be imported to Keychain Access and marked as always trusted.
+
+## Development
+
+The website apps are managed as 
+[systemd](https://freedesktop.org/wiki/Software/systemd/) services.
+The service config files are created by running `make` and installed with 
+`sudo make install`.  It is recommended to use Python's `virtualenv .`
+and activating each time for a new shell with `source bin/activate` before
+running `make`.
+
+In summary:
+
+```
+virtualenv .;
+source bin/activate;
+make;
+sudo make install;
+```
+
+
+## Deploying on a production server
+
+A similar workflow from development except the ENVIRONMENT should be passed to
+the Makefile.  
+
+```
+virtualenv .;
+source bin/activate;
+make ENVIRONMENT=production;
+sudo make ENVIRONMENT=production install;
+```
+
+Run the `bin/provision-certbot.sh` script to set up a production server with
+TLS certs.  [certbot](https://certbot.eff.org/) is used to
+deploy [Let's Encrypt](https://letsencrypt.org/) certificates.
+
+<!--
 
 ## Developing
 
@@ -193,3 +244,4 @@ use them.  Uncomment the ssl certs in the nginx conf and build again.
 docker-compose -f docker-compose.yml -f docker-compose.production.yml build
 docker-compose -f docker-compose.yml -f docker-compose.production.yml up -d
 ```
+-->

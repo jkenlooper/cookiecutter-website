@@ -26,7 +26,6 @@
 /web/server.csr
 /web/server.key
 
-/bin/
 /include/
 /lib/
 /local/

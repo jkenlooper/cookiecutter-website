@@ -18,7 +18,7 @@ project_dir := $(dir $(mkfile_path))
 
 # Workflow should be:
 # sudo ./init.sh; # Sets up a new ubuntu server with base stuff and dev user
-# sudo ./scripts/setup.sh # should only need to be run once
+# sudo ./bin/setup.sh # should only need to be run once
 # virtualenv .;
 # source ./bin/activate;
 # make ENVIRONMENT=development;
@@ -48,7 +48,7 @@ inspect.%:
 	@echo $($*)
 
 ifeq ($(shell which virtualenv),)
-$(error run "./scripts/setup.sh" to install virtualenv)
+$(error run "./bin/setup.sh" to install virtualenv)
 endif
 ifeq ($(shell ls bin/activate),)
 $(error run "virtualenv .")
@@ -111,7 +111,7 @@ all: bin/chill bin/llama3-weboftomorrow-com-api $(objects)
 
 .PHONY: install
 install:
-	./scripts/install.sh $(SRVDIR) $(NGINXDIR) $(NGINXLOGDIR) $(AWSTATSLOGDIR) $(SYSTEMDDIR)
+	./bin/install.sh $(SRVDIR) $(NGINXDIR) $(NGINXLOGDIR) $(AWSTATSLOGDIR) $(SYSTEMDDIR) $(DATABASEDIR)
 
 # Remove any created files in the src directory which were created by the
 # `make all` recipe.
@@ -127,7 +127,7 @@ uninstall:
 	-systemctl stop llama3-weboftomorrow-com-chill
 	-systemctl disable llama3-weboftomorrow-com-chill
 	rm $(SYSTEMDDIR)llama3-weboftomorrow-com-chill.service
-	./scripts/uninstall.sh $(SRVDIR) $(NGINXDIR)
+	./bin/uninstall.sh $(SRVDIR) $(NGINXDIR)
 
 # all
 # 	create (optimize, resize) media files from source-media
