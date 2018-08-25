@@ -74,8 +74,10 @@ fi
 mkdir -p "${AWSTATSLOGDIR}"
 
 # Add crontab file in the cron directory
-cp stats/awstats.llama3-weboftomorrow-com.crontab /etc/cron.d/
-chmod 0644 /etc/cron.d/awstats.llama3-weboftomorrow-com.crontab
+cp stats/awstats-llama3-weboftomorrow-com-crontab /etc/cron.d/
+chmod 0644 /etc/cron.d/awstats-llama3-weboftomorrow-com-crontab
+# Stop and start in order for the crontab to be loaded (reload not supported).
+systemctl stop cron && systemctl start cron || echo "Can't reload cron service"
 
 # Add the awstats conf
 cp stats/awstats.llama3.weboftomorrow.com.conf /etc/awstats/

@@ -4,7 +4,7 @@
 /site.cfg
 /web/llama3-weboftomorrow-com.conf
 /stats/awstats.llama3.weboftomorrow.com.conf
-/stats/awstats.llama3-weboftomorrow-com.crontab
+/stats/awstats-llama3-weboftomorrow-com-crontab
 /chill/llama3-weboftomorrow-com-chill.service
 /api/llama3-weboftomorrow-com-api.service
 /db

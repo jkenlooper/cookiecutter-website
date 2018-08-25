@@ -61,7 +61,7 @@ endif
 # Use $* to get the stem
 FORCE:
 
-objects := site.cfg web/llama3-weboftomorrow-com.conf stats/awstats.llama3.weboftomorrow.com.conf stats/awstats.llama3-weboftomorrow-com.crontab
+objects := site.cfg web/llama3-weboftomorrow-com.conf stats/awstats.llama3.weboftomorrow.com.conf stats/awstats-llama3-weboftomorrow-com-crontab
 
 
 #####
@@ -101,7 +101,7 @@ endif
 stats/awstats.llama3.weboftomorrow.com.conf: stats/awstats.llama3.weboftomorrow.com.conf.sh
 	./$< $(NGINXLOGDIR) > $@
 
-stats/awstats.llama3-weboftomorrow-com.crontab: stats/awstats.llama3-weboftomorrow-com.crontab.sh
+stats/awstats-llama3-weboftomorrow-com-crontab: stats/awstats-llama3-weboftomorrow-com-crontab.sh
 	./$< $(SRVDIR) $(AWSTATSLOGDIR) > $@
 
 ######
