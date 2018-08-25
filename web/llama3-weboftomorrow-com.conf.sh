@@ -120,7 +120,7 @@ cat <<HEREBEPRODUCTION
   }
 
   location / {
-    root /www/frozen;
+    root ${SRVDIR}frozen;
   }
 HEREBEPRODUCTION
 fi

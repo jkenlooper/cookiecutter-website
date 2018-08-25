@@ -2,6 +2,7 @@
 /.env
 /.htpasswd
 /site.cfg
+/frozen.tar.gz
 /web/llama3-weboftomorrow-com.conf
 /stats/awstats.llama3.weboftomorrow.com.conf
 /stats/awstats-llama3-weboftomorrow-com-crontab

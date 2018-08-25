@@ -77,6 +77,17 @@ objects += chill/llama3-weboftomorrow-com-chill.service
 chill/llama3-weboftomorrow-com-chill.service: chill/llama3-weboftomorrow-com-chill.service.sh
 	./$< $(project_dir) > $@
 
+# TODO: where to handle the freeze version of the chill site?
+# Should it be part of the make process?
+# 	make creates the frozen files
+# 		prereq list is templates/, database, ... everything?
+# 	make install places them in /srv/.. directory using rsync
+# Should it just be another service that is installed if environment is production?
+# 	fancy... and all automated.
+
+frozen.tar.gz: db.dump.sql $(shell find templates/ -type f -print)
+	bin/freeze.sh $@
+
 bin/llama3-weboftomorrow-com-api: api/requirements.txt requirements.txt
 	pip install -r $<
 	touch $@;

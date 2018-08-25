@@ -32,6 +32,16 @@ rsync --archive \
   root/ "${SRVDIR}root/";
 echo "rsynced files in root/ to ${SRVDIR}root/";
 
+# TODO: extract to a tmpdir
+FROZENTMP=$(mktemp -d);
+tar --directory="${FROZENTMP}" --gunzip --extract -f frozen.tar.gz
+rsync --archive \
+  --delete \
+  --itemize-changes \
+  "${FROZENTMP}/frozen/" "${SRVDIR}frozen/";
+echo "rsynced files in frozen.tar.gz to ${SRVDIR}frozen/";
+rm -rf "${FROZENTMP}";
+
 mkdir -p "${NGINXLOGDIR}";
 
 # Run rsync checksum on nginx default.conf since other sites might also update
@@ -83,9 +93,9 @@ systemctl stop cron && systemctl start cron || echo "Can't reload cron service"
 cp stats/awstats.llama3.weboftomorrow.com.conf /etc/awstats/
 
 # Create the sqlite database file if not there.
-if (test ! -f /var/lib/llama3-weboftomorrow-com/sqlite3/db); then
+if (test ! -f "${DATABASEDIR}db"); then
     echo "Creating database from db.dump.sql"
-    sqlite3 /var/lib/llama3-weboftomorrow-com/sqlite3/db < db.dump.sql
+    sqlite3 "${DATABASEDIR}db" < db.dump.sql
 fi
 
 mkdir -p "${SYSTEMDDIR}"
