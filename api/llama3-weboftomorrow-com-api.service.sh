@@ -10,14 +10,14 @@ cat <<HERE
 # on ${DATE}
 
 [Unit]
-Description=Chill llama3-weboftomorrow-com instance
+Description=API llama3-weboftomorrow-com instance
 After=network.target
 
 [Service]
 User=dev
 Group=dev
 WorkingDirectory=$SRCDIR
-ExecStart=${SRCDIR}bin/chill run
+ExecStart=${SRCDIR}bin/llama3-weboftomorrow-com-api site.cfg
 
 [Install]
 WantedBy=multi-user.target

@@ -81,3 +81,7 @@ mkdir -p "${SYSTEMDDIR}"
 cp chill/llama3-weboftomorrow-com-chill.service "${SYSTEMDDIR}"
 systemctl start llama3-weboftomorrow-com-chill || echo "can't start service"
 systemctl enable llama3-weboftomorrow-com-chill || echo "can't enable service"
+
+cp api/llama3-weboftomorrow-com-api.service "${SYSTEMDDIR}"
+systemctl start llama3-weboftomorrow-com-api || echo "can't start service"
+systemctl enable llama3-weboftomorrow-com-api || echo "can't enable service"

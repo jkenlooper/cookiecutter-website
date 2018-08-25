@@ -75,12 +75,16 @@ bin/chill: chill/requirements.txt requirements.txt
 
 objects += chill/llama3-weboftomorrow-com-chill.service
 chill/llama3-weboftomorrow-com-chill.service: chill/llama3-weboftomorrow-com-chill.service.sh
-	./$< $(project_dir) llama3-weboftomorrow-com-chill > $@
+	./$< $(project_dir) > $@
 
 bin/llama3-weboftomorrow-com-api: api/requirements.txt requirements.txt
 	pip install -r $<
 	touch $@;
 
+
+objects += api/llama3-weboftomorrow-com-api.service
+api/llama3-weboftomorrow-com-api.service: api/llama3-weboftomorrow-com-api.service.sh
+	./$< $(project_dir) > $@
 
 site.cfg: site.cfg.sh
 	./$< $(ENVIRONMENT) $(DATABASEDIR) > $@
