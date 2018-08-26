@@ -4,7 +4,7 @@ Use the [python cookiecutter](https://github.com/audreyr/cookiecutter) to
 create a new starter website and follow the prompts.
 
 ```
-cookiecutter https://github.com/jkenlooper/cookiecutter-chill.git
+cookiecutter https://github.com/jkenlooper/cookiecutter-website.git
 ```
 
 Then read the README.md that was created along with all the other files.

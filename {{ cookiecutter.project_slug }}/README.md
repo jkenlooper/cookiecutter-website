@@ -4,7 +4,7 @@
 
 This site is hosted at [{{ cookiecutter.site_protocol }}://{{ cookiecutter.site_domain }}]({{ cookiecutter.site_protocol }}://{{ cookiecutter.site_domain }}).
 
-It is based off of the [chill cookiecutter](https://github.com/jkenlooper/cookiecutter-chill).
+It is based off of the [chill cookiecutter](https://github.com/jkenlooper/cookiecutter-website).
 
 Written for a Linux machine that is Debian based.  Only tested on Ubuntu.  Use
  [VirtualBox](https://www.virtualbox.org/) or something similar if not on
