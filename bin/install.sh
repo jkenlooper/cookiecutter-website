@@ -32,7 +32,6 @@ rsync --archive \
   root/ "${SRVDIR}root/";
 echo "rsynced files in root/ to ${SRVDIR}root/";
 
-# TODO: extract to a tmpdir
 FROZENTMP=$(mktemp -d);
 tar --directory="${FROZENTMP}" --gunzip --extract -f frozen.tar.gz
 rsync --archive \
