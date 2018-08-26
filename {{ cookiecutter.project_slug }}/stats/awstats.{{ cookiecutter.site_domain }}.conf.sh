@@ -162,7 +162,7 @@ LogSeparator=" "
 # Example: "ftp.domain.com"
 # Example: "domain.com"
 #
-SiteDomain="llama3.weboftomorrow.com"
+SiteDomain="{{ cookiecutter.site_domain }}"
 
 
 # Enter here all other possible domain names, addresses or virtual host
@@ -177,7 +177,7 @@ SiteDomain="llama3.weboftomorrow.com"
 # Note: You can also use @/mypath/myfile if list of aliases are in a file.
 # Example: "www.myserver.com localhost 127.0.0.1 REGEX[mydomain\.(net|org)$]"
 #
-HostAliases="localhost localhost:8080 web 127.0.0.1 llama3.weboftomorrow.com"
+HostAliases="localhost localhost:8080 web 127.0.0.1 {{ cookiecutter.site_domain }}"
 
 
 # If you want to have hosts reported by name instead of ip address, AWStats

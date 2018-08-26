@@ -56,7 +56,7 @@ cat <<HERE
 
   location /stats/ {
     root   ${SRVDIR}stats;
-    index  awstats.llama3.weboftomorrow.com.html;
+    index  awstats.{{ cookiecutter.site_domain }}.html;
     #auth_basic            "Restricted";
     #auth_basic_user_file  ${SRVDIR}.htpasswd;
     access_log ${NGINXLOGDIR}access.awstats.log;
@@ -103,17 +103,17 @@ HEREBEDEVELOPMENT
 
 else
 
-if test -e /etc/letsencrypt/live/llama3.weboftomorrow.com/fullchain.pem; then
+if test -e /etc/letsencrypt/live/{{ cookiecutter.site_domain }}/fullchain.pem; then
 cat <<HEREENABLESSLCERTS
   # certs created from certbot
   # TODO: uncomment after they exist
-  ssl_certificate /etc/letsencrypt/live/llama3.weboftomorrow.com/fullchain.pem;
-  ssl_certificate_key /etc/letsencrypt/live/llama3.weboftomorrow.com/privkey.pem;
+  ssl_certificate /etc/letsencrypt/live/{{ cookiecutter.site_domain }}/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/{{ cookiecutter.site_domain }}/privkey.pem;
 HEREENABLESSLCERTS
 fi
 
 cat <<HEREBEPRODUCTION
-  server_name web llama3.weboftomorrow.com;
+  server_name web {{ cookiecutter.site_domain }};
 
   location /.well-known/ {
     try_files \$uri =404;

@@ -10,7 +10,7 @@ cat <<HERE
 # on ${DATE}
 
 [Unit]
-Description=Chill llama3-weboftomorrow-com instance
+Description=Chill {{ cookiecutter.project_slug }} instance
 After=network.target
 
 [Service]

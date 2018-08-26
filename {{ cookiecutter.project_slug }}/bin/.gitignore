@@ -1,7 +1,7 @@
 /activate*
 /chill
 /easy_install*
-/llama3-weboftomorrow-com-api
+/{{ cookiecutter.project_slug }}-api
 /markdown_py
 /pip*
 /python*

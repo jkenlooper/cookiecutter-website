@@ -51,6 +51,7 @@ CHILL_DATABASE_URI = "sqlite:///${DATABASEDIR}db"
 # you can also use another filter to parse the markdown into HTML with the
 # 'markdown' filter. For example:
 
+{% raw %}
 # {{ 'llamas-are-cool.md'|readfile|markdown }}
 DOCUMENT_FOLDER = "documents"
 
@@ -89,7 +90,7 @@ THEME_STATIC_FOLDER = "dist"
 import json
 VERSION = json.load(open('package.json'))['version']
 THEME_STATIC_PATH = "/theme/{0}/".format(VERSION or '0')
-
+{% endraw %}
 
 # Where the jinja2 templates for the site are located.  Will default to the app
 # template_folder if not set.
@@ -114,7 +115,7 @@ CACHE_TYPE = "null"
 # requiring an app to run it. This will use Frozen-Flask.
 # The path to the static/frozen website will be put.
 FREEZER_DESTINATION = "frozen"
-FREEZER_BASE_URL = "http://llama3.weboftomorrow.com/"
+FREEZER_BASE_URL = "http://{{ cookiecutter.site_domain }}/"
 
 # Example of environment vars set in the .env file
 #import os

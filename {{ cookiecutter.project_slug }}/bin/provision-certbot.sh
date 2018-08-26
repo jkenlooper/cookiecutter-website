@@ -4,7 +4,7 @@ set -eu -o pipefail
 
 # https://certbot.eff.org/lets-encrypt/ubuntuxenial-nginx.html
 
-# /srv/llama3-weboftomorrow-com/
+# /srv/{{ cookiecutter.project_slug }}/
 SRVDIR=$1
 
 add-apt-repository ppa:certbot/certbot
@@ -15,7 +15,7 @@ apt-get install --yes python-certbot-nginx
 # Get the cert and place it in the /.well-known/ location from webroot.
 certbot certonly \
   --webroot --webroot-path "${SRVDIR}root/" \
-  --domain llama3.weboftomorrow.com
+  --domain {{ cookiecutter.site_domain }}
 
 # Add the crontab only if not already there.
 if (test ! -f /etc/cron.d/certbot-crontab); then

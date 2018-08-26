@@ -36,12 +36,12 @@ project_dir := $(dir $(mkfile_path))
 PREFIXDIR :=
 # Set to development or production
 ENVIRONMENT := development
-SRVDIR := $(PREFIXDIR)/srv/llama3-weboftomorrow-com/
+SRVDIR := $(PREFIXDIR)/srv/{{ cookiecutter.project_slug }}/
 NGINXDIR := $(PREFIXDIR)/etc/nginx/
 SYSTEMDDIR := $(PREFIXDIR)/etc/systemd/system/
-DATABASEDIR := $(PREFIXDIR)/var/lib/llama3-weboftomorrow-com/sqlite3/
-NGINXLOGDIR := $(PREFIXDIR)/var/log/nginx/llama3-weboftomorrow-com/
-AWSTATSLOGDIR := $(PREFIXDIR)/var/log/awstats/llama3-weboftomorrow-com/
+DATABASEDIR := $(PREFIXDIR)/var/lib/{{ cookiecutter.project_slug }}/sqlite3/
+NGINXLOGDIR := $(PREFIXDIR)/var/log/nginx/{{ cookiecutter.project_slug }}/
+AWSTATSLOGDIR := $(PREFIXDIR)/var/log/awstats/{{ cookiecutter.project_slug }}/
 
 # For debugging what is set in variables
 inspect.%:
@@ -61,7 +61,7 @@ endif
 # Use $* to get the stem
 FORCE:
 
-objects := site.cfg web/llama3-weboftomorrow-com.conf stats/awstats.llama3.weboftomorrow.com.conf stats/awstats-llama3-weboftomorrow-com-crontab
+objects := site.cfg web/{{ cookiecutter.project_slug }}.conf stats/awstats.{{ cookiecutter.site_domain }}.conf stats/awstats-{{ cookiecutter.project_slug }}-crontab
 
 
 #####
@@ -73,8 +73,8 @@ bin/chill: chill/requirements.txt requirements.txt
 	pip install -r $<
 	touch $@;
 
-objects += chill/llama3-weboftomorrow-com-chill.service
-chill/llama3-weboftomorrow-com-chill.service: chill/llama3-weboftomorrow-com-chill.service.sh
+objects += chill/{{ cookiecutter.project_slug }}-chill.service
+chill/{{ cookiecutter.project_slug }}-chill.service: chill/{{ cookiecutter.project_slug }}-chill.service.sh
 	./$< $(project_dir) > $@
 
 # Create a tar of the frozen directory to prevent manually updating files within it.
@@ -82,37 +82,37 @@ objects += frozen.tar.gz
 frozen.tar.gz: db.dump.sql site.cfg $(shell find templates/ -type f -print) $(shell find documents/ -type f -print) $(shell find queries/ -type f -print)
 	bin/freeze.sh $@
 
-bin/llama3-weboftomorrow-com-api: api/requirements.txt requirements.txt
+bin/{{ cookiecutter.project_slug }}-api: api/requirements.txt requirements.txt
 	pip install -r $<
 	touch $@;
 
 
-objects += api/llama3-weboftomorrow-com-api.service
-api/llama3-weboftomorrow-com-api.service: api/llama3-weboftomorrow-com-api.service.sh
+objects += api/{{ cookiecutter.project_slug }}-api.service
+api/{{ cookiecutter.project_slug }}-api.service: api/{{ cookiecutter.project_slug }}-api.service.sh
 	./$< $(project_dir) > $@
 
 site.cfg: site.cfg.sh
 	./$< $(ENVIRONMENT) $(DATABASEDIR) > $@
 
-web/llama3-weboftomorrow-com.conf: web/llama3-weboftomorrow-com.conf.sh
+web/{{ cookiecutter.project_slug }}.conf: web/{{ cookiecutter.project_slug }}.conf.sh
 	./$< $(ENVIRONMENT) $(SRVDIR) $(NGINXLOGDIR) > $@
 
 ifeq ($(ENVIRONMENT),production)
 # Only create the dhparam.pem if needed.
 objects += web/dhparam.pem
-web/llama3-weboftomorrow-com.conf: web/dhparam.pem
+web/{{ cookiecutter.project_slug }}.conf: web/dhparam.pem
 endif
 
-stats/awstats.llama3.weboftomorrow.com.conf: stats/awstats.llama3.weboftomorrow.com.conf.sh
+stats/awstats.{{ cookiecutter.site_domain }}.conf: stats/awstats.{{ cookiecutter.site_domain }}.conf.sh
 	./$< $(NGINXLOGDIR) > $@
 
-stats/awstats-llama3-weboftomorrow-com-crontab: stats/awstats-llama3-weboftomorrow-com-crontab.sh
+stats/awstats-{{ cookiecutter.project_slug }}-crontab: stats/awstats-{{ cookiecutter.project_slug }}-crontab.sh
 	./$< $(SRVDIR) $(AWSTATSLOGDIR) > $@
 
 ######
 
 .PHONY: all
-all: bin/chill bin/llama3-weboftomorrow-com-api $(objects)
+all: bin/chill bin/{{ cookiecutter.project_slug }}-api $(objects)
 
 .PHONY: install
 install:
@@ -129,9 +129,9 @@ clean:
 # Remove files placed outside of src directory and uninstall app.
 .PHONY: uninstall
 uninstall:
-	-systemctl stop llama3-weboftomorrow-com-chill
-	-systemctl disable llama3-weboftomorrow-com-chill
-	rm $(SYSTEMDDIR)llama3-weboftomorrow-com-chill.service
+	-systemctl stop {{ cookiecutter.project_slug }}-chill
+	-systemctl disable {{ cookiecutter.project_slug }}-chill
+	rm $(SYSTEMDDIR){{ cookiecutter.project_slug }}-chill.service
 	./bin/uninstall.sh $(SRVDIR) $(NGINXDIR)
 
 # all

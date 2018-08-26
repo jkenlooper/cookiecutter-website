@@ -10,7 +10,7 @@ shopt -s extglob
 # development or production
 ENVIRONMENT=$1
 
-# /srv/llama3-weboftomorrow-com/
+# /srv/{{ cookiecutter.project_slug }}/
 SRVDIR=$2
 
 # /etc/nginx/
@@ -18,20 +18,7 @@ NGINXDIR=$3
 
 rm -rf ${SRVDIR}root/!(.well-known|.|..)
 
-rm -f "${NGINXDIR}sites-enabled/llama3-weboftomorrow-com.${ENVIRONMENT}.conf";
-rm -f "${NGINXDIR}sites-available/llama3-weboftomorrow-com.${ENVIRONMENT}.conf";
+rm -f "${NGINXDIR}sites-enabled/{{ cookiecutter.project_slug }}.${ENVIRONMENT}.conf";
+rm -f "${NGINXDIR}sites-available/{{ cookiecutter.project_slug }}.${ENVIRONMENT}.conf";
 
 exit
-
-
-
-# Add crontab file in the cron directory
-#ADD crontab /etc/cron.d/awstats
-
-# Give execution rights on the cron job
-#RUN chmod 0644 /etc/cron.d/awstats
-
-# Add the conf
-#COPY awstats.llama3.weboftomorrow.com.conf /etc/awstats/
-
-

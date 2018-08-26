@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="llama3-weboftomorrow-com-api",
+    name="{{ cookiecutter.project_slug }}-api",
     version="0.0.1",
     author="Example Author",
     author_email="author@example.com",
@@ -14,7 +14,7 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     entry_points={
         'console_scripts': [
-            'llama3-weboftomorrow-com-api = api.app:main'
+            '{{ cookiecutter.project_slug }}-api = api.app:main'
             ]
         },
 )

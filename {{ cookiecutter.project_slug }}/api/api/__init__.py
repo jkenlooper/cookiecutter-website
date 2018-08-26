@@ -1,1 +1,1 @@
-"API for Llama3 Weboftomorrow com"
+"API for {{ cookiecutter.project_name }}"

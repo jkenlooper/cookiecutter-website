@@ -10,14 +10,14 @@ cat <<HERE
 # on ${DATE}
 
 [Unit]
-Description=API llama3-weboftomorrow-com instance
+Description=API {{ cookiecutter.project_slug }} instance
 After=network.target
 
 [Service]
 User=dev
 Group=dev
 WorkingDirectory=$SRCDIR
-ExecStart=${SRCDIR}bin/llama3-weboftomorrow-com-api site.cfg
+ExecStart=${SRCDIR}bin/{{ cookiecutter.project_slug }}-api site.cfg
 
 [Install]
 WantedBy=multi-user.target

@@ -3,11 +3,11 @@
 /.htpasswd
 /site.cfg
 /frozen.tar.gz
-/web/llama3-weboftomorrow-com.conf
-/stats/awstats.llama3.weboftomorrow.com.conf
-/stats/awstats-llama3-weboftomorrow-com-crontab
-/chill/llama3-weboftomorrow-com-chill.service
-/api/llama3-weboftomorrow-com-api.service
+/web/{{ cookiecutter.project_slug }}.conf
+/stats/awstats.{{ cookiecutter.site_domain }}.conf
+/stats/awstats-{{ cookiecutter.project_slug }}-crontab
+/chill/{{ cookiecutter.project_slug }}-chill.service
+/api/{{ cookiecutter.project_slug }}-api.service
 /db
 /dist/
 /frozen/

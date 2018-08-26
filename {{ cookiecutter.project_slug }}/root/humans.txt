@@ -3,4 +3,4 @@
 
 # TEAM
 
-    Sir Llama
+    {{ cookiecutter.full_name }}

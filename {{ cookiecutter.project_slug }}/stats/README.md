@@ -1,2 +1,2 @@
-#AWStats for llama3.weboftomorrow.com
+#AWStats for {{ cookiecutter.project_slug }}
 

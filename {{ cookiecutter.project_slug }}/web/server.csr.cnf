@@ -7,5 +7,5 @@ distinguished_name = dn
 [ dn ]
 subjectAltName=localhost
 commonName=localhost
-emailAddress=sir@llama.example.com
-name=Sir Llama
+emailAddress={{ cookiecutter.email }}
+name={{ cookiecutter.full_name }}

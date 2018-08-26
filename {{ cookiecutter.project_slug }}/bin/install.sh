@@ -4,22 +4,22 @@ set -eu -o pipefail
 # development or production
 #ENVIRONMENT=$1
 
-# /srv/llama3-weboftomorrow-com/
+# /srv/{{ cookiecutter.project_slug }}/
 SRVDIR=$1
 
 # /etc/nginx/
 NGINXDIR=$2
 
-# /var/log/nginx/llama3-weboftomorrow-com/
+# /var/log/nginx/{{ cookiecutter.project_slug }}/
 NGINXLOGDIR=$3
 
-# /var/log/awstats/llama3-weboftomorrow-com/
+# /var/log/awstats/{{ cookiecutter.project_slug }}/
 AWSTATSLOGDIR=$4
 
 # /etc/systemd/system/
 SYSTEMDDIR=$5
 
-# /var/lib/llama3-weboftomorrow-com/sqlite3/
+# /var/lib/{{ cookiecutter.project_slug }}/sqlite3/
 DATABASEDIR=$6
 
 mkdir -p "${SRVDIR}root/";
@@ -49,12 +49,12 @@ mkdir -p "${NGINXDIR}sites-available"
 rsync --inplace \
   --checksum \
   --itemize-changes \
-  web/default.conf web/llama3-weboftomorrow-com.conf "${NGINXDIR}sites-available/";
-echo rsynced web/default.conf web/llama3-weboftomorrow-com.conf to "${NGINXDIR}sites-available/";
+  web/default.conf web/{{ cookiecutter.project_slug }}.conf "${NGINXDIR}sites-available/";
+echo rsynced web/default.conf web/{{ cookiecutter.project_slug }}.conf to "${NGINXDIR}sites-available/";
 
 mkdir -p "${NGINXDIR}sites-enabled";
 ln -sf "${NGINXDIR}sites-available/default.conf" "${NGINXDIR}sites-enabled/default.conf";
-ln -sf "${NGINXDIR}sites-available/llama3-weboftomorrow-com.conf"  "${NGINXDIR}sites-enabled/llama3-weboftomorrow-com.conf";
+ln -sf "${NGINXDIR}sites-available/{{ cookiecutter.project_slug }}.conf"  "${NGINXDIR}sites-enabled/{{ cookiecutter.project_slug }}.conf";
 
 rsync --inplace \
   --checksum \
@@ -83,13 +83,13 @@ fi
 mkdir -p "${AWSTATSLOGDIR}"
 
 # Add crontab file in the cron directory
-cp stats/awstats-llama3-weboftomorrow-com-crontab /etc/cron.d/
-chmod 0644 /etc/cron.d/awstats-llama3-weboftomorrow-com-crontab
+cp stats/awstats-{{ cookiecutter.project_slug }}-crontab /etc/cron.d/
+chmod 0644 /etc/cron.d/awstats-{{ cookiecutter.project_slug }}-crontab
 # Stop and start in order for the crontab to be loaded (reload not supported).
 systemctl stop cron && systemctl start cron || echo "Can't reload cron service"
 
 # Add the awstats conf
-cp stats/awstats.llama3.weboftomorrow.com.conf /etc/awstats/
+cp stats/awstats.{{ cookiecutter.site_domain }}.conf /etc/awstats/
 
 # Create the sqlite database file if not there.
 if (test ! -f "${DATABASEDIR}db"); then
@@ -98,10 +98,10 @@ if (test ! -f "${DATABASEDIR}db"); then
 fi
 
 mkdir -p "${SYSTEMDDIR}"
-cp chill/llama3-weboftomorrow-com-chill.service "${SYSTEMDDIR}"
-systemctl start llama3-weboftomorrow-com-chill || echo "can't start service"
-systemctl enable llama3-weboftomorrow-com-chill || echo "can't enable service"
+cp chill/{{ cookiecutter.project_slug }}-chill.service "${SYSTEMDDIR}"
+systemctl start {{ cookiecutter.project_slug }}-chill || echo "can't start service"
+systemctl enable {{ cookiecutter.project_slug }}-chill || echo "can't enable service"
 
-cp api/llama3-weboftomorrow-com-api.service "${SYSTEMDDIR}"
-systemctl start llama3-weboftomorrow-com-api || echo "can't start service"
-systemctl enable llama3-weboftomorrow-com-api || echo "can't enable service"
+cp api/{{ cookiecutter.project_slug }}-api.service "${SYSTEMDDIR}"
+systemctl start {{ cookiecutter.project_slug }}-api || echo "can't start service"
+systemctl enable {{ cookiecutter.project_slug }}-api || echo "can't enable service"
