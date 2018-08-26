@@ -51,8 +51,9 @@ make ENVIRONMENT=production;
 sudo make ENVIRONMENT=production install;
 ```
 
-Run the `bin/provision-certbot.sh` script to set up a production server with
-TLS certs.  [certbot](https://certbot.eff.org/) is used to
+Run the `bin/provision-certbot.sh /srv/llama3-weboftomorrow-com/`
+script to set up a production server with TLS certs.
+[certbot](https://certbot.eff.org/) is used to
 deploy [Let's Encrypt](https://letsencrypt.org/) certificates.
 
 <!--
