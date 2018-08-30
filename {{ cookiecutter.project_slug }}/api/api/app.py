@@ -32,12 +32,12 @@ def main():
 
     if app.debug:
         app.run(
-                host='0.0.0.0',
-                port=5858,
+                host='127.0.0.1',
+                port=app.config.get('PORTAPI'),
                 use_reloader=True,
                 )
     else:
-        server = pywsgi.WSGIServer(('0.0.0.0', 5858), app)
+        server = pywsgi.WSGIServer(('127.0.0.1', app.config.get('PORTAPI')), app)
         server.serve_forever(stop_timeout=10)
 
 if __name__ == "__main__":

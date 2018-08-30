@@ -1,5 +1,6 @@
 /activate*
 /chill
+/flask
 /easy_install*
 /{{ cookiecutter.project_slug }}-api
 /markdown_py

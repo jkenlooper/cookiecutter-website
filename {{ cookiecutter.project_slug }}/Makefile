@@ -36,6 +36,7 @@ project_dir := $(dir $(mkfile_path))
 PREFIXDIR :=
 # Set to development or production
 ENVIRONMENT := development
+PORTREGISTRY := ${PWD}/port-registry.cfg
 SRVDIR := $(PREFIXDIR)/srv/{{ cookiecutter.project_slug }}/
 NGINXDIR := $(PREFIXDIR)/etc/nginx/
 SYSTEMDDIR := $(PREFIXDIR)/etc/systemd/system/
@@ -91,11 +92,11 @@ objects += api/{{ cookiecutter.project_slug }}-api.service
 api/{{ cookiecutter.project_slug }}-api.service: api/{{ cookiecutter.project_slug }}-api.service.sh
 	./$< $(project_dir) > $@
 
-site.cfg: site.cfg.sh
-	./$< $(ENVIRONMENT) $(DATABASEDIR) > $@
+site.cfg: site.cfg.sh $(PORTREGISTRY)
+	./$< $(ENVIRONMENT) $(DATABASEDIR) $(PORTREGISTRY) > $@
 
-web/{{ cookiecutter.project_slug }}.conf: web/{{ cookiecutter.project_slug }}.conf.sh
-	./$< $(ENVIRONMENT) $(SRVDIR) $(NGINXLOGDIR) > $@
+web/{{ cookiecutter.project_slug }}.conf: web/{{ cookiecutter.project_slug }}.conf.sh $(PORTREGISTRY)
+	./$< $(ENVIRONMENT) $(SRVDIR) $(NGINXLOGDIR) $(PORTREGISTRY) > $@
 
 ifeq ($(ENVIRONMENT),production)
 # Only create the dhparam.pem if needed.

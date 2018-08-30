@@ -3,6 +3,7 @@
   "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '-') }}",
   "site_domain": "{{ cookiecutter.project_name.lower().replace(' ', '.') }}",
   "site_protocol": "http",
+  "internal_port_prefix": 51,
   "full_name": "Sir Llama",
   "email": "sir@llama.example.com",
   "project_short_description": "Website built with chill stuff and things",

@@ -5,6 +5,10 @@ set -eu -o pipefail
 ENVIRONMENT=$1
 SRVDIR=$2
 NGINXLOGDIR=$3
+PORTREGISTRY=$4
+
+# shellcheck source=/dev/null
+source "$PORTREGISTRY"
 
 cat <<HERE
 
@@ -72,7 +76,7 @@ cat <<HERE
 
     proxy_redirect off;
     #proxy_intercept_errors on;
-    proxy_pass http://localhost:5858;
+    proxy_pass http://localhost:${PORTAPI};
     rewrite ^/api/(.*)\$  /\$1 break;
   }
 
@@ -97,7 +101,7 @@ cat <<HEREBEDEVELOPMENT
 
     proxy_redirect off;
     proxy_intercept_errors on;
-    proxy_pass http://localhost:5000;
+    proxy_pass http://localhost:${PORTCHILL};
   }
 HEREBEDEVELOPMENT
 

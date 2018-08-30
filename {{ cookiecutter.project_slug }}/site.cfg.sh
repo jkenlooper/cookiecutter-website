@@ -4,14 +4,14 @@ set -eu -o pipefail
 
 ENVIRONMENT=$1
 DATABASEDIR=$2
-#SRCDIR=$2
-#SERVICENAME=$3
+PORTREGISTRY=$3
+
+# shellcheck source=/dev/null
+source "$PORTREGISTRY"
 
 if test $"ENVIRONMENT" == 'development'; then
-  HOST="'0.0.0.0'"
   DEBUG=True
 else
-  HOST="'127.0.0.1'"
   DEBUG=False
 fi
 
@@ -22,8 +22,9 @@ cat <<HERE
 # Chill.
 
 # Set the HOST to 0.0.0.0 for being an externally visible server.
-HOST = $HOST
-#PORT = 5000
+HOST = '127.0.0.1'
+PORT = $PORTCHILL
+PORTAPI = $PORTAPI
 
 # Valid SQLite URL forms are:
 #   sqlite:///:memory: (or, sqlite://)

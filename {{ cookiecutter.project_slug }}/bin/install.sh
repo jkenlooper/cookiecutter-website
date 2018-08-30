@@ -94,6 +94,7 @@ cp stats/awstats.{{ cookiecutter.site_domain }}.conf /etc/awstats/
 # Create the sqlite database file if not there.
 if (test ! -f "${DATABASEDIR}db"); then
     echo "Creating database from db.dump.sql"
+    mkdir -p "${DATABASEDIR}"
     sqlite3 "${DATABASEDIR}db" < db.dump.sql
 fi
 
