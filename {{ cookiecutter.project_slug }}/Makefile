@@ -128,12 +128,10 @@ clean:
 	pip uninstall --yes -r api/requirements.txt
 
 # Remove files placed outside of src directory and uninstall app.
+# Will also remove the sqlite database file.
 .PHONY: uninstall
 uninstall:
-	-systemctl stop {{ cookiecutter.project_slug }}-chill
-	-systemctl disable {{ cookiecutter.project_slug }}-chill
-	rm $(SYSTEMDDIR){{ cookiecutter.project_slug }}-chill.service
-	./bin/uninstall.sh $(SRVDIR) $(NGINXDIR)
+	./bin/uninstall.sh $(SRVDIR) $(NGINXDIR) $(SYSTEMDDIR) $(DATABASEDIR)
 
 # all
 # 	create (optimize, resize) media files from source-media

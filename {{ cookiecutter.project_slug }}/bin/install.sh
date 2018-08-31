@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 set -eu -o pipefail
 
-# development or production
-#ENVIRONMENT=$1
-
 # /srv/{{ cookiecutter.project_slug }}/
 SRVDIR=$1
 
