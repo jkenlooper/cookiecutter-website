@@ -44,6 +44,9 @@ DATABASEDIR := $(PREFIXDIR)/var/lib/{{ cookiecutter.project_slug }}/sqlite3/
 NGINXLOGDIR := $(PREFIXDIR)/var/log/nginx/{{ cookiecutter.project_slug }}/
 AWSTATSLOGDIR := $(PREFIXDIR)/var/log/awstats/{{ cookiecutter.project_slug }}/
 
+# Get the latest git tag that matches the 'v*' format (v1.0.0).
+TAG := $(firstword $(shell git tag --list 'v*' --sort=-version:refname))
+
 # For debugging what is set in variables
 inspect.%:
 	@echo $($*)
@@ -110,6 +113,9 @@ stats/awstats.{{ cookiecutter.site_domain }}.conf: stats/awstats.{{ cookiecutter
 stats/awstats-{{ cookiecutter.project_slug }}-crontab: stats/awstats-{{ cookiecutter.project_slug }}-crontab.sh
 	./$< $(SRVDIR) $(AWSTATSLOGDIR) > $@
 
+$(TAG).tar.gz:
+	./bin/dist.sh $@
+
 ######
 
 .PHONY: all
@@ -132,6 +138,9 @@ clean:
 .PHONY: uninstall
 uninstall:
 	./bin/uninstall.sh $(SRVDIR) $(NGINXDIR) $(SYSTEMDDIR) $(DATABASEDIR)
+
+.PHONY: dist
+dist: $(TAG).tar.gz
 
 # all
 # 	create (optimize, resize) media files from source-media

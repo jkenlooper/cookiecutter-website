@@ -18,6 +18,8 @@
 /src/*/*.tmp.css.map
 /src/*/*.tmp.js
 /src/*/*.tmp.js.map
+/{{ cookiecutter.project_slug }}/*
+!/{{ cookiecutter.project_slug }}/MANIFEST
 
 /web/dhparam.pem
 /web/rootCA.key
