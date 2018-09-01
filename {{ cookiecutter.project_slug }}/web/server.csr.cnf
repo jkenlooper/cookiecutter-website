@@ -5,7 +5,7 @@ default_md = sha256
 distinguished_name = dn
 
 [ dn ]
-subjectAltName=local.{{ cookiecutter.site_domain }}
-commonName=local.{{ cookiecutter.site_domain }}
+subjectAltName=local-{{ cookiecutter.project_slug }}
+commonName=local-{{ cookiecutter.project_slug }}
 emailAddress={{ cookiecutter.email }}
 name={{ cookiecutter.full_name }}

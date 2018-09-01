@@ -89,7 +89,7 @@ cat <<HEREBEDEVELOPMENT
   ssl_certificate /etc/nginx/ssl/server.crt;
   ssl_certificate_key /etc/nginx/ssl/server.key;
 
-  server_name local.{{ cookiecutter.site_domain }};
+  server_name local-{{ cookiecutter.project_slug }};
 
   # It is useful to have chill run in dev mode when editing templates. Note
   # that in production it uses the static pages (frozen).

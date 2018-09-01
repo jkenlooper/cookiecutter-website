@@ -9,7 +9,7 @@ PORTREGISTRY=$3
 # shellcheck source=/dev/null
 source "$PORTREGISTRY"
 
-if test $"ENVIRONMENT" == 'development'; then
+if test "$ENVIRONMENT" == 'development'; then
   DEBUG=True
 else
   DEBUG=False

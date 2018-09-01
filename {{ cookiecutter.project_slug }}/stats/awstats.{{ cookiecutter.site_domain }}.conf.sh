@@ -177,7 +177,7 @@ SiteDomain="{{ cookiecutter.site_domain }}"
 # Note: You can also use @/mypath/myfile if list of aliases are in a file.
 # Example: "www.myserver.com localhost 127.0.0.1 REGEX[mydomain\.(net|org)$]"
 #
-HostAliases="local.{{ cookiecutter.site_domain }} {{ cookiecutter.site_domain }}"
+HostAliases="local-{{ cookiecutter.project_slug }} {{ cookiecutter.site_domain }}"
 
 
 # If you want to have hosts reported by name instead of ip address, AWStats
