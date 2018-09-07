@@ -44,8 +44,8 @@ DATABASEDIR := $(PREFIXDIR)/var/lib/{{ cookiecutter.project_slug }}/sqlite3/
 NGINXLOGDIR := $(PREFIXDIR)/var/log/nginx/{{ cookiecutter.project_slug }}/
 AWSTATSLOGDIR := $(PREFIXDIR)/var/log/awstats/{{ cookiecutter.project_slug }}/
 
-# Get the latest git tag that matches the 'v*' format (v1.0.0).
-TAG := $(firstword $(shell git tag --list 'v*' --sort=-version:refname))
+# Get the version from the package.json
+TAG := $(shell cat package.json | python -c 'import sys, json; print json.load(sys.stdin)["version"]')
 
 # For debugging what is set in variables
 inspect.%:
@@ -113,8 +113,9 @@ stats/awstats.{{ cookiecutter.site_domain }}.conf: stats/awstats.{{ cookiecutter
 stats/awstats-{{ cookiecutter.project_slug }}-crontab: stats/awstats-{{ cookiecutter.project_slug }}-crontab.sh
 	./$< $(SRVDIR) $(AWSTATSLOGDIR) > $@
 
-$(TAG).tar.gz:
-	./bin/dist.sh $@
+.PHONY: $(TAG).tar.gz
+$(TAG).tar.gz: bin/dist.sh
+	./$< $@
 
 ######
 

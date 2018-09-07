@@ -9,6 +9,10 @@ PORTREGISTRY=$3
 # shellcheck source=/dev/null
 source "$PORTREGISTRY"
 
+# The .env file has some environment variables that can be added if the app
+# requires them. Uncomment this line as well as the EXAMPLE_PUBLIC_KEY below.
+#source ".env"
+
 if test "$ENVIRONMENT" == 'development'; then
   DEBUG=True
 else
@@ -119,8 +123,10 @@ FREEZER_DESTINATION = "frozen"
 FREEZER_BASE_URL = "http://{{ cookiecutter.site_domain }}/"
 
 # Example of environment vars set in the .env file
-#import os
-#EXAMPLE_PUBLIC_KEY = os.getenv('EXAMPLE_PUBLIC_KEY')
-#EXAMPLE_SECRET_KEY = os.getenv('EXAMPLE_SECRET_KEY')
+# Since this file is generated in the environment, the variables can be set here
+# and not use python to inject them via os.getenv
+# Uncomment these lines if sourcing the .env file.
+#EXAMPLE_PUBLIC_KEY = $EXAMPLE_PUBLIC_KEY
+#EXAMPLE_SECRET_KEY = $EXAMPLE_SECRET_KEY
 
 HERE

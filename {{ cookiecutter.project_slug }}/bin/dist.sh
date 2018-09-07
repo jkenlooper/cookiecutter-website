@@ -8,6 +8,8 @@ ARCHIVE=$1
 # Create symlinks for all files in the MANIFEST.
 for item in $(cat {{ cookiecutter.project_slug }}/MANIFEST); do
   ln -sf "${PWD}/${item}" {{ cookiecutter.project_slug }}/;
+  dirname "{{ cookiecutter.project_slug }}/${item}" | xargs mkdir -p;
+  dirname "{{ cookiecutter.project_slug }}/${item}" | xargs ln -sf "${PWD}/${item}";
 done;
 
 tar --dereference \
