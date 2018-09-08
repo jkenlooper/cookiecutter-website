@@ -22,3 +22,10 @@ if (test ! -f /etc/cron.d/certbot-crontab); then
   cp certbot/certbot-crontab /etc/cron.d/
   chmod 0644 /etc/cron.d/certbot-crontab
 fi
+
+# Signal that the certs should now exist.
+# The web/{{ cookiecutter.project_slug }}.conf.sh checks if this file exists in
+# order to uncomment the lines in the nginx conf for ssl_certificate fields.
+touch .has-certs web/{{ cookiecutter.project_slug }}.conf.sh
+
+echo "The certificates have now been generated.  Run make again in order to update nginx conf and make install to update.  The nginx will also need to reload."

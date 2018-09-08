@@ -1,4 +1,8 @@
-api
+api/README.md
+api/api
+api/{{ cookiecutter.project_slug }}-api.service.sh
+api/requirements.txt
+api/setup.py
 bin/dist.sh
 bin/freeze.sh
 bin/init.sh
@@ -9,7 +13,9 @@ bin/provision-local.sh
 bin/setup.sh
 bin/uninstall.sh
 certbot
-chill
+chill/{{ cookiecutter.project_slug }}-chill.service.sh
+chill/requirements.txt
+chill/README.md
 db.dump.sql
 dist
 documents
@@ -21,6 +27,11 @@ README.md
 requirements.txt
 root
 site.cfg.sh
-stats
+stats/awstats-{{ cookiecutter.project_slug }}-crontab.sh
+stats/awstats.{{ cookiecutter.site_domain }}.conf.sh
+stats/README.md
 templates
-web
+web/{{ cookiecutter.project_slug }}.conf.sh
+web/default.conf
+web/server.csr.cnf
+web/v3.ext

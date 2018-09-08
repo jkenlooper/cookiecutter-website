@@ -83,7 +83,7 @@ chill/{{ cookiecutter.project_slug }}-chill.service: chill/{{ cookiecutter.proje
 
 # Create a tar of the frozen directory to prevent manually updating files within it.
 objects += frozen.tar.gz
-frozen.tar.gz: db.dump.sql site.cfg $(shell find templates/ -type f -print) $(shell find documents/ -type f -print) $(shell find queries/ -type f -print)
+frozen.tar.gz: db.dump.sql site.cfg package.json $(shell find templates/ -type f -print) $(shell find documents/ -type f -print) $(shell find queries/ -type f -print)
 	bin/freeze.sh $@
 
 bin/{{ cookiecutter.project_slug }}-api: api/requirements.txt requirements.txt

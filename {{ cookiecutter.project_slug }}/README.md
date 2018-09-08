@@ -2,7 +2,7 @@
 
 {{ cookiecutter.project_short_description }}
 
-This site is hosted at [{{ cookiecutter.site_protocol }}://{{ cookiecutter.site_domain }}]({{ cookiecutter.site_protocol }}://{{ cookiecutter.site_domain }}).
+This site is hosted at [{{ cookiecutter.site_domain }}]({{ cookiecutter.site_protocol }}://{{ cookiecutter.site_domain }}).
 
 It is based off of the [chill cookiecutter](https://github.com/jkenlooper/cookiecutter-website).
 
@@ -40,6 +40,11 @@ sudo make install;
 
 
 ## Deploying on a production server
+
+The `bin/init.sh` creates a dev user that could be used to ssh to the server.
+It is recommended to create a versioned distribution with `make dist`.  That tar
+file can then be uploaded to the server and expanded into /usr/local/src/ directory 
+(`tar --directory=/usr/local/src/ --extract --gunzip -f 0.3.1.tar.gz`).
 
 A similar workflow from development except the ENVIRONMENT should be passed to
 the Makefile.  

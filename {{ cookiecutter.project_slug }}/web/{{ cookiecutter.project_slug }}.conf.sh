@@ -107,16 +107,23 @@ HEREBEDEVELOPMENT
 
 else
 
-if test -e /etc/letsencrypt/live/{{ cookiecutter.site_domain }}/fullchain.pem; then
+if test -e .has-certs; then
 cat <<HEREENABLESSLCERTS
   # certs created from certbot
-  # TODO: uncomment after they exist
   ssl_certificate /etc/letsencrypt/live/{{ cookiecutter.site_domain }}/fullchain.pem;
   ssl_certificate_key /etc/letsencrypt/live/{{ cookiecutter.site_domain }}/privkey.pem;
 HEREENABLESSLCERTS
+else
+cat <<HERETODOSSLCERTS
+  # certs can be created from running 'bin/provision-certbot.sh ${SRVDIR}'
+  # TODO: uncomment after they exist
+  #ssl_certificate /etc/letsencrypt/live/{{ cookiecutter.site_domain }}/fullchain.pem;
+  #ssl_certificate_key /etc/letsencrypt/live/{{ cookiecutter.site_domain }}/privkey.pem;
+HERETODOSSLCERTS
 fi
 
 cat <<HEREBEPRODUCTION
+
   server_name {{ cookiecutter.site_domain }};
 
   location /.well-known/ {

@@ -5,6 +5,7 @@ apt-get --yes install \
   software-properties-common \
   rsync \
   nginx \
+  apache2-utils \
   cron \
   curl
 
