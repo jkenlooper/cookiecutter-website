@@ -86,7 +86,7 @@ objects += frozen.tar.gz
 frozen.tar.gz: db.dump.sql site.cfg package.json $(shell find templates/ -type f -print) $(shell find documents/ -type f -print) $(shell find queries/ -type f -print)
 	bin/freeze.sh $@
 
-bin/{{ cookiecutter.project_slug }}-api: api/requirements.txt requirements.txt
+bin/{{ cookiecutter.project_slug }}-api: api/requirements.txt requirements.txt api/setup.py
 	pip install -r $<
 	touch $@;
 
