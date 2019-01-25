@@ -20,6 +20,9 @@ To have TLS (SSL) on your development machine run the `bin/provision-local.sh`
 script. That will use `openssl` to create some certs in the web/ directory.
 The rootCA.pem should be imported to Keychain Access and marked as always trusted.
 
+Add the .env and create the .htpasswd files.  These should not be added to the
+distribution, but scp directly.
+
 ## Development
 
 The website apps are managed as 

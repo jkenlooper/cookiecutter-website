@@ -3,10 +3,12 @@ api/api
 api/{{ cookiecutter.project_slug }}-api.service.sh
 api/requirements.txt
 api/setup.py
+bin/appctl.sh
 bin/dist.sh
 bin/freeze.sh
 bin/init.sh
 bin/install.sh
+bin/log.sh
 bin/provision-build.sh
 bin/provision-certbot.sh
 bin/provision-local.sh

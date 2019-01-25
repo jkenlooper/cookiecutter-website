@@ -38,15 +38,6 @@ server {
   add_header X-Frame-Options DENY;
   add_header X-Content-Type-Options nosniff;
 
-HERE
-if (test -f web/dhparam.pem); then
-cat <<HERE
-  ssl_dhparam /etc/nginx/ssl/dhparam.pem;
-HERE
-fi
-cat <<HERE
-
-
   root ${SRVDIR}root;
 
   access_log  ${NGINXLOGDIR}access.log;
@@ -61,8 +52,8 @@ cat <<HERE
   location /stats/ {
     root   ${SRVDIR}stats;
     index  awstats.{{ cookiecutter.site_domain }}.html;
-    #auth_basic            "Restricted";
-    #auth_basic_user_file  ${SRVDIR}.htpasswd;
+    auth_basic            "Restricted";
+    auth_basic_user_file  ${SRVDIR}.htpasswd;
     access_log ${NGINXLOGDIR}access.awstats.log;
     error_log ${NGINXLOGDIR}error.awstats.log;
     rewrite ^/stats/(.*)$  /\$1 break;
@@ -83,6 +74,12 @@ cat <<HERE
 HERE
 
 if test $ENVIRONMENT == 'development'; then
+
+if (test -f web/dhparam.pem); then
+cat <<HERE
+  ssl_dhparam /etc/nginx/ssl/dhparam.pem;
+HERE
+fi
 
 cat <<HEREBEDEVELOPMENT
   # certs for localhost only

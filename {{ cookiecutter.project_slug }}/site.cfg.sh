@@ -17,8 +17,10 @@ if test -e .env; then
 fi
 
 if test "$ENVIRONMENT" == 'development'; then
+  HOSTNAME="'local-{{ cookiecutter.project_slug }}'"
   DEBUG=True
 else
+  HOSTNAME="'{{ cookiecutter.site_domain }}'"
   DEBUG=False
 fi
 
@@ -30,6 +32,7 @@ cat <<HERE
 
 # Set the HOST to 0.0.0.0 for being an externally visible server.
 HOST = '127.0.0.1'
+HOSTNAME = $HOSTNAME
 PORT = $PORTCHILL
 PORTAPI = $PORTAPI
 
