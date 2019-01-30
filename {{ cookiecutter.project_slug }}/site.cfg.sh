@@ -132,9 +132,11 @@ HERE
 
 if test -e .env; then
 cat <<HERE
-# Example of environment vars set in the .env file
-# Since this file is generated in the environment, the variables can be set here
-# and not use python to inject them via os.getenv
+# The environment vars are set in the .env file.  Since site.cfg is generated in
+# the environment, the variables can be set here and not use python to inject
+# them via os.getenv
+
+# TODO: Replace examples with actual environment vars.
 EXAMPLE_PUBLIC_KEY = "${EXAMPLE_PUBLIC_KEY}"
 EXAMPLE_SECRET_KEY = "${EXAMPLE_SECRET_KEY}"
 HERE
