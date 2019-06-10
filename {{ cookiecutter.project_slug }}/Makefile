@@ -19,7 +19,7 @@ project_dir := $(dir $(mkfile_path))
 # Workflow should be:
 # sudo ./init.sh; # Sets up a new ubuntu server with base stuff and dev user
 # sudo ./bin/setup.sh # should only need to be run once
-# virtualenv .;
+# virtualenv . -p python3;
 # source ./bin/activate;
 # make ENVIRONMENT=development;
 # sudo make ENVIRONMENT=development install;
@@ -45,7 +45,7 @@ NGINXLOGDIR := $(PREFIXDIR)/var/log/nginx/{{ cookiecutter.project_slug }}/
 AWSTATSLOGDIR := $(PREFIXDIR)/var/log/awstats/{{ cookiecutter.project_slug }}/
 
 # Get the version from the package.json
-TAG := $(shell cat package.json | python -c 'import sys, json; print json.load(sys.stdin)["version"]')
+TAG := $(shell cat package.json | python -c 'import sys, json; print(json.load(sys.stdin)["version"])')
 
 # For debugging what is set in variables
 inspect.%:
@@ -55,7 +55,7 @@ ifeq ($(shell which virtualenv),)
 $(error run "./bin/setup.sh" to install virtualenv)
 endif
 ifeq ($(shell ls bin/activate),)
-$(error run "virtualenv .")
+$(error run "virtualenv . -p python3")
 endif
 ifneq ($(shell which pip),$(project_dir)bin/pip)
 $(warning run "source bin/activate" to activate the virtualenv. Using $(shell which pip). Ignore this warning if using sudo make install.)

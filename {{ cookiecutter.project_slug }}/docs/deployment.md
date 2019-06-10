@@ -72,7 +72,7 @@ been uploaded to the home directory.
 
     ```bash
     cd /usr/local/src/{{ cookiecutter.project_slug }};
-    virtualenv .;
+    virtualenv . -p python3;
     source bin/activate;
     make ENVIRONMENT=production && \
     sudo make ENVIRONMENT=production install;
@@ -127,7 +127,7 @@ by the public.
 
     ```bash
     cd /usr/local/src/{{ cookiecutter.project_slug }}/;
-    virtualenv .;
+    virtualenv . -p python3;
     source bin/activate;
     make ENVIRONMENT=production;
     sudo make ENVIRONMENT=production install;

@@ -24,7 +24,7 @@ The rootCA.pem should be imported to Keychain Access and marked as always truste
 The website apps are managed as 
 [systemd](https://freedesktop.org/wiki/Software/systemd/) services.
 The service config files are created by running `make` and installed with 
-`sudo make install`.  It is recommended to use Python's `virtualenv .`
+`sudo make install`.  It is recommended to use Python's `virtualenv . -p python3`
 and activating each time for a new shell with `source bin/activate` before
 running `make`.
 
@@ -51,7 +51,7 @@ htpasswd -c .htpasswd admin;
 When first installing on the dev machine run:
 
 ```bash
-virtualenv .;
+virtualenv . -p python3;
 source bin/activate;
 make;
 
