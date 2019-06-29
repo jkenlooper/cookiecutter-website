@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-SRCDIR=$1
+ENVIRONMENT=$1
+SRCDIR=$2
 
 DATE=$(date)
 
@@ -17,7 +18,13 @@ After=network.target
 User=dev
 Group=dev
 WorkingDirectory=$SRCDIR
-ExecStart=${SRCDIR}bin/chill run
+HERE
+if test "${ENVIRONMENT}" == 'development'; then
+echo "ExecStart=${SRCDIR}bin/chill run"
+else
+echo "ExecStart=${SRCDIR}bin/chill serve"
+fi
+cat <<HERE
 
 [Install]
 WantedBy=multi-user.target

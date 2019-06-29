@@ -79,7 +79,7 @@ bin/chill: chill/requirements.txt requirements.txt
 
 objects += chill/{{ cookiecutter.project_slug }}-chill.service
 chill/{{ cookiecutter.project_slug }}-chill.service: chill/{{ cookiecutter.project_slug }}-chill.service.sh
-	./$< $(project_dir) > $@
+	./$< $(ENVIRONMENT) $(project_dir) > $@
 
 # Create a tar of the frozen directory to prevent manually updating files within it.
 objects += frozen.tar.gz
