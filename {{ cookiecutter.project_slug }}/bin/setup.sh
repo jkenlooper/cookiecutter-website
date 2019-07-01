@@ -12,8 +12,11 @@ apt-get --yes install \
 apt-get --yes install \
   python \
   python-dev \
+  python3-dev \
   python-pip \
+  python-numpy \
   sqlite3 \
+  libpq-dev \
   python-psycopg2 \
   virtualenv
 

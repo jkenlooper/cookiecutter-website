@@ -10,32 +10,14 @@ project_dir := $(dir $(mkfile_path))
 
 # Local pip is used by creating virtualenv and running `source ./bin/activate`
 
-#    all: the name of the default target
-#    check: runs tests, linters, and style enforcers
-#    clean: removes files created by all
-#    install:
-#    uninstall: undoes what install did
-
-# Workflow should be:
-# sudo ./init.sh; # Sets up a new ubuntu server with base stuff and dev user
-# sudo ./bin/setup.sh # should only need to be run once
-# virtualenv . -p python3;
-# source ./bin/activate;
-# make ENVIRONMENT=development;
-# sudo make ENVIRONMENT=development install;
-#
-# sudo make ENVIRONMENT=development uninstall;
-# make ENVIRONMENT=development clean;
-#
-
-#Use order only prerequisites for making directories
-
 # Set to tmp/ when debugging the install
 # make PREFIXDIR=${PWD}/tmp inspect.SRVDIR
 # make PREFIXDIR=${PWD}/tmp ENVIRONMENT=development install
 PREFIXDIR :=
+
 # Set to development or production
 ENVIRONMENT := development
+
 PORTREGISTRY := ${PWD}/port-registry.cfg
 SRVDIR := $(PREFIXDIR)/srv/{{ cookiecutter.project_slug }}/
 NGINXDIR := $(PREFIXDIR)/etc/nginx/
@@ -70,11 +52,12 @@ objects := site.cfg web/{{ cookiecutter.project_slug }}.conf stats/awstats.{{ co
 
 #####
 
-web/dhparam.pem:
-	openssl dhparam -out $@ 2048
+# Uncomment if this is needed in the ssl setup
+#web/dhparam.pem:
+	#openssl dhparam -out $@ 2048
 
 bin/chill: chill/requirements.txt requirements.txt
-	pip install -r $<
+	pip install --upgrade --upgrade-strategy eager -r $<
 	touch $@;
 
 objects += chill/{{ cookiecutter.project_slug }}-chill.service
@@ -87,7 +70,7 @@ frozen.tar.gz: db.dump.sql site.cfg package.json $(shell find templates/ -type f
 	bin/freeze.sh $@
 
 bin/{{ cookiecutter.project_slug }}-api: api/requirements.txt requirements.txt api/setup.py
-	pip install -r $<
+	pip install --upgrade --upgrade-strategy eager -r $<
 	touch $@;
 
 
@@ -101,11 +84,12 @@ site.cfg: site.cfg.sh $(PORTREGISTRY)
 web/{{ cookiecutter.project_slug }}.conf: web/{{ cookiecutter.project_slug }}.conf.sh $(PORTREGISTRY)
 	./$< $(ENVIRONMENT) $(SRVDIR) $(NGINXLOGDIR) $(PORTREGISTRY) > $@
 
-ifeq ($(ENVIRONMENT),production)
-# Only create the dhparam.pem if needed.
-objects += web/dhparam.pem
-web/{{ cookiecutter.project_slug }}.conf: web/dhparam.pem
-endif
+# Uncomment if using dhparam.pem
+#ifeq ($(ENVIRONMENT),production)
+## Only create the dhparam.pem if needed.
+#objects += web/dhparam.pem
+#web/{{ cookiecutter.project_slug }}.conf: web/dhparam.pem
+#endif
 
 stats/awstats.{{ cookiecutter.site_domain }}.conf: stats/awstats.{{ cookiecutter.site_domain }}.conf.sh
 	./$< $(NGINXLOGDIR) > $@
@@ -113,9 +97,9 @@ stats/awstats.{{ cookiecutter.site_domain }}.conf: stats/awstats.{{ cookiecutter
 stats/awstats-{{ cookiecutter.project_slug }}-crontab: stats/awstats-{{ cookiecutter.project_slug }}-crontab.sh
 	./$< $(SRVDIR) $(AWSTATSLOGDIR) > $@
 
-.PHONY: $(TAG).tar.gz
-$(TAG).tar.gz: bin/dist.sh
-	./$< $@
+.PHONY: {{ cookiecutter.project_slug }}-$(TAG).tar.gz
+{{ cookiecutter.project_slug }}-$(TAG).tar.gz: bin/dist.sh
+	./$< $(abspath $@)
 
 ######
 
@@ -141,31 +125,4 @@ uninstall:
 	./bin/uninstall.sh $(SRVDIR) $(NGINXDIR) $(SYSTEMDDIR) $(DATABASEDIR)
 
 .PHONY: dist
-dist: $(TAG).tar.gz
-
-# all
-# 	create (optimize, resize) media files from source-media
-# 	install python apps using virtualenv and pip
-# 	curl the awstats source or just include it?
-#
-# development
-# 	create local server certs
-# 	recreate dist files (npm run build). dist files will be rsynced back to
-# 		local machine so they can be added in git.
-# 	update any configs to be used for the development environment
-#
-# production
-# 	run certbot certonly script (provision-certbot.sh)
-# 	install crontab for certbot
-# 	update nginx production config to uncomment certs?
-#
-# install
-# 	create sqlite database file from db.dump.sql
-# 		Only if db file is not there or has older timestamp?
-# 	requires running as sudo
-# 	install awstats and awstats.service
-# 	install watcher service for changes to nginx confs that will reload
-# 	create all directories
-# 	rsync to all directories
-# 	reload services if needed
-#
+dist: {{ cookiecutter.project_slug }}-$(TAG).tar.gz
