@@ -76,5 +76,5 @@ Vagrant.configure(2) do |config|
     usermod -aG sudo dev
   SHELL
 
-  config.vm.provision "shell", path: "./bin/setup.sh"
+  # Run the bin/setup.sh script after logging in
 end

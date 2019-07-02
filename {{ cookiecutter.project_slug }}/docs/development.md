@@ -14,8 +14,7 @@ the /vagrant/ shared directory when running the rest of the commands.
 Run the `bin/init.sh` script to configure the server with ssh and a user if
 needed.  Don't need to run this if using Vagrant.
 
-The `bin/setup.sh` is used to install dependencies for the server.  It is
-automatically run when provisioning a Vagrant machine.
+The `bin/setup.sh` is used to install dependencies for the server.
 
 To have TLS (SSL) on your development machine run the `bin/provision-local.sh`
 script. That will use `openssl` to create some certs in the web/ directory.
