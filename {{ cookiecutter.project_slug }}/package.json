@@ -1,10 +1,37 @@
 {
-  "name": "{{ cookiecutter.project_slug }}",
-  "version": "{{ cookiecutter.version }}",
+  "_name": "{{ cookiecutter.project_slug }}",
+  "name": "todo-project_slug",
+  "_version": "{{ cookiecutter.version }}",
+  "version": "0.1.0",
   "description": "{{ cookiecutter.project_short_description }}",
+  "author": "{{ cookiecutter.full_name }}",
+  "private": true,
   "scripts": {
-    "dbdump": "echo '.dump' | sqlite3 db > db.dump.sql",
-    "dbcat": "cat db.dump.sql | sqlite3 db"
+    "prebuild": "rm -rf dist",
+    "build": "webpack --mode=production",
+    "debug": "webpack --mode=development --debug --devtool source-map --output-pathinfo",
+    "watch": "npm run debug -- --watch",
+    "preversion": "npm test && npm run build"
   },
-  "author": "{{ cookiecutter.full_name }}"
+  "dependencies": {
+    "suitcss-utils-text": "^1.0.0"
+  },
+  "devDependencies": {
+    "css-loader": "^3.0.0",
+    "file-loader": "^4.0.0",
+    "mini-css-extract-plugin": "^0.7.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "postcss": "^7.0.16",
+    "postcss-import": "^12.0.1",
+    "postcss-loader": "^3.0.0",
+    "postcss-preset-env": "^6.6.0",
+    "raw-loader": "^3.0.0",
+    "svgo": "^1.2.2",
+    "svgo-loader": "^2.2.0",
+    "terser-webpack-plugin": "^1.2.4",
+    "ts-loader": "^6.0.4",
+    "typescript": "^3.4.5",
+    "webpack": "^4.31.0",
+    "webpack-cli": "^3.3.2"
+  }
 }

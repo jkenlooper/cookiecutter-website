@@ -1,10 +1,11 @@
+Makefile
+README.md
 api/README.md
 api/api
-api/{{ cookiecutter.project_slug }}-api.service.sh
 api/requirements.txt
 api/setup.py
+api/{{ cookiecutter.project_slug }}-api.service.sh
 bin/appctl.sh
-bin/dist.sh
 bin/freeze.sh
 bin/init.sh
 bin/install.sh
@@ -15,25 +16,22 @@ bin/provision-local.sh
 bin/setup.sh
 bin/uninstall.sh
 certbot
-chill/{{ cookiecutter.project_slug }}-chill.service.sh
-chill/requirements.txt
 chill/README.md
+chill/requirements.txt
+chill/{{ cookiecutter.project_slug }}-chill.service.sh
 db.dump.sql
 dist
 documents
-Makefile
+media
 package.json
 port-registry.cfg
 queries
-README.md
 requirements.txt
 root
 site.cfg.sh
+stats/README.md
 stats/awstats-{{ cookiecutter.project_slug }}-crontab.sh
 stats/awstats.{{ cookiecutter.site_domain }}.conf.sh
-stats/README.md
 templates
-web/{{ cookiecutter.project_slug }}.conf.sh
 web/default.conf
-web/server.csr.cnf
-web/v3.ext
+web/{{ cookiecutter.project_slug }}.conf.sh
