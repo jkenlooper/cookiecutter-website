@@ -21,8 +21,8 @@ rm -rf ${SRVDIR}root/!(.well-known|.|..)
 
 rm -rf "${SRVDIR}frozen/"
 
-rm -f "${NGINXDIR}sites-enabled/{{ cookiecutter.project_slug }}.${ENVIRONMENT}.conf";
-rm -f "${NGINXDIR}sites-available/{{ cookiecutter.project_slug }}.${ENVIRONMENT}.conf";
+rm -f "${NGINXDIR}sites-enabled/{{ cookiecutter.project_slug }}.conf";
+rm -f "${NGINXDIR}sites-available/{{ cookiecutter.project_slug }}.conf";
 
 rm -f "${SRVDIR}.htpasswd";
 
