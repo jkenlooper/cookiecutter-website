@@ -4,6 +4,9 @@
 
 This site is hosted at [{{ cookiecutter.site_domain }}]({{ cookiecutter.site_protocol }}://{{ cookiecutter.site_domain }}).
 
+[![code style: prettier](https://img.shields.io/badge/code%20style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+[![code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/python/black)
+
 More documentation is available within the docs directory.
 
 * [Local development guide](docs/development.md) for getting a local version

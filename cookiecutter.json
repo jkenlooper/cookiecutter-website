@@ -8,7 +8,10 @@
   "email": "sir@llama.example.com",
   "project_short_description": "Website built with chill stuff and things",
   "version": "0.1.0",
-	"_copy_without_render": [
-		"templates"
-	]
+  "_copy_without_render": [
+    "templates",
+    "src",
+    "media",
+    "queries"
+  ]
 }

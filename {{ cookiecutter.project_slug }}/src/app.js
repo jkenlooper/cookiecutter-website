@@ -1,3 +1,4 @@
+/** @format */
 // site includes all the things
 /* 0 Generic */
 /* 1 Elements */
@@ -6,8 +7,8 @@ import './site'
 
 // import pages which will include their components
 /* 3 Components */
-import './homepage'
-import './documentpage'
+//import './homepage'
+//import './documentpage'
 
 /* 4 Theme */
 
