@@ -4,6 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const postcssImport = require('postcss-import')
+const postcssURL = require("postcss-url");
 const postcssPresetEnv = require('postcss-preset-env')
 const postcssCustomMedia = require('postcss-custom-media')
 
@@ -75,13 +76,14 @@ config.module = {
       test: /\.css$/,
       use: [
         MiniCssExtractPlugin.loader,
-        'css-loader',
+        { loader: "css-loader", options: { importLoaders: 1 } },
         {
           loader: 'postcss-loader',
           options: {
             ident: 'postcss',
             plugins: (loader) => [
-              postcssImport(),
+              postcssImport({ root: loader.resourcePath }),
+              postcssURL(),
               postcssCustomMedia(),
               postcssPresetEnv(),
             ],
