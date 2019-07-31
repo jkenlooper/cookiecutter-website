@@ -8,10 +8,19 @@ ARCHIVE=$1
 
 TMPDIR=$(mktemp --directory);
 
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+
 git clone . "$TMPDIR";
 
 (
 cd "$TMPDIR";
+
+# Use the node and npm that is set in .nvmrc
+nvm use;
+
+# Build
+npm ci; # clean install
+npm run build;
 
 # Create symlinks for all files in the MANIFEST.
 for item in $(cat {{ cookiecutter.project_slug }}/MANIFEST); do
