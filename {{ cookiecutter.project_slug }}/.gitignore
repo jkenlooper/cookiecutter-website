@@ -25,12 +25,12 @@
 !/{{ cookiecutter.project_slug }}/MANIFEST
 
 /web/dhparam.pem
-/web/rootCA.key
-/web/rootCA.pem
-/web/rootCA.srl
-/web/server.crt
-/web/server.csr
-/web/server.key
+/web/local-{{ cookiecutter.project_slug }}-CA.key
+/web/local-{{ cookiecutter.project_slug }}-CA.pem
+/web/local-{{ cookiecutter.project_slug }}-CA.srl
+/web/local-{{ cookiecutter.project_slug }}.crt
+/web/local-{{ cookiecutter.project_slug }}.csr
+/web/local-{{ cookiecutter.project_slug }}.key
 /web/v3.ext
 
 /include/

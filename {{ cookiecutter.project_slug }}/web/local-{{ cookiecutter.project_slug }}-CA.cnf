@@ -1,0 +1,15 @@
+[ req ]
+default_bits = 2048
+prompt = no
+default_md = sha256
+distinguished_name = req_distinguished_name
+
+[ req_distinguished_name ]
+commonName = local-{{ cookiecutter.project_slug }}
+organizationName = {{ cookiecutter.project_name }}
+countryName = US
+localityName = Local Llama Town
+organizationalUnitName = Chill
+stateOrProvinceName = Local
+emailAddress = {{ cookiecutter.email }}
+name = {{ cookiecutter.full_name }}

@@ -1,13 +1,15 @@
-/activate*
-/chill
-/flask
-/easy_install*
 /{{ cookiecutter.project_slug }}-api
+/activate*
+/black
+/blackd
+/chill
+/easy_install*
+/flask
+/futurize
 /markdown_py
+/pasteurize
 /pip*
 /python*
 /rst2*
 /rstpep2*
 /wheel
-/black
-/blackd

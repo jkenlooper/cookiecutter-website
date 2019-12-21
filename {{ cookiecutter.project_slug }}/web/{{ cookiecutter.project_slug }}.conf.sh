@@ -86,8 +86,8 @@ fi
 
 cat <<HEREBEDEVELOPMENT
   # certs for localhost only
-  ssl_certificate /etc/nginx/ssl/server.crt;
-  ssl_certificate_key /etc/nginx/ssl/server.key;
+  ssl_certificate /etc/nginx/ssl/local-{{ cookiecutter.project_slug }}.crt;
+  ssl_certificate_key /etc/nginx/ssl/local-{{ cookiecutter.project_slug }}.key;
 
   server_name local-{{ cookiecutter.project_slug }};
 

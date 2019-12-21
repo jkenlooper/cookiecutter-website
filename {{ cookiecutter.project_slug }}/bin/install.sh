@@ -65,6 +65,20 @@ rsync --inplace \
   --itemize-changes \
   web/dhparam.pem "${NGINXDIR}ssl/dhparam.pem";
 fi
+if (test -f web/local-{{ cookiecutter.project_slug }}.crt); then
+mkdir -p "${NGINXDIR}ssl/"
+rsync --inplace \
+  --checksum \
+  --itemize-changes \
+  web/local-{{ cookiecutter.project_slug }}.crt "${NGINXDIR}ssl/local-{{ cookiecutter.project_slug }}.crt";
+fi
+if (test -f web/local-{{ cookiecutter.project_slug }}.key); then
+mkdir -p "${NGINXDIR}ssl/"
+rsync --inplace \
+  --checksum \
+  --itemize-changes \
+  web/local-{{ cookiecutter.project_slug }}.key "${NGINXDIR}ssl/local-{{ cookiecutter.project_slug }}.key";
+fi
 
 # Create the root directory for stats. The awstats icons will be placed there.
 mkdir -p "${SRVDIR}stats"
