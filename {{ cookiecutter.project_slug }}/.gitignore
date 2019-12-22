@@ -31,7 +31,6 @@
 /web/local-{{ cookiecutter.project_slug }}.crt
 /web/local-{{ cookiecutter.project_slug }}.csr
 /web/local-{{ cookiecutter.project_slug }}.key
-/web/v3.ext
 
 /include/
 /lib/

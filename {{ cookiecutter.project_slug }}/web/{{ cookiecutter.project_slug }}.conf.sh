@@ -75,8 +75,6 @@ server {
 
 HERE
 
-if test $ENVIRONMENT == 'development'; then
-
 if (test -f web/dhparam.pem); then
 cat <<HERE
   ## Danger Zone.  Only uncomment if you know what you are doing.
@@ -84,10 +82,24 @@ cat <<HERE
 HERE
 fi
 
-cat <<HEREBEDEVELOPMENT
-  # certs for localhost only
+if test $ENVIRONMENT == 'development'; then
+
+if test -e .has-certs; then
+cat <<HEREENABLESSLCERTS
+  # certs created for local development
   ssl_certificate /etc/nginx/ssl/local-{{ cookiecutter.project_slug }}.crt;
   ssl_certificate_key /etc/nginx/ssl/local-{{ cookiecutter.project_slug }}.key;
+HEREENABLESSLCERTS
+else
+cat <<HERETODOSSLCERTS
+  # certs for local development can be created by running './bin/provision-local.sh'
+  # uncomment after they exist (run make again)
+  #ssl_certificate /etc/nginx/ssl/local-{{ cookiecutter.project_slug }}.crt;
+  #ssl_certificate_key /etc/nginx/ssl/local-{{ cookiecutter.project_slug }}.key;
+HERETODOSSLCERTS
+fi
+
+cat <<HEREBEDEVELOPMENT
 
   server_name local-{{ cookiecutter.project_slug }};
 

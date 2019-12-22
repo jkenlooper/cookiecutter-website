@@ -28,3 +28,8 @@ openssl x509 -req -CAcreateserial -days 99999 -sha256 \
 
 
 #openssl dhparam -out web/dhparam.pem 2048
+
+# Signal that the certs should now exist.
+# The web/{{ cookiecutter.project_slug }}.conf.sh checks if this file exists in
+# order to uncomment the lines in the nginx conf for ssl_certificate fields.
+touch .has-certs web/{{ cookiecutter.project_slug }}.conf.sh
