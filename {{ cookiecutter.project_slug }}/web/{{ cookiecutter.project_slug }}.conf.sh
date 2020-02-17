@@ -10,7 +10,11 @@ PORTREGISTRY=$4
 # shellcheck source=/dev/null
 source "$PORTREGISTRY"
 
+DATE=$(date)
+
 cat <<HERE
+# File generated from $0
+# on ${DATE}
 
 server {
   listen 80;
@@ -46,6 +50,11 @@ server {
   error_log   ${NGINXLOGDIR}error.log;
 
   error_page 404 /notfound/;
+
+  error_page 500 501 502 504 505 506 507 /error_page.html;
+  location = /error_page.html {
+    internal;
+  }
 
   location = /humans.txt {}
   location = /robots.txt {}
