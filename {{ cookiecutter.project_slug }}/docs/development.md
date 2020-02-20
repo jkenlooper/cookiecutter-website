@@ -8,7 +8,7 @@ Written for a Linux machine that is Debian based.  Only tested on Ubuntu.  Use
  [Vagrant](https://www.vagrantup.com/) or something similar if not on a Linux
  machine.
 
-If using Vagrant; then run `vagrant up` and ssh in (`vagrant ssh`) and go to
+If using Vagrant; then run `vagrant up` and ssh in (`vagrant ssh`). Go to
 the /vagrant/ shared directory when running the rest of the commands.
 
 ```bash
@@ -84,7 +84,7 @@ The service config files are created by running `make` and installed with
 and activating each time for a new shell with `source bin/activate` before
 running `make`.
 
-**All commands are run from the projects directory unless otherwise noted.**  For
+**All commands are run from the project's directory unless otherwise noted.**  For
 the Vagrant setup this is the shared folder `/vagrant/`.
 
 ```bash
