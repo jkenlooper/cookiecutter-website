@@ -1,12 +1,15 @@
 from flask import json, request, abort
 from flask.views import MethodView
 
-encoder = json.JSONEncoder(indent=2, sort_keys=True)
+from api.app import db
+from api.database import fetch_query_string, rowify
+
 
 class LlamaView(MethodView):
     """
     Handle llama queries
     """
+
     def post(self):
         args = {}
         xhr_data = request.get_json()
@@ -18,9 +21,19 @@ class LlamaView(MethodView):
         if len(args.keys()) == 0:
             abort(400)
 
-        # TODO: Process args for llamaness
-        processed = {
-            "llama-check": True
-            }
+        # Start db operations
+        cur = db.cursor()
 
-        return encoder.encode(processed)
+        llamas = 0
+        result = cur.execute(fetch_query_string("get-llama-count.sql")).fetchall()
+        if result:
+            (result, col_names) = rowify(result, cur.description)
+            llamas = result[0]["llamas"]
+
+        # TODO: Process args for llamaness
+        processed = {"llama-check": True, "count": llamas}
+
+        db.commit()
+        cur.close()
+
+        return json.jsonify(processed)

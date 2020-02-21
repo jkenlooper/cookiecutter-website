@@ -13,6 +13,7 @@
 /chill/{{ cookiecutter.project_slug }}-chill.service
 /api/{{ cookiecutter.project_slug }}-api.service
 /db
+/db.dump.sql
 /dist/
 /frozen/
 /logs/

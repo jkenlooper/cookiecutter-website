@@ -6,6 +6,7 @@ api/requirements.txt
 api/setup.py
 api/{{ cookiecutter.project_slug }}-api.service.sh
 bin/appctl.sh
+bin/create-db-dump-sql.sh
 bin/freeze.sh
 bin/init.sh
 bin/install.sh
@@ -19,7 +20,8 @@ certbot
 chill/README.md
 chill/requirements.txt
 chill/{{ cookiecutter.project_slug }}-chill.service.sh
-db.dump.sql
+chill-data.sql
+chill-data.yaml
 dist
 documents
 media

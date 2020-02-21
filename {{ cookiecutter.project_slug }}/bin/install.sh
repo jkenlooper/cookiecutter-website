@@ -108,6 +108,9 @@ if (test ! -f "${DATABASEDIR}db"); then
     mkdir -p "${DATABASEDIR}"
     chown -R dev:dev "${DATABASEDIR}"
     su dev -c "sqlite3 \"${DATABASEDIR}db\" < db.dump.sql"
+    # Need to set Write-Ahead Logging so multiple apps can work with the db
+    # concurrently.  https://sqlite.org/wal.html
+    su dev -c "echo \"pragma journal_mode=wal\" | sqlite3 ${DATABASEDIR}db"
     chmod -R 770 "${DATABASEDIR}"
 fi
 

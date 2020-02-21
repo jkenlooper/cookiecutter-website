@@ -185,6 +185,45 @@ The script to create the distribution file only includes the files that have
 been committed to git.  It will also limit these to what is listed in the
 `{{ cookiecutter.project_slug }}/MANIFEST`.
 
+## Feature branches and chill-data
+
+The `chill-data.sql` contains only a dump of the database tables that are used
+in chill. The Chill, Node, Node_Node, Query, Route, and Template tables are
+rebuilt if the `cat chill-data.sql | sqlite3 /path/to/sqlite/db` command is run.
+This command is commonly run when deploying to a server or developing locally on
+your own machine. A new feature on a git feature branch will sometimes require updates
+to the `chill-data.sql` file. There is a potential that if multiple feature
+branches are being developed, that there will be messy git conflicts in
+`chill-data.sql`. That would happen if those feature branches committed any
+changes to `chill-data.sql`.
+
+To solve this potential problem of conflicts with `chill-data.sql`, feature
+branches should _not_ be committing any changes to the `chill-data.sql`.
+Instead, the new additions to the chill data should be dumped into
+a `chill-data-feature-[feature-name].yaml` file using the `chill dump` command.
+Then when the feature branch has been merged to the develop branch, the
+`chill-data-feature-[feature-name].yaml` file contents should be appended to
+the `chill-data.yaml` file.  The `chill-data-feature-[feature-name].yaml` file
+should then be removed.
+
+The `chill-data-feature-[feature-name].yaml` file should also be edited to
+_only_ include changes that are being added for that feature branch.
+
+On updates to any chill-data\*.yaml files; run the below commands to reload the chill database.
+
+```bash
+# stop the apps first
+sudo ./bin/appctl.sh stop;
+
+# Builds new db.dump.sql
+make;
+
+# Reset the chill data tables with what is in the new db.dump.sql file
+sqlite3 "/var/lib/{{ cookiecutter.project_slug }}/sqlite3/db" < db.dump.sql;
+echo "pragma journal_mode=wal" | sqlite3 /var/lib/{{ cookiecutter.project_slug }}/sqlite3/db;
+```
+
+
 ## Uninstalling the app
 
 Run the below commands to remove {{ cookiecutter.project_slug }} from your
