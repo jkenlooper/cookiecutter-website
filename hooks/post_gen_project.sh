@@ -15,4 +15,10 @@ echo "Installing prettier and setting git pre-commit hooks"
 npm install --save-dev --save-exact prettier
 npx mrm lint-staged
 
+echo "Creating initial git commit";
+nvm use;
+git add .;
+# The initial commit needs the --no-verify.
+git commit --no-verify -m "Add generated files from cookiecutter-website";
+
 echo "Read the docs/development.md next.";

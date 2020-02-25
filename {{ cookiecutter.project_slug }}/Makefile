@@ -26,6 +26,9 @@ DATABASEDIR := $(PREFIXDIR)/var/lib/{{ cookiecutter.project_slug }}/sqlite3/
 NGINXLOGDIR := $(PREFIXDIR)/var/log/nginx/{{ cookiecutter.project_slug }}/
 AWSTATSLOGDIR := $(PREFIXDIR)/var/log/awstats/{{ cookiecutter.project_slug }}/
 
+# Set the internal ip which is used to secure access to admin/ pages.
+INTERNALIP := $(shell hostname -I | cut -d' ' -f1)
+
 # Get the version from the package.json
 TAG := $(shell cat package.json | python -c 'import sys, json; print(json.load(sys.stdin)["version"])')
 
@@ -47,7 +50,7 @@ endif
 # Use $* to get the stem
 FORCE:
 
-objects := site.cfg web/{{ cookiecutter.project_slug }}.conf stats/awstats.{{ cookiecutter.site_domain }}.conf stats/awstats-{{ cookiecutter.project_slug }}-crontab
+objects := site.cfg web/{{ cookiecutter.project_slug }}.conf web/{{ cookiecutter.project_slug }}--down.conf stats/awstats.{{ cookiecutter.site_domain }}.conf stats/awstats-{{ cookiecutter.project_slug }}-crontab
 
 
 #####
@@ -87,7 +90,9 @@ site.cfg: site.cfg.sh $(PORTREGISTRY)
 	./$< $(ENVIRONMENT) $(DATABASEDIR) $(PORTREGISTRY) > $@
 
 web/{{ cookiecutter.project_slug }}.conf: web/{{ cookiecutter.project_slug }}.conf.sh $(PORTREGISTRY)
-	./$< $(ENVIRONMENT) $(SRVDIR) $(NGINXLOGDIR) $(PORTREGISTRY) > $@
+	./$< $(ENVIRONMENT) $(SRVDIR) $(NGINXLOGDIR) $(PORTREGISTRY) $(INTERNALIP) > $@
+web/{{ cookiecutter.project_slug }}--down.conf: web/{{ cookiecutter.project_slug }}--down.conf.sh $(PORTREGISTRY)
+	./$< $(ENVIRONMENT) $(SRVDIR) $(NGINXLOGDIR) $(PORTREGISTRY) $(INTERNALIP) > $@
 
 # Uncomment if using dhparam.pem
 #ifeq ($(ENVIRONMENT),production)

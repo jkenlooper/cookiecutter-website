@@ -228,7 +228,7 @@ echo "pragma journal_mode=wal" | sqlite3 /var/lib/{{ cookiecutter.project_slug }
 
 Run the below commands to remove {{ cookiecutter.project_slug }} from your
 development machine.  This will uninstall and disable the services, remove any
-files installed outside of the projects directory including the sqlite3
+files installed outside of the project's directory including the sqlite3
 database.  *Only do this on a development machine if it's database and other
 data is no longer needed.*
 

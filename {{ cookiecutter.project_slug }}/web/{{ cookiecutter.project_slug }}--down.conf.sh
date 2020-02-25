@@ -72,15 +72,7 @@ server {
   }
 
   location /api/ {
-    proxy_pass_header Server;
-    proxy_set_header Host \$http_host;
-    proxy_set_header  X-Real-IP  \$remote_addr;
-    proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-
-    proxy_redirect off;
-    #proxy_intercept_errors on;
-    proxy_pass http://localhost:${PORTAPI};
-    rewrite ^/api/(.*)\$  /\$1 break;
+    return 503;
   }
 
 HERE
@@ -116,17 +108,8 @@ cat <<HEREBEDEVELOPMENT
   # update a /etc/hosts file.
   server_name local-{{ cookiecutter.project_slug }} $INTERNALIP;
 
-  # It is useful to have chill run in dev mode when editing templates. Note
-  # that in production it uses the static pages (frozen).
   location / {
-    proxy_pass_header Server;
-    proxy_set_header Host \$http_host;
-    proxy_set_header  X-Real-IP  \$remote_addr;
-    proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-
-    proxy_redirect off;
-    proxy_intercept_errors on;
-    proxy_pass http://localhost:${PORTCHILL};
+    try_files \$uri \$uri =404;
   }
 HEREBEDEVELOPMENT
 
@@ -156,6 +139,7 @@ cat <<HEREBEPRODUCTION
     try_files \$uri =404;
   }
 
+  # TODO: Decide if static site should be down when updating.
   location / {
     root ${SRVDIR}frozen;
   }
@@ -165,3 +149,4 @@ fi
 cat <<HERE
 }
 HERE
+
