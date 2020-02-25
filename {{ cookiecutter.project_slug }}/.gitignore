@@ -8,6 +8,7 @@
 /site.cfg
 /frozen.tar.gz
 /web/{{ cookiecutter.project_slug }}.conf
+/web/{{ cookiecutter.project_slug }}--down.conf
 /stats/awstats.{{ cookiecutter.site_domain }}.conf
 /stats/awstats-{{ cookiecutter.project_slug }}-crontab
 /chill/{{ cookiecutter.project_slug }}-chill.service

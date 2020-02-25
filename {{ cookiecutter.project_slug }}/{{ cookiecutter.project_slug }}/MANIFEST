@@ -37,3 +37,4 @@ stats/awstats.{{ cookiecutter.site_domain }}.conf.sh
 templates
 web/default.conf
 web/{{ cookiecutter.project_slug }}.conf.sh
+web/{{ cookiecutter.project_slug }}--down.conf.sh

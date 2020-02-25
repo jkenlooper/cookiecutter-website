@@ -46,11 +46,13 @@ mkdir -p "${NGINXDIR}sites-available"
 rsync --inplace \
   --checksum \
   --itemize-changes \
-  web/default.conf web/{{ cookiecutter.project_slug }}.conf "${NGINXDIR}sites-available/";
-echo rsynced web/default.conf web/{{ cookiecutter.project_slug }}.conf to "${NGINXDIR}sites-available/";
+  web/default.conf web/{{ cookiecutter.project_slug }}.conf web/{{ cookiecutter.project_slug }}--down.conf "${NGINXDIR}sites-available/";
+echo rsynced web/default.conf web/{{ cookiecutter.project_slug }}.conf web/{{ cookiecutter.project_slug }}--down.conf to "${NGINXDIR}sites-available/";
 
 mkdir -p "${NGINXDIR}sites-enabled";
 ln -sf "${NGINXDIR}sites-available/default.conf" "${NGINXDIR}sites-enabled/default.conf";
+
+rm -f "${NGINXDIR}sites-enabled/{{ cookiecutter.project_slug }}--down.conf"
 ln -sf "${NGINXDIR}sites-available/{{ cookiecutter.project_slug }}.conf"  "${NGINXDIR}sites-enabled/{{ cookiecutter.project_slug }}.conf";
 
 rsync --inplace \
