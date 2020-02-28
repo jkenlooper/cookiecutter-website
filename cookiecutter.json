@@ -4,7 +4,7 @@
   "site_domain": "{{ cookiecutter.project_name.lower().replace(' ', '.') }}",
   "site_protocol": "http",
   "internal_port_prefix": 51,
-  "full_name": "Sir Llama",
+  "full_name": "Sir Llama the Web Developer",
   "email": "sir@llama.example.com",
   "project_short_description": "Website built with chill stuff and things",
   "version": "0.1.0",

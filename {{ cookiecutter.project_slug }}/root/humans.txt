@@ -1,6 +1,13 @@
 # humanstxt.org/
 # The humans responsible & technology colophon
 
-# TEAM
+/* TEAM */
 
-    {{ cookiecutter.full_name }}
+Developer: {{ cookiecutter.full_name }}
+
+
+/* SITE */
+
+Last update: YYYY/MM/DD
+Components: Chill
+Software: Chill
