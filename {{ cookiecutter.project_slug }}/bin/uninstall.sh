@@ -23,6 +23,8 @@ rm -rf "${SRVDIR}frozen/"
 
 rm -f "${NGINXDIR}sites-enabled/{{ cookiecutter.project_slug }}.conf";
 rm -f "${NGINXDIR}sites-available/{{ cookiecutter.project_slug }}.conf";
+rm -f "${NGINXDIR}sites-enabled/{{ cookiecutter.project_slug }}--down.conf";
+rm -f "${NGINXDIR}sites-available/{{ cookiecutter.project_slug }}--down.conf";
 
 rm -f "${SRVDIR}.htpasswd";
 

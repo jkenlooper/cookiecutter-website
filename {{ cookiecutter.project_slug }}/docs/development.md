@@ -98,17 +98,19 @@ before following the below setup will result in an error if these commands
 haven't been installed on the development machine.
 
 If `nvm` isn't available on the dev machine then install it.  See
-[github.com/creationix/nvm](https://github.com/creationix/nvm) for more
+[github.com/nvm-sh/nvm](https://github.com/nvm-sh/nvm) for more
 information.
 
 ```bash
 # Install Node Version Manager
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
+
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash
 source ~/.bashrc
 
-# Install latest Nodejs LTS version and set it in the .nvmrc
-nvm install --lts=Dubnium
-nvm current > .nvmrc
+# Update to latest Nodejs LTS version and update the .nvmrc
+# This is optional.
+#nvm install --lts=Erbium
+#nvm current > .nvmrc
 
 # Install and use the version set in .nvmrc
 nvm install
@@ -136,9 +138,6 @@ sudo make install;
 sudo systemctl reload nginx
 ```
 
-The site is available on your own machine at http://localhost or
-http://localhost:8080 if using Vagrant.
-
 Update `/etc/hosts` to have local-{{ cookiecutter.project_slug }} map to your machine.
 Access your local development version of the website at
 http://local-{{ cookiecutter.project_slug }}/ .  If using vagrant you'll need to use the
@@ -147,7 +146,7 @@ http://local-{{ cookiecutter.project_slug }}/ .  If using vagrant you'll need to
 Append to your `/etc/hosts` file on the host machine (Not vagrant).  The
 location of this file on a Windows machine is different.
 
-```bash
+```
 # Append to /etc/hosts
 127.0.0.1 local-{{ cookiecutter.project_slug }}
 ```

@@ -8,7 +8,7 @@ echo "Creating initial git repo";
 git init;
 
 echo "Installing latest nodejs LTS version"
-nvm install --lts=Dubnium
+nvm install --lts=Erbium
 nvm current > .nvmrc
 
 echo "Installing prettier and setting git pre-commit hooks"

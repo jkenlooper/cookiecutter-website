@@ -47,7 +47,7 @@
     "webpack-cli": "^3.3.11"
   },
   "engines": {
-    "node": ">=10.16.0"
+    "node": ">=12.16.1"
   },
   "husky": {
     "hooks": {
