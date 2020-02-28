@@ -7,6 +7,7 @@
 /.vagrant/
 /site.cfg
 /frozen.tar.gz
+/{{ cookiecutter.project_slug }}-*.tar.gz
 /web/{{ cookiecutter.project_slug }}.conf
 /web/{{ cookiecutter.project_slug }}--down.conf
 /stats/awstats.{{ cookiecutter.site_domain }}.conf
