@@ -46,6 +46,7 @@ ifneq ($(shell which pip),$(project_dir)bin/pip)
 $(warning run "source bin/activate" to activate the virtualenv. Using $(shell which pip). Ignore this warning if using sudo make install.)
 endif
 
+
 # Always run.  Useful when target is like targetname.% .
 # Use $* to get the stem
 FORCE:
@@ -119,6 +120,14 @@ all: bin/chill bin/{{ cookiecutter.project_slug }}-api $(objects)
 .PHONY: install
 install:
 	./bin/install.sh $(SRVDIR) $(NGINXDIR) $(NGINXLOGDIR) $(AWSTATSLOGDIR) $(SYSTEMDDIR) $(DATABASEDIR)
+
+.PHONY: deploy
+deploy:
+ifeq ($(ENVIRONMENT),production)
+	./bin/deploy.sh
+else
+	./bin/deploy.sh --dryrun
+endif
 
 # Remove any created files in the src directory which were created by the
 # `make all` recipe.

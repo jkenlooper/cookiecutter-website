@@ -2,6 +2,7 @@
   "project_name": "Llama Example com",
   "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '-') }}",
   "site_domain": "{{ cookiecutter.project_name.lower().replace(' ', '.') }}",
+  "s3_object_storage_name": "{{ cookiecutter.site_domain }}",
   "site_protocol": "http",
   "internal_port_prefix": 51,
   "full_name": "Sir Llama the Web Developer",

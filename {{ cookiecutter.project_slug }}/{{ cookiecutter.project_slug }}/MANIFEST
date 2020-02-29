@@ -7,6 +7,7 @@ api/setup.py
 api/{{ cookiecutter.project_slug }}-api.service.sh
 bin/appctl.sh
 bin/create-db-dump-sql.sh
+bin/deploy.sh
 bin/freeze.sh
 bin/init.sh
 bin/install.sh
