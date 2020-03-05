@@ -166,19 +166,19 @@ by the public.
 
 Note that by default the production version of the nginx conf for the website is
 hosted at [{{ cookiecutter.site_domain }}]({{ cookiecutter.site_protocol }}://{{ cookiecutter.site_domain }}) as well as
-[blue-{{ cookiecutter.project_slug }}](http://blue-{{ cookiecutter.project_slug }}/) and
-[green-{{ cookiecutter.project_slug }}](http://green-{{ cookiecutter.project_slug }}/).  You can edit
-your `/etc/hosts` to point to the old (blue-{{ cookiecutter.project_slug }}) and new
-(green-{{ cookiecutter.project_slug }}) servers.
+[{{ cookiecutter.project_slug }}-blue](http://{{ cookiecutter.project_slug }}-blue/) and
+[{{ cookiecutter.project_slug }}-green](http://{{ cookiecutter.project_slug }}-green/).  You can edit
+your `/etc/hosts` to point to the old ({{ cookiecutter.project_slug }}-blue) and new
+({{ cookiecutter.project_slug }}-green) servers.
 
 ### Transferring data from the old server to the new server
 
 At this point two servers should be running the website with only the older
 one (blue) having traffic.  The new one (green) should be verified that everything is working
 correctly by doing some integration testing.  The next step is to stop the apps
-on the old server and copy all the data over to the new green-{{ cookiecutter.project_slug }} server.
+on the old server and copy all the data over to the new {{ cookiecutter.project_slug }}-green server.
 
-1)  On the **old server** (blue-{{ cookiecutter.project_slug }}) stop the apps and backup the data.  The old
+1)  On the **old server** ({{ cookiecutter.project_slug }}-blue) stop the apps and backup the data.  The old
     server is left untouched in case something fails on the new server.
 
     ```bash
@@ -188,7 +188,7 @@ on the old server and copy all the data over to the new green-{{ cookiecutter.pr
     ./bin/backup.sh;
     ```
 
-2)  On the **new server** (green-{{ cookiecutter.project_slug }}) the files from the old server will be copied over with
+2)  On the **new server** ({{ cookiecutter.project_slug }}-green) the files from the old server will be copied over with
     rsync.  First step here is to stop the apps on the new server and remove the
     initial db.
 
@@ -201,7 +201,7 @@ on the old server and copy all the data over to the new green-{{ cookiecutter.pr
 
 3)  Copy the backup db (db-YYYY-MM-DD.dump.gz) to the new server and replace the
     other one (SQLITE_DATABASE_URI).  This is assuming that ssh agent forwarding
-    is enabled for the blue-{{ cookiecutter.project_slug }} host.
+    is enabled for the {{ cookiecutter.project_slug }}-blue host.
     TODO: should journal_mode be set to wal for this app?  Only have one app
     accessing the database at this point.
 
@@ -209,7 +209,7 @@ on the old server and copy all the data over to the new green-{{ cookiecutter.pr
     cd /usr/local/src/{{ cookiecutter.project_slug }}/;
     DBDUMPFILE="db-$(date +%F).dump.gz";
     rsync --archive --progress --itemize-changes \
-      dev@blue-{{ cookiecutter.project_slug }}:/usr/local/src/{{ cookiecutter.project_slug }}/$DBDUMPFILE \
+      dev@{{ cookiecutter.project_slug }}-blue:/usr/local/src/{{ cookiecutter.project_slug }}/$DBDUMPFILE \
       /usr/local/src/{{ cookiecutter.project_slug }}/;
     zcat $DBDUMPFILE | sqlite3 /var/lib/{{ cookiecutter.project_slug }}/sqlite3/db
     #echo 'pragma journal_mode=wal' | sqlite3 /var/lib/{{ cookiecutter.project_slug }}/sqlite3/db
@@ -219,7 +219,7 @@ on the old server and copy all the data over to the new green-{{ cookiecutter.pr
 
     ```bash
     rsync --archive --progress --itemize-changes \
-      dev@blue-{{ cookiecutter.project_slug }}:/var/log/nginx/{{ cookiecutter.project_slug }} \
+      dev@{{ cookiecutter.project_slug }}-blue:/var/log/nginx/{{ cookiecutter.project_slug }} \
       /var/log/nginx/
     ```
 
@@ -227,10 +227,10 @@ on the old server and copy all the data over to the new green-{{ cookiecutter.pr
 
     ```bash
     scp \
-      dev@blue-{{ cookiecutter.project_slug }}:/etc/letsencrypt/live/{{ cookiecutter.site_domain }}/fullchain.pem \
+      dev@{{ cookiecutter.project_slug }}-blue:/etc/letsencrypt/live/{{ cookiecutter.site_domain }}/fullchain.pem \
       /etc/letsencrypt/live/{{ cookiecutter.site_domain }}/
     scp \
-      dev@blue-{{ cookiecutter.project_slug }}:/etc/letsencrypt/live/{{ cookiecutter.site_domain }}/privkey.pem \
+      dev@{{ cookiecutter.project_slug }}-blue:/etc/letsencrypt/live/{{ cookiecutter.site_domain }}/privkey.pem \
       /etc/letsencrypt/live/{{ cookiecutter.site_domain }}/
     ```
 
@@ -248,7 +248,7 @@ on the old server and copy all the data over to the new green-{{ cookiecutter.pr
     ```
 
     Verify that the new version of the website is running correctly on
-    green-{{ cookiecutter.project_slug }}/. If everything checks out, then switch the traffic over to
+    {{ cookiecutter.project_slug }}-green/. If everything checks out, then switch the traffic over to
     {{ cookiecutter.site_domain }}/. 
 
 
