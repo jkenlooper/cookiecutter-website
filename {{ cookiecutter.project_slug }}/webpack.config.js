@@ -7,6 +7,7 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const postcssImport = require('postcss-import')
 const postcssURL = require("postcss-url");
 const postcssPresetEnv = require('postcss-preset-env')
+const postcssCustomMedia = require("postcss-custom-media");
 
 const srcEntry = require('./src/index.js')
 
@@ -88,6 +89,7 @@ config.module = {
             ident: 'postcss',
             plugins: (loader) => [
               postcssImport({ root: loader.resourcePath }),
+              postcssCustomMedia(),
               postcssURL(),
               postcssPresetEnv(),
             ],

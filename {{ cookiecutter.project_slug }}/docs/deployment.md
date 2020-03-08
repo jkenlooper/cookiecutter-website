@@ -142,7 +142,9 @@ by the public.
     sudo ./bin/appctl.sh status;
     ```
 
-6)  Test and reload the nginx config.
+6)  Test and reload the nginx config.  If this is a new server you may need to
+    remove the `/etc/nginx/sites-enabled/default` file.  This site will include it's
+    own [web/default.conf]().
 
     ```bash
     sudo nginx -t && \
