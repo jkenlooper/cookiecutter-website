@@ -3,5 +3,7 @@ name: homepage
 route: /
 template: homepage.html
 value:
-    homepage_content: 'Cascading, Highly Irrelevant, Lost Llamas'
-
+  homepage_content: 'Cascading, Highly Irrelevant, Lost Llamas'
+  pagetitle: A Llama pagetitle
+  pageimage: llama.jpg
+  description_txt_file: homepage-description.txt

@@ -217,9 +217,8 @@ sudo ./bin/appctl.sh stop;
 # Builds new db.dump.sql
 make;
 
-# Reset the chill data tables with what is in the new db.dump.sql file
-sqlite3 "/var/lib/{{ cookiecutter.project_slug }}/sqlite3/db" < db.dump.sql;
-echo "pragma journal_mode=wal" | sqlite3 /var/lib/{{ cookiecutter.project_slug }}/sqlite3/db;
+# Update the database with what is in db.dump.sql
+sudo make install;
 ```
 
 

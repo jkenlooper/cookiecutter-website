@@ -1,26 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Chill</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content=""
-    />
+{% extends 'site.html' %}
 
-    <link type="text/plain" rel="author" href="/humans.txt">
-    {% block stylesheet %}
-
-    <link rel="stylesheet" media="all" href="{{ url_for('send_theme_file', filename='app.css') }}{% if config.DEBUG == True and config.CACHE_TYPE == "null" %}?debug-no-cache={{ chill_now }}{% endif %}">
-    {% endblock %}
-
-  </head>
-  <body>
+{% block body %}
     <p>{{ homepage_content }}</p>
-
-    {% block script %}
-    <script src="{{ url_for('send_theme_file', filename='app.bundle.js') }}{% if config.DEBUG == True and config.CACHE_TYPE == "null" %}?debug-no-cache={{ chill_now }}{% endif %}"></script>
-    {% endblock %}
-  </body>
-</html>
+{% endblock %}

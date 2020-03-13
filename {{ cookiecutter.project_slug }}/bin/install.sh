@@ -104,17 +104,15 @@ systemctl stop cron && systemctl start cron || echo "Can't reload cron service"
 # Add the awstats conf
 cp stats/awstats.{{ cookiecutter.site_domain }}.conf /etc/awstats/
 
-# Create the sqlite database file if not there.
-if (test ! -f "${DATABASEDIR}db"); then
-    echo "Creating database from db.dump.sql"
-    mkdir -p "${DATABASEDIR}"
-    chown -R dev:dev "${DATABASEDIR}"
-    su dev -c "sqlite3 \"${DATABASEDIR}db\" < db.dump.sql"
-    # Need to set Write-Ahead Logging so multiple apps can work with the db
-    # concurrently.  https://sqlite.org/wal.html
-    su dev -c "echo \"pragma journal_mode=wal\" | sqlite3 ${DATABASEDIR}db"
-    chmod -R 770 "${DATABASEDIR}"
-fi
+# Set the sqlite database file from the db.dump.sql.
+echo "Setting Chill database tables from db.dump.sql"
+mkdir -p "${DATABASEDIR}"
+chown -R dev:dev "${DATABASEDIR}"
+su dev -c "sqlite3 \"${DATABASEDIR}db\" < db.dump.sql"
+# Need to set Write-Ahead Logging so multiple apps can work with the db
+# concurrently.  https://sqlite.org/wal.html
+su dev -c "echo \"pragma journal_mode=wal\" | sqlite3 ${DATABASEDIR}db"
+chmod -R 770 "${DATABASEDIR}"
 
 mkdir -p "${SYSTEMDDIR}"
 cp chill/{{ cookiecutter.project_slug }}-chill.service "${SYSTEMDDIR}"
