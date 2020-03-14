@@ -5,5 +5,5 @@ template: homepage.html
 value:
   homepage_content: 'Cascading, Highly Irrelevant, Lost Llamas'
   pagetitle: A Llama pagetitle
-  pageimage: llama.jpg
+  pageimage: llama.420x420.jpg
   description_txt_file: homepage-description.txt

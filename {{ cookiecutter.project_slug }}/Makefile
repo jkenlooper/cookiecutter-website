@@ -115,7 +115,7 @@ stats/awstats-{{ cookiecutter.project_slug }}-crontab: stats/awstats-{{ cookiecu
 ######
 
 .PHONY: all
-all: bin/chill bin/{{ cookiecutter.project_slug }}-api $(objects)
+all: bin/chill bin/{{ cookiecutter.project_slug }}-api media $(objects)
 
 .PHONY: install
 install:
@@ -134,8 +134,10 @@ endif
 .PHONY: clean
 clean:
 	rm $(objects)
+	echo $(objects) | xargs rm -f
 	pip uninstall --yes -r chill/requirements.txt
 	pip uninstall --yes -r api/requirements.txt
+	for mk in $(source_media_mk); do make -f $${mk} clean; done;
 
 # Remove files placed outside of src directory and uninstall app.
 # Will also remove the sqlite database file.
@@ -145,3 +147,10 @@ uninstall:
 
 .PHONY: dist
 dist: {{ cookiecutter.project_slug }}-$(TAG).tar.gz
+
+# Find any make files in the source-media folder. Sort so the 00_ratio-hint.mk
+# is last.
+source_media_mk := $(shell find source-media/ -type f -name '*.mk' -print | sort --dictionary-order --ignore-case --reverse)
+.PHONY: media
+media:
+	for mk in $(source_media_mk); do make -f $${mk}; done;
