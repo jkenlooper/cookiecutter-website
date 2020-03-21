@@ -5,6 +5,7 @@
 /.htpasswd
 /.has-certs
 /.vagrant/
+/.design-tokens-css
 /site.cfg
 /frozen.tar.gz
 /{{ cookiecutter.project_slug }}-*.tar.gz

@@ -1,42 +1,13 @@
-@import './colour.css';
-/* color naming convention:
- * http://codepen.io/nicetransition/pen/QjwbRg
- */
-:root {
-  /* Color name aliases from colour.css */
-  --color-drk-blue: var(--color-hitchhiked);
-  --color-brown: var(--color-decafdisaster);
-  --color-gray: var(--color-recover);
-  --color-lt-blue: var(--color-realize);
-  --color-orange: var(--color-tangerine);
-
-  /* Darkest color in your palette */
-  --color-dark: #3d3d3d;
-  --color-dark-dark: #171818;
-
-  /* Main color in your palette */
-  --color-primary: var(--color-drk-blue);
-
-  /* Usually a contrast of primary color */
-  --color-secondary: var(--color-brown);
-
-  /* Lightest color in your palette */
-  --color-light: #ebe4dc;
-  --color-light-dark: var(--color-gray);
-  --color-light-light: #fef7ee;
-  --color-light-accent: var(--color-lt-blue);
-
-  /* Accent color in the palette */
-  --color-accent: var(--color-orange);
-  --color-accent-light: #812b81; /* lighter version */
-
-}
+@import "../../.design-tokens-css/default-theme/settings.custom-properties-selector.css";
+@import "../../.design-tokens-css/dark-theme/settings.custom-properties-selector.css"
+  (prefers-color-scheme: dark);
 
 /* widths (update custom-media.css, too) */
 :root {
   --sm-viewport: 480px;
   --md-viewport: 700px;
   --lg-viewport: 1024px;
+  --xl-viewport: 1920px;
 }
 
 /* spacing */

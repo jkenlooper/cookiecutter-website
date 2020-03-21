@@ -1,5 +1,4 @@
 /* @define Button */
-@import "../settings/custom-media.css";
 @import "suitcss-components-button";
 
 /*
@@ -12,24 +11,64 @@
   --Button-padding: 0.4em 0.75em;
 }
 */
-.Button--primary {
-  background: var(--color-accent);
-  background: linear-gradient(to bottom, var(--color-accent-light) 0%, var(--color-accent) 100%);
-  border-radius: 5px;
-  box-shadow: var(--color-dark-dark) 0 1px 2px;
-  color: var(--color-light);
-  text-shadow: var(--color-dark-dark) 0 0px 2px;
+
+.Button--text {
+  --Button-border-color: transparent;
+  --Button-padding: 0.4em 8px;
+  min-width: 64px;
+  min-height: 36px;
+  text-transform: uppercase;
 }
-@media (--sm-viewport) {
-  .Button--primary {
-  }
+.onBackground.Button--text {
+  --Button-color: var(--designtoken-TextColor-primaryOnBackground);
+}
+.onSurface.Button--text {
+  --Button-color: var(--designtoken-TextColor-primaryOnSurface);
+}
+.onError.Button--text {
+  --Button-color: var(--designtoken-TextColor-onError);
+}
+
+.Button--text:hover,
+.Button--text:focus,
+.Button--text:active {
+  --Button-border-color: currentcolor;
+}
+
+.Button--text:disabled,
+.Button--text.is-disabled {
+  --Button-color: var(--designtoken-TextColor-onBackground);
+}
+
+.Button--primary {
+  background: var(--designtoken-BackgroundColor-primary);
+  color: var(--designtoken-TextColor-onPrimary);
+  border-radius: 5px;
+  box-shadow: currentcolor 0 1px 2px;
+  text-shadow: var(--color-primary-dark) 0 0px 2px;
 }
 
 .Button--primary:hover {
-  background: var(--color-accent);
-  box-shadow: var(--color-dark-dark) 0 0px 0px 1px;
+  box-shadow: currentcolor 0 0px 0px 1px;
 }
 
 .Button--primary:active {
-  background: var(--color-accent-light);
+  background: var(--designtoken-BackgroundColor-primary--dark);
+  text-shadow: none;
+}
+
+.Button--accent {
+  background: var(--designtoken-BackgroundColor-accent);
+  color: var(--designtoken-TextColor-onAccent);
+  border-radius: 5px;
+  box-shadow: currentcolor 0 1px 2px;
+  text-shadow: none;
+}
+
+.Button--accent:hover {
+  box-shadow: currentcolor 0 0px 0px 1px;
+}
+
+.Button--accent:active {
+  background: var(--designtoken-BackgroundColor-accent--dark);
 }

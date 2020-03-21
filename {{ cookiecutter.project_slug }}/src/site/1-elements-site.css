@@ -1,15 +1,47 @@
-/** @format */
 html {
-
-  font-size : 0.625em;
-
+  /* font-size 1em = 10px on default browser settings */
+  font-size: 0.625em;
 }
 
 body {
-  background-color: var(--color-light);
-  color: var(--color-dark);
+  background-color: var(--designtoken-BackgroundColor-background);
+  color: var(--designtoken-TextColor-onBackground);
   padding: 0;
   font-family: sans-serif;
   font-size: 1.6rem;
   line-height: 1.3em;
+}
+
+/* can't be combined with other ::selection */
+::-moz-selection {
+  background: var(--designtoken-Selected-backgroundColor);
+  color: var(--designtoken-Selected-textColor);
+}
+::selection {
+  background: var(--designtoken-Selected-backgroundColor);
+  color: var(--designtoken-Selected-textColor);
+}
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid currentcolor;
+  margin: 1em 0;
+  padding: 0;
+}
+
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+textarea {
+  resize: vertical;
+}
+
+a {
+  font-weight: bold;
+  color: var(--designtoken-TextColor-primaryOnBackground);
 }
