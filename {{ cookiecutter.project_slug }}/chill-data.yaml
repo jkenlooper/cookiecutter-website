@@ -1,7 +1,7 @@
 !ChillNode
 name: homepage
 route: /
-template: homepage.html
+template: homepage.html.jinja2
 value:
   homepage_content: 'Cascading, Highly Irrelevant, Lost Llamas'
   pagetitle: A Llama pagetitle
