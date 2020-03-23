@@ -23,7 +23,8 @@ npm ci; # clean install
 npm run build;
 
 # Create symlinks for all files in the MANIFEST.
-for item in $(cat {{ cookiecutter.project_slug }}/MANIFEST); do
+mkdir -p {{ cookiecutter.project_slug }};
+for item in $(cat MANIFEST); do
   dirname "{{ cookiecutter.project_slug }}/${item}" | xargs mkdir -p;
   dirname "{{ cookiecutter.project_slug }}/${item}" | xargs ln -sf "${PWD}/${item}";
 done;

@@ -27,8 +27,6 @@
 /src/*/*.tmp.css.map
 /src/*/*.tmp.js
 /src/*/*.tmp.js.map
-/{{ cookiecutter.project_slug }}/*
-!/{{ cookiecutter.project_slug }}/MANIFEST
 
 /media/llama-crop.jpg
 /media/llama.*x*.jpg
