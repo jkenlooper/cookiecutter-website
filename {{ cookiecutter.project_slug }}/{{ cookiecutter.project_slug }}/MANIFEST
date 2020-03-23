@@ -16,7 +16,6 @@ bin/provision-certbot.sh
 bin/provision-local.sh
 bin/setup.sh
 bin/uninstall.sh
-certbot
 chill/README.md
 chill/requirements.txt
 chill/{{ cookiecutter.project_slug }}-chill.service.sh
