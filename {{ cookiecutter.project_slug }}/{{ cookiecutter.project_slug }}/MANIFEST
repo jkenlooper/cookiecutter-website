@@ -30,6 +30,7 @@ queries
 requirements.txt
 root
 site.cfg.sh
+source-media
 stats/README.md
 stats/awstats-{{ cookiecutter.project_slug }}-crontab.sh
 stats/awstats.{{ cookiecutter.site_domain }}.conf.sh
