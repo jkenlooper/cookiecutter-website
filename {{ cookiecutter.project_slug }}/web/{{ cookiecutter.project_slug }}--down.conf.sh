@@ -50,10 +50,13 @@ server {
   access_log  ${NGINXLOGDIR}access.log;
   error_log   ${NGINXLOGDIR}error.log;
 
-  error_page 404 /notfound/;
+  error_page 404 /notfound.html;
+  location = /notfound.html {
+    internal;
+  }
 
-  error_page 500 501 502 504 505 506 507 /error_page.html;
-  location = /error_page.html {
+  error_page 500 501 502 504 505 506 507 /error.html;
+  location = /error.html {
     internal;
   }
 
