@@ -20,6 +20,7 @@ cat <<HERE
 server {
   listen 80;
   listen 443 ssl http2;
+  server_tokens off;
 
 
   ## SSL Params
