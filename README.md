@@ -31,7 +31,7 @@ Then read the README.md that was created along with all the other files.
 - Deployment files are all generated and isolated in a tar.gz file. This
   includes compiled CSS and Javascript files.
 - CSS is structured to follow best practices.
-- Uses [design-tokens]({{ cookiecutter.project_slug }}/design-tokens/README.md).
+- Uses design tokens. See [README in projects design-tokens directory](https://github.com/jkenlooper/cookiecutter-website/blob/master/%7B%7B%20cookiecutter.project_slug%20%7D%7D/design-tokens/README.md).
 - HTML is rendered on server side via Jinja2 templates.
 - Development can be done with a [Vagrant](https://www.vagrantup.com/) virtual machine using [VirtualBox](https://www.virtualbox.org/).
 - Deployment includes setup for https:// support with [Let's Encrypt](https://letsencrypt.org/).
