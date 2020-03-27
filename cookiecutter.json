@@ -9,6 +9,8 @@
   "email": "sir@llama.example.com",
   "project_short_description": "Website built with chill stuff and things",
   "version": "0.1.0",
+  "now": "2020-02-20",
+  "generated_by_cookiecutter_website_version": "0.1.0",
   "_copy_without_render": [
     "templates",
     "src",

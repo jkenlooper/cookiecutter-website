@@ -14,5 +14,10 @@ More documentation is available within the docs directory.
 * [Deployment guide](docs/deployment.md) for deploying to a live server. This
     covers both in-place deployments and blue-green deployments.
 
-This project was initially generated from this
-[cookiecutter](https://github.com/jkenlooper/cookiecutter-website).
+**[Changelog since {{ cookiecutter.version }}](CHANGELOG.md)**
+
+---
+
+_This project was initially generated from 
+[cookiecutter-website version {{ cookiecutter.generated_by_cookiecutter_website_version }}](https://github.com/jkenlooper/cookiecutter-website)
+on {{ cookiecutter.now }}._
