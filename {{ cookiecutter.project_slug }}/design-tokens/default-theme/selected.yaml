@@ -4,9 +4,9 @@ global:
   category: selected
 
 props:
-  backgroundColor:
+  Selected-backgroundColor:
     type: color
     value: "{!color-primary}"
-  textColor:
+  Selected-textColor:
     type: color
     value: "{!color-primary-contrast}"

@@ -23,6 +23,12 @@ Types of changes
 ## [Unreleased] - ...
 -->
 
+
+## [Unreleased] - ...
+
+### Fixed
+- Design token names for selected category set correctly.
+
 ## [0.1.0] - 2020-03-27
 
 Start of version tracking.
