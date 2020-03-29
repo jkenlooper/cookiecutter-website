@@ -127,8 +127,10 @@ source bin/activate;
 # Install black to format python code when developing
 pip install black;
 
-# Build the dist files for local development
+# Install build dependencies with npm
 npm install;
+
+# Build the dist files for local development
 npm run build;
 
 # Makes the initial development version
@@ -156,9 +158,9 @@ location of this file on a Windows machine is different.
 The javascript and CSS files in the `dist/` directory are built from the source
 files in `src/` by running the `npm run build` command.  This uses
 [webpack](https://webpack.js.org/) and is configured with the
-`webpack.config.js`.  The entry file is `src/index.ts` and following that the
-main site bundle (`site.bundle.js`, `site.css`) is built from
-`src/site/index.js`.
+`webpack.config.js`.  The entry file is `src/index.js` and following that the
+main app bundle (`app.bundle.js`, `app.css`) is built from
+`src/app.js`.
 
 The source files for javascript and CSS are organized mostly as components.  The
 `src/site/` being an exception as it includes CSS and javascript used across the

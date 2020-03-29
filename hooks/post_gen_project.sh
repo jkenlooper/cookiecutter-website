@@ -11,9 +11,14 @@ echo "Installing latest nodejs LTS version"
 nvm install --lts=Erbium
 nvm current > .nvmrc
 
-echo "Installing prettier and setting git pre-commit hooks"
+echo "Installing prettier, eslint, stylelint, and setting git pre-commit hooks"
 npm install --save-dev --save-exact prettier
+npm install --save-dev eslint-plugin-prettier eslint eslint-config-prettier
+npm install --save-dev stylelint stylelint-prettier stylelint-config-prettier
 npx mrm lint-staged
+
+echo "Running prettier on all initial files."
+npm run prettier -- --write src/ *.md webpack.config.js root/ docs/ design-tokens/
 
 echo "Creating initial git commit";
 nvm use;
