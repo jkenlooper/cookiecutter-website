@@ -18,6 +18,12 @@ More documentation is available within the docs directory.
 
 ---
 
-_This project was initially generated from 
+<small>This project was initially generated from 
 [cookiecutter-website version {{ cookiecutter.generated_by_cookiecutter_website_version }}](https://github.com/jkenlooper/cookiecutter-website)
-on {{ cookiecutter.now }}._
+on {{ cookiecutter.now -}}
+<!-- Uncomment below if the project has been regenerated.  See
+docs/development.md for details on running cookiecutter again on the project.
+-->
+<!-- 
+and is up to date with version {{ cookiecutter.regenerated_by_cookiecutter_website_version }} on {{ cookiecutter.renow }}
+-->.</small>

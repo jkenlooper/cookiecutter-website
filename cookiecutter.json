@@ -10,7 +10,9 @@
   "project_short_description": "Website built with chill stuff and things",
   "version": "0.1.0",
   "now": "2020-02-20",
+  "renow": "{{ cookiecutter.now }}",
   "generated_by_cookiecutter_website_version": "0.1.0",
+  "regenerated_by_cookiecutter_website_version": "{{ cookiecutter.generated_by_cookiecutter_website_version }}",
   "_copy_without_render": [
     "templates",
     "src",

@@ -249,3 +249,45 @@ git clean -fdX
 # Removes all data including the sqlite3 database
 sudo rm -rf /var/lib/{{ cookiecutter.project_slug }}/
 ```
+
+## Regenerating with cookiecutter
+
+Get the latest changes from the cookiecutter that initially generated the
+project
+([jkenlooper/cookiecutter-website](https://github.com/jkenlooper/cookiecutter-website))
+by uninstalling the app, running the cookiecutter in a different directory, and
+then rsync the changed files back in.  Use `git` to then patch files as needed.
+
+
+```bash
+now=$(date --iso-8601 --utc)
+# In the project directory of {{ cookiecutter.project_slug }}.
+cd ../;
+mkdir {{ cookiecutter.project_slug }}--${now};
+cd {{ cookiecutter.project_slug }}--${now};
+
+# Regenerate using last entered config from initial project.
+cookiecutter \
+  --config-file ../{{ cookiecutter.project_slug }}/.cookiecutter-regen-config.yaml \
+  gh:jkenlooper/cookiecutter-website now=$(date --iso-8601 --utc);
+cd {{ cookiecutter.project_slug }};
+git clean -fdX;
+
+# Back to parent directory
+cd ../../;
+
+# Use rsync to copy over the generated project 
+# ({{ cookiecutter.project_slug }}--${now}/{{ cookiecutter.project_slug }})
+# files to the initial project.
+# TODO: finish up rsync command. exclude .git directory
+rsync \
+  {{ cookiecutter.project_slug }}--${now}/{{ cookiecutter.project_slug }} \
+  {{ cookiecutter.project_slug }}
+
+# Patch files as needed
+cd {{ cookiecutter.project_slug }};
+git add -i .;
+
+# Drop changes as needed
+git checkout -p .;
+```

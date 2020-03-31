@@ -5,7 +5,7 @@ Version 0.1.0 <!-- Update cookiecutter.json generated_by_cookiecutter_website_ve
 Use the [python cookiecutter](https://github.com/cookiecutter/cookiecutter) to
 create a new starter website and follow the prompts.
 
-```
+```bash
 cookiecutter gh:jkenlooper/cookiecutter-website now=$(date --iso-8601 --utc)
 ```
 

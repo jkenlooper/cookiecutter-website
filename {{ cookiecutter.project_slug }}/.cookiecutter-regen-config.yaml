@@ -1,0 +1,13 @@
+default_context:
+  project_name: "{{ cookiecutter.project_name }}"
+  project_slug: "{{ cookiecutter.project_slug }}"
+  site_domain: "{{ cookiecutter.site_domain }}"
+  s3_object_storage_name: "{{ cookiecutter.s3_object_storage_name }}"
+  site_protocol: "{{ cookiecutter.site_protocol }}"
+  internal_port_prefix: "{{ cookiecutter.internal_port_prefix }}"
+  full_name: "{{ cookiecutter.full_name }}"
+  email: "{{ cookiecutter.email }}"
+  project_short_description: "{{ cookiecutter.project_short_description }}"
+  version: "{{ cookiecutter.version }}"
+  now: "{{ cookiecutter.now }}"
+  generated_by_cookiecutter_website_version: "{{ cookiecutter.generated_by_cookiecutter_website_version }}"
