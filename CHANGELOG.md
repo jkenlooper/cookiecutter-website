@@ -26,6 +26,9 @@ Types of changes
 
 ## [Unreleased] - ...
 
+### Added
+- Guide on regenerating the project files.
+
 ### Fixed
 - Design token names for selected category set correctly.
 
