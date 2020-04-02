@@ -266,28 +266,43 @@ cd ../;
 mkdir {{ cookiecutter.project_slug }}--${now};
 cd {{ cookiecutter.project_slug }}--${now};
 
-# Regenerate using last entered config from initial project.
+# Regenerate using last entered config from initial project.  Then git clean the
+# new project files that were just created.
 cookiecutter \
   --config-file ../{{ cookiecutter.project_slug }}/.cookiecutter-regen-config.yaml \
-  gh:jkenlooper/cookiecutter-website now=$(date --iso-8601 --utc);
+  gh:jkenlooper/cookiecutter-website renow=${now};
 cd {{ cookiecutter.project_slug }};
-git clean -fdX;
+git clean -fdx;
 
 # Back to parent directory
 cd ../../;
 
+# Create backup tar of project directory before removing all untracked files.
+tar --auto-compress --create --file {{ cookiecutter.project_slug }}-${now}.bak.tar.gz {{ cookiecutter.project_slug }};
+cd {{ cookiecutter.project_slug }};
+git clean -fdx --exclude=.env --exclude=.htpasswd;
+cd ../;
+
 # Use rsync to copy over the generated project 
 # ({{ cookiecutter.project_slug }}--${now}/{{ cookiecutter.project_slug }})
 # files to the initial project.
-# TODO: finish up rsync command. exclude .git directory
-rsync \
-  {{ cookiecutter.project_slug }}--${now}/{{ cookiecutter.project_slug }} \
+# This will delete all files from the initial project.
+rsync -a \
+  --itemize-changes \
+  --delete \
+  --exclude=.git/ \
+  --exclude=.env \
+  --exclude=.htpasswd \
+  {{ cookiecutter.project_slug }}--${now}/{{ cookiecutter.project_slug }}/ \
   {{ cookiecutter.project_slug }}
 
-# Patch files as needed
+# Remove the generated project after it has been rsynced.
+rm -rf {{ cookiecutter.project_slug }}--${now};
+
+# Patch files (git add) and drop changes (git checkout) as needed.
+# Refer to the backup {{ cookiecutter.project_slug }}-${now}.bak.tar.gz
+# if a file or directory that was not tracked by git is missing.
 cd {{ cookiecutter.project_slug }};
 git add -i .;
-
-# Drop changes as needed
 git checkout -p .;
 ```
