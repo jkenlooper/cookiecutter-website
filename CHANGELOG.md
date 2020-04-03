@@ -24,7 +24,7 @@ Types of changes
 -->
 
 
-## [Unreleased] - ...
+## [0.2.0] - 2020-04-03
 
 ### Added
 - Guide on regenerating the project files.
