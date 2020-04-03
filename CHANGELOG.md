@@ -23,6 +23,9 @@ Types of changes
 ## [Unreleased] - ...
 -->
 
+## [Unreleased] - ...
+...
+
 
 ## [0.2.0] - 2020-04-03
 
