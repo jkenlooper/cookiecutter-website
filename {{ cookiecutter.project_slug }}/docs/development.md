@@ -184,7 +184,7 @@ To create the versioned distribution file (like `{{ cookiecutter.project_slug }}
 
 The script to create the distribution file only includes the files that have
 been committed to git.  It will also limit these to what is listed in the
-`{{ cookiecutter.project_slug }}/MANIFEST`.
+`MANIFEST` file.
 
 ## Feature branches and chill-data
 
