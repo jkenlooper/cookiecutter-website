@@ -1,5 +1,20 @@
 import os
 import sqlite3
+import logging
+
+logging.basicConfig()
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+
+def loadConfig(argconfig):
+    "Load the config file the same way Flask does which Chill uses."
+    config_file = (
+        argconfig if argconfig[0] == os.sep else os.path.join(os.getcwd(), argconfig)
+    )
+    config = Config(os.getcwd())
+    config.from_pyfile(config_file)
+    return config
 
 
 def get_db(config):
