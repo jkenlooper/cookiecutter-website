@@ -24,8 +24,15 @@ Types of changes
 -->
 
 ## [Unreleased] - ...
-...
 
+### Added
+- backup.sh script
+
+### Changed
+- Replaced use of `chill-data.sql` file and now uses `chill initdb` subcommand.
+    Requires latest chill version (unreleased). The `site-data.sql` will now be
+    used to store data that is needed for a site that chill dump yaml files do
+    not store.
 
 ## [0.2.0] - 2020-04-03
 

@@ -21,7 +21,7 @@ bin/uninstall.sh
 chill/README.md
 chill/requirements.txt
 chill/{{ cookiecutter.project_slug }}-chill.service.sh
-chill-data.sql
+site-data.sql
 chill-data.yaml
 dist
 documents

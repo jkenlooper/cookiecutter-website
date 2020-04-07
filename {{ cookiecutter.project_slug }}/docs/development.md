@@ -3,10 +3,10 @@
 Get a local development version of the website to run on your machine by
 following these instructions.
 
-Written for a Linux machine that is Debian based.  Only tested on Ubuntu.  Use
- [VirtualBox](https://www.virtualbox.org/) and
- [Vagrant](https://www.vagrantup.com/) or something similar if not on a Linux
- machine.
+Written for a Linux machine that is Debian based. Only tested on Ubuntu. Use
+[VirtualBox](https://www.virtualbox.org/) and
+[Vagrant](https://www.vagrantup.com/) or something similar if not on a Linux
+machine.
 
 If using Vagrant; then run `vagrant up` and ssh in (`vagrant ssh`). Go to
 the /vagrant/ shared directory when running the rest of the commands.
@@ -40,7 +40,6 @@ machine.
 sudo ./bin/setup.sh;
 ```
 
-
 To have TLS (SSL) on your development machine run the `bin/provision-local.sh`
 script. That will use `openssl` to create some certs in the web/ directory. The
 `local-{{ cookiecutter.project_slug }}-CA.pem`
@@ -48,14 +47,13 @@ file should be imported to Keychain Access and marked as always trusted.
 
 ### The 'dev' user and sqlite db file
 
-The sqlite db file is owned by dev with group dev.  If developing with
+The sqlite db file is owned by dev with group dev. If developing with
 a different user then run `adduser nameofuser dev` to include the 'nameofuser'
-to the dev group.  Make sure to be signed in as the dev user when manually
+to the dev group. Make sure to be signed in as the dev user when manually
 modifying the database.
 
-
 If using Vagrant then change the password for dev user and login as that user
-when doing anything with the sqlite db file.  Any other commands that modify the
+when doing anything with the sqlite db file. Any other commands that modify the
 source files and such should be done as the vagrant user (default user when
 using `vagrant ssh`).
 
@@ -66,7 +64,7 @@ su dev;
 
 ## Configuration with `.env`
 
-Create the `.env` and `.htpasswd` files.  These should not be added to the
+Create the `.env` and `.htpasswd` files. These should not be added to the
 distribution or to source control (git).
 
 ```bash
@@ -77,14 +75,14 @@ htpasswd -c .htpasswd admin;
 
 ## Setup For Building
 
-The website apps are managed as 
+The website apps are managed as
 [systemd](https://freedesktop.org/wiki/Software/systemd/) services.
-The service config files are created by running `make` and installed with 
-`sudo make install`.  It is recommended to use Python's `virtualenv . -p python3`
+The service config files are created by running `make` and installed with
+`sudo make install`. It is recommended to use Python's `virtualenv . -p python3`
 and activating each time for a new shell with `source bin/activate` before
 running `make`.
 
-**All commands are run from the project's directory unless otherwise noted.**  For
+**All commands are run from the project's directory unless otherwise noted.** For
 the Vagrant setup this is the shared folder `/vagrant/`.
 
 ```bash
@@ -93,11 +91,11 @@ cd /vagrant/;
 ```
 
 Some git commit hooks are installed and rely on commands to be installed to
-format the python code (black) and format other code (prettier).  Committing
+format the python code (black) and format other code (prettier). Committing
 before following the below setup will result in an error if these commands
 haven't been installed on the development machine.
 
-If `nvm` isn't available on the dev machine then install it.  See
+If `nvm` isn't available on the dev machine then install it. See
 [github.com/nvm-sh/nvm](https://github.com/nvm-sh/nvm) for more
 information.
 
@@ -130,6 +128,11 @@ pip install black;
 # Install build dependencies with npm
 npm install;
 
+# Checkout any git submodules in this repo if didn't
+# `git clone --recurse-submodules ...`.
+git submodule init;
+git submodule update;
+
 # Build the dist files for local development
 npm run build;
 
@@ -145,7 +148,7 @@ Access your local development version of the website at
 http://local-{{ cookiecutter.project_slug }}/ .  If using vagrant you'll need to use the
 8080 port http://local-{{ cookiecutter.project_slug }}:8080/ .
 
-Append to your `/etc/hosts` file on the host machine (Not vagrant).  The
+Append to your `/etc/hosts` file on the host machine (Not vagrant). The
 location of this file on a Windows machine is different.
 
 ```
@@ -156,26 +159,26 @@ location of this file on a Windows machine is different.
 ### Building the `dist/` files
 
 The javascript and CSS files in the `dist/` directory are built from the source
-files in `src/` by running the `npm run build` command.  This uses
+files in `src/` by running the `npm run build` command. This uses
 [webpack](https://webpack.js.org/) and is configured with the
-`webpack.config.js`.  The entry file is `src/index.js` and following that the
+`webpack.config.js`. The entry file is `src/index.js` and following that the
 main app bundle (`app.bundle.js`, `app.css`) is built from
 `src/app.js`.
 
-The source files for javascript and CSS are organized mostly as components.  The
+The source files for javascript and CSS are organized mostly as components. The
 `src/site/` being an exception as it includes CSS and javascript used across the
 whole site. Each component includes its own CSS (if applicable) and the CSS
-classes follow the 
+classes follow the
 [SUIT CSS naming conventions](https://github.com/suitcss/suit/blob/master/doc/naming-conventions.md).
 
-When editing files in `src/` either run `npm run debug` or `npm run watch`.  The
+When editing files in `src/` either run `npm run debug` or `npm run watch`. The
 production version is done with `npm run build` which will create compressed
 versions of the files.
 
 ## Creating a versioned dist for deployment
 
 After making any changes to the source files; commit those changes to git in
-order for them to be included in the distribution file.  The distribution file
+order for them to be included in the distribution file. The distribution file
 is uploaded to the server and the guide to do deployments should then be
 followed.
 
@@ -183,34 +186,36 @@ To create the versioned distribution file (like `{{ cookiecutter.project_slug }}
 `make dist` command.  Note that the version is set in the `package.json`.
 
 The script to create the distribution file only includes the files that have
-been committed to git.  It will also limit these to what is listed in the
-`MANIFEST` file.
+been committed to git. It will also limit these to what is listed in the
+`MANIFEST`.
 
-## Feature branches and chill-data
+## Committing database data to source control
 
-The `chill-data.sql` contains only a dump of the database tables that are used
-in chill. The Chill, Node, Node_Node, Query, Route, and Template tables are
-rebuilt if the `cat chill-data.sql | sqlite3 /path/to/sqlite/db` command is run.
-This command is commonly run when deploying to a server or developing locally on
-your own machine. A new feature on a git feature branch will sometimes require updates
-to the `chill-data.sql` file. There is a potential that if multiple feature
-branches are being developed, that there will be messy git conflicts in
-`chill-data.sql`. That would happen if those feature branches committed any
-changes to `chill-data.sql`.
+Any data that is required for the site to operate should be stored along with
+the source files. Chill specific data is stored as `chill-data.yaml` and any
+other `chill-data-*.yaml` files. Other data that chill would query for should be
+stored in a `site-data.sql` file. The `bin/create-site-data-sql.sh` can be
+edited and run when needed in development. It should export database table data
+to the `site-data.sql` file. The `site-data.sql` should be committed to source
+control and will be used when deploying the site to a server.
 
-To solve this potential problem of conflicts with `chill-data.sql`, feature
-branches should _not_ be committing any changes to the `chill-data.sql`.
-Instead, the new additions to the chill data should be dumped into
-a `chill-data-feature-[feature-name].yaml` file using the `chill dump` command.
-Then when the feature branch has been merged to the develop branch, the
-`chill-data-feature-[feature-name].yaml` file contents should be appended to
-the `chill-data.yaml` file.  The `chill-data-feature-[feature-name].yaml` file
-should then be removed.
+The `chill-data.yaml` and `chill-data-*.yaml` files can be manually edited or
+recreated by running the `chill dump` command. The dump command will export
+chill specific data to these files.
+
+It is good practice to dump feature branch specific chill data to separate files
+like `chill-data-[feature-name].yaml`. That way those changes will not conflict
+with other changes that may be committed to `chill-data.yaml`. When the feature
+branch has been merged to the develop branch, the
+`chill-data-feature-[feature-name].yaml` file contents should be appended to the
+`chill-data.yaml` file. The `chill-data-feature-[feature-name].yaml` file should
+then be removed.
 
 The `chill-data-feature-[feature-name].yaml` file should also be edited to
 _only_ include changes that are being added for that feature branch.
 
-On updates to any chill-data\*.yaml files; run the below commands to reload the chill database.
+On updates to any `chill-data*.yaml` or `site-data.sql` files; run the below
+commands to reload the chill database.
 
 ```bash
 # stop the apps first
@@ -223,14 +228,13 @@ make;
 sudo make install;
 ```
 
-
 ## Uninstalling the app
 
 Run the below commands to remove {{ cookiecutter.project_slug }} from your
 development machine.  This will uninstall and disable the services, remove any
 files installed outside of the project's directory including the sqlite3
-database.  *Only do this on a development machine if it's database and other
-data is no longer needed.*
+database. _Only do this on a development machine if it's database and other
+data is no longer needed._
 
 ```bash
 source bin/activate;
@@ -256,8 +260,7 @@ Get the latest changes from the cookiecutter that initially generated the
 project
 ([jkenlooper/cookiecutter-website](https://github.com/jkenlooper/cookiecutter-website))
 by uninstalling the app, running the cookiecutter in a different directory, and
-then rsync the changed files back in.  Use `git` to then patch files as needed.
-
+then rsync the changed files back in. Use `git` to then patch files as needed.
 
 ```bash
 now=$(date --iso-8601 --utc)
