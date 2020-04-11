@@ -18,7 +18,15 @@ npm install --save-dev stylelint stylelint-prettier stylelint-config-prettier
 npx mrm lint-staged
 
 echo "Running prettier on all initial files."
-npm run prettier -- --write src/ *.md webpack.config.js root/ docs/ design-tokens/
+npm run prettier -- --write \
+  *.md \
+  */*.md \
+  design-tokens/ \
+  docs/ \
+  documents/ \
+  root/ \
+  src/ \
+  webpack.config.js
 
 echo "Creating initial git commit";
 nvm use;

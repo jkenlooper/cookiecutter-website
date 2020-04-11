@@ -29,8 +29,9 @@ Types of changes
 - backup.sh script
 
 ### Changed
+- Use generic favicon and include documentation on favicon best practices.
 - Replaced use of `chill-data.sql` file and now uses `chill initdb` subcommand.
-    Requires latest chill version (unreleased). The `site-data.sql` will now be
+    Requires latest chill version (0.7.0). The `site-data.sql` will now be
     used to store data that is needed for a site that chill dump yaml files do
     not store.
 
