@@ -1,7 +1,12 @@
 <meta charset="utf-8">
-<title>{{ 'sitetitle.txt'|readfile|trim }}
-  {%- if _pagetitle %} | {{ _pagetitle }}
-  {%- endif -%}
+{#- https://moz.com/learn/seo/title-tag
+Title tag optimal format.
+"Unique Page Title With Good Keywords | Site Title"
+Title tag optimal length is around 60 characters.
+#}
+<title>
+  {%- if _pagetitle %}{{ _pagetitle }} | {% endif -%}
+  {{ 'sitetitle.txt'|readfile|trim -}}
 </title>
 {% if _description -%}
 <meta name="description" content="{{ _description }}">
