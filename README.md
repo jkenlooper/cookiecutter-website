@@ -1,6 +1,6 @@
 # Cookiecutter for making a [chill](https://github.com/jkenlooper/chill) website
 
-Version 0.2.0 <!-- Update cookiecutter.json generated_by_cookiecutter_website_version value as well. -->
+Version 0.3.0 <!-- Update cookiecutter.json generated_by_cookiecutter_website_version value as well. -->
 
 Use the [python cookiecutter](https://github.com/cookiecutter/cookiecutter) to
 create a new starter website and follow the prompts.

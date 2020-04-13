@@ -23,7 +23,7 @@ Types of changes
 ## [Unreleased] - ...
 -->
 
-## [Unreleased] - ...
+## [0.3.0] - 2020-04-12
 
 ### Added
 - backup.sh script
