@@ -23,7 +23,6 @@ npm run prettier -- --write \
   */*.md \
   design-tokens/ \
   docs/ \
-  documents/ \
   root/ \
   src/ \
   webpack.config.js
