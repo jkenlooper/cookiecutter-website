@@ -23,6 +23,15 @@ Types of changes
 ## [Unreleased] - ...
 -->
 
+## [Unreleased] - ...
+
+## Added
+- Canonical URLs can be set per page by chill data and defaults to request URL
+    path.
+
+### Fixed
+- favicon URL when served by https
+
 ## [0.3.0] - 2020-04-12
 
 ### Added
