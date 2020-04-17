@@ -37,4 +37,5 @@ stats/awstats-{{ cookiecutter.project_slug }}-crontab.sh
 stats/awstats.{{ cookiecutter.site_domain }}.conf.sh
 templates
 web/default.conf
+web/ssl_params.conf
 web/{{ cookiecutter.project_slug }}.conf.sh
