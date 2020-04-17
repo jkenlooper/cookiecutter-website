@@ -23,7 +23,7 @@ Types of changes
 ## [Unreleased] - ...
 -->
 
-## [Unreleased] - ...
+## [0.4.0] - 2020-04-17
 
 ## Added
 - Canonical URLs can be set per page by chill data and defaults to request URL
