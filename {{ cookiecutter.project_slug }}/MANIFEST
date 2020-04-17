@@ -14,7 +14,6 @@ bin/init.sh
 bin/install.sh
 bin/log.sh
 bin/provision-certbot.sh
-bin/provision-local.sh
 bin/setup.sh
 bin/site-cfg.py
 bin/uninstall.sh
@@ -39,4 +38,3 @@ stats/awstats.{{ cookiecutter.site_domain }}.conf.sh
 templates
 web/default.conf
 web/{{ cookiecutter.project_slug }}.conf.sh
-web/{{ cookiecutter.project_slug }}--down.conf.sh

@@ -32,6 +32,10 @@ Types of changes
 ### Fixed
 - favicon URL when served by https
 
+### Changed
+- Combined scripts for creating NGINX web config
+- Cleaned up script to create ssl certificates for local development
+
 ## [0.3.0] - 2020-04-12
 
 ### Added

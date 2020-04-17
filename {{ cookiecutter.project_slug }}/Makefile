@@ -90,10 +90,10 @@ api/{{ cookiecutter.project_slug }}-api.service: api/{{ cookiecutter.project_slu
 site.cfg: site.cfg.sh $(PORTREGISTRY)
 	./$< $(ENVIRONMENT) $(DATABASEDIR) $(PORTREGISTRY) > $@
 
-web/{{ cookiecutter.project_slug }}.conf: web/{{ cookiecutter.project_slug }}.conf.sh $(PORTREGISTRY)
-	./$< $(ENVIRONMENT) $(SRVDIR) $(NGINXLOGDIR) $(PORTREGISTRY) $(INTERNALIP) > $@
-web/{{ cookiecutter.project_slug }}--down.conf: web/{{ cookiecutter.project_slug }}--down.conf.sh $(PORTREGISTRY)
-	./$< $(ENVIRONMENT) $(SRVDIR) $(NGINXLOGDIR) $(PORTREGISTRY) $(INTERNALIP) > $@
+web/{{ cookiecutter.project_slug }}.conf: web/{{ cookiecutter.project_slug }}.conf.sh $(PORTREGISTRY) web/ssl_params.conf
+	./$< $(ENVIRONMENT) $(SRVDIR) $(NGINXLOGDIR) $(NGINXDIR) $(PORTREGISTRY) $(INTERNALIP) up > $@
+web/{{ cookiecutter.project_slug }}--down.conf: web/{{ cookiecutter.project_slug }}.conf.sh $(PORTREGISTRY) web/ssl_params.conf
+	./$< $(ENVIRONMENT) $(SRVDIR) $(NGINXLOGDIR) $(NGINXDIR) $(PORTREGISTRY) $(INTERNALIP) down > $@
 
 # Uncomment if using dhparam.pem
 #ifeq ($(ENVIRONMENT),production)

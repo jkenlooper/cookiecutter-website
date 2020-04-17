@@ -33,11 +33,8 @@
 /media/llama-*-*.jpg
 
 /web/dhparam.pem
-/web/local-{{ cookiecutter.project_slug }}-CA.key
-/web/local-{{ cookiecutter.project_slug }}-CA.pem
-/web/local-{{ cookiecutter.project_slug }}-CA.srl
 /web/local-{{ cookiecutter.project_slug }}.crt
-/web/local-{{ cookiecutter.project_slug }}.csr
+/web/local-development.csr
 /web/local-{{ cookiecutter.project_slug }}.key
 
 /include/
