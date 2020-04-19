@@ -41,15 +41,15 @@ HERETODOSSLCERTS
     if test -e .has-certs; then
     cat <<HEREENABLESSLCERTS
       # certs created from certbot
-      ssl_certificate /etc/letsencrypt/live/{{ cookiecutter.project_slug }}/fullchain.pem;
-      ssl_certificate_key /etc/letsencrypt/live/{{ cookiecutter.project_slug }}/privkey.pem;
+      ssl_certificate /etc/letsencrypt/live/{{ cookiecutter.site_domain }}/fullchain.pem;
+      ssl_certificate_key /etc/letsencrypt/live/{{ cookiecutter.site_domain }}/privkey.pem;
 HEREENABLESSLCERTS
     else
     cat <<HERETODOSSLCERTS
       # certs can be created from running 'bin/provision-certbot.sh ${SRVDIR}'
       # TODO: uncomment after they exist
-      #ssl_certificate /etc/letsencrypt/live/{{ cookiecutter.project_slug }}/fullchain.pem;
-      #ssl_certificate_key /etc/letsencrypt/live/{{ cookiecutter.project_slug }}/privkey.pem;
+      #ssl_certificate /etc/letsencrypt/live/{{ cookiecutter.site_domain }}/fullchain.pem;
+      #ssl_certificate_key /etc/letsencrypt/live/{{ cookiecutter.site_domain }}/privkey.pem;
 HERETODOSSLCERTS
     fi
   fi
@@ -81,14 +81,14 @@ ssl_certs;
 if test $ENVIRONMENT == 'development'; then
 cat <<HEREBEDEVELOPMENT
   # Redirect other domains (in development uses 302 temporary redirect)
-  server_name local-weboftomorrow.com;
-  return       302 \$scheme://local-{{ cookiecutter.project_slug }}\$request_uri;
+  #server_name local-alternate-{{ cookiecutter.project_slug }};
+  #return       302 \$scheme://local-{{ cookiecutter.project_slug }}\$request_uri;
 HEREBEDEVELOPMENT
 else
 cat <<HEREBEPRODUCTION
   # Permanent redirect other domains (production uses 301 for permanent)
-  server_name weboftomorrow.com;
-  return       301 \$scheme://{{ cookiecutter.project_slug }}\$request_uri;
+  #server_name alternate.{{ cookiecutter.site_domain }};
+  #return       301 \$scheme://{{ cookiecutter.site_domain }}\$request_uri;
 HEREBEPRODUCTION
 fi
 cat <<HERE

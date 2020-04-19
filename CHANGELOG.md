@@ -23,6 +23,11 @@ Types of changes
 ## [Unreleased] - ...
 -->
 
+## [Unreleased] - ...
+
+### Fixed
+- The certbot ssl_certificate file path corrected to use site_domain. 
+
 ## [0.4.0] - 2020-04-17
 
 ## Added
