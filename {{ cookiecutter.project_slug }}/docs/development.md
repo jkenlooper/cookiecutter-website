@@ -253,8 +253,13 @@ sudo make uninstall;
 make clean;
 deactivate;
 
-# Remove any source files and directories that are ignored by git
-git clean -fdX
+# Remove any source files and directories that are ignored by git...
+# Swap -n for -f for deleting files
+git clean -dX -n
+
+# ...or just clean up and preserve some files.
+# Swap -n for -f for deleting files
+git clean -dx -e /.htpasswd -e /.env -e /.has-certs -e /web -n
 
 # Removes all data including the sqlite3 database
 sudo rm -rf /var/lib/{{ cookiecutter.project_slug }}/
