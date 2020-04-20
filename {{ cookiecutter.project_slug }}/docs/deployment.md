@@ -55,7 +55,8 @@ been uploaded to the home directory.
     {{ cookiecutter.project_slug }}-0.3.1.tar.gz which should be in the dev home directory.
     The current source code is moved to the home directory under a date label in
     case it needs to revert back. The `.env` and `.htpasswd` files are copied
-    over since they are not included in the distribution.
+    over since they are not included in the distribution. The `.has-certs` file
+    will signal if the site is setup for SSL (https://).
 
     ```bash
     cd /home/dev/;
@@ -64,6 +65,9 @@ been uploaded to the home directory.
     sudo chown -R dev:dev /usr/local/src/{{ cookiecutter.project_slug }}
     cp {{ cookiecutter.project_slug }}-$(date +%F)/.env /usr/local/src/{{ cookiecutter.project_slug }}/;
     cp {{ cookiecutter.project_slug }}-$(date +%F)/.htpasswd /usr/local/src/{{ cookiecutter.project_slug }}/;
+    
+    # Add .has-certs file if site has already been setup with bin/provision-certbot.sh
+    cp {{ cookiecutter.project_slug }}-$(date +%F)/.has-certs /usr/local/src/{{ cookiecutter.project_slug }}/ || echo "No certs?";
     ```
 
 3)  Make the new apps and install the source code.  The install will also start

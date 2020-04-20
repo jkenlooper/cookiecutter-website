@@ -27,6 +27,8 @@ Types of changes
 
 ### Fixed
 - The certbot ssl_certificate file path corrected to use site_domain. 
+- Copy the existing `.has-certs` file when deploying to signal that certs are
+    already setup.
 
 ## [0.4.0] - 2020-04-17
 
