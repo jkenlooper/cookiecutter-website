@@ -25,6 +25,11 @@ Types of changes
 
 ## [Unreleased] - ...
 
+### Added
+- `bin/devsync.sh` added among others to aid development and using
+    a syncing files to a virtual machine. The development docs have been updated
+    to reflect these changes.
+
 ### Fixed
 - The certbot ssl_certificate file path corrected to use site_domain. 
 - Copy the existing `.has-certs` file when deploying to signal that certs are

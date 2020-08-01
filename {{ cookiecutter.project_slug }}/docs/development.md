@@ -3,27 +3,82 @@
 Get a local development version of the website to run on your machine by
 following these instructions.
 
-Written for a Linux machine that is Debian based. Only tested on Ubuntu. Use
-[VirtualBox](https://www.virtualbox.org/) and
-[Vagrant](https://www.vagrantup.com/) or something similar if not on a Linux
-machine.
+Written for a Linux machine that is Debian based. Only tested on 
+[Ubuntu 18.04.4 LTS (Bionic Beaver)](http://releases.ubuntu.com/18.04/).
+It is recommended to use a virtual machine of some sort to keep dependencies for
+the website services isolated and manageable. Some virtualization software suggestions
+are listed below.
 
-If using Vagrant; then run `vagrant up` and ssh in (`vagrant ssh`). Go to
-the /vagrant/ shared directory when running the rest of the commands.
+- [VirtualBox](https://www.virtualbox.org/) - can be used with Vagrant.
+- [Vagrant](https://www.vagrantup.com/) - a Vagrantfile has already been made.
+- [KVM](https://wiki.debian.org/KVM) - Kernel Virtual Machine is available for
+  Linux machines.
+
+<dl>
+  <dt>local machine</dt>
+  <dd>
+  This is your own computer (localhost) that you edit source files on using your
+  text editor or IDE of choice.
+  </dd>
+  <dt>development machine</dt>
+  <dd>
+  The Ubuntu 18 machine that will be setup to run the website services.
+  Source files will be uploaded to it from the local machine each time they
+  change. This is commonly a virtual machine, but can be localhost. You should
+  have ssh access to it and have permissions to add a dev user.
+  </dd>
+</dl>
+
+Update your `/etc/hosts` to have local-{{ cookiecutter.project_slug }} map to your development machine. This IP can either be localhost (127.0.0.1) or the IP of a virtual
+machine. It is recommended that access to this development machine should be
+limited so be careful if you use a development machine that is hosted in the
+cloud. The local development version of the website will be at
+http://local-{{ cookiecutter.project_slug }}/ . If using vagrant for the virtual machine then
+you'll need to use the 8080 port http://local-{{ cookiecutter.project_slug }}:8080/ . 
+
+Append "127.0.0.1 local-{{ cookiecutter.project_slug }}" to your `/etc/hosts` file on the local
+machine (not the development machine). You'll then be able to access your local
+version of the site at the http://local-{{ cookiecutter.project_slug }}/ URL. If installed on
+a virtual machine; then change the 127.0.0.1 to that IP of the virtual machine.
+This IP can be found by logging into the virtual machine and using this command:
+`ip -4 -br addr show`
 
 ```bash
-vagrant up;
-vagrant ssh;
-
-# After logging in as the vagrant user on the vagrant machine.
-cd /vagrant/;
-
-# The /vagrant/ directory is a shared folder with the host machine.
-ls;
+# Update 127.0.0.1 to be the IP of the development machine
+echo "127.0.0.1 local-{{ cookiecutter.project_slug }}" >> /etc/hosts
 ```
 
-If **not** using Vagrant and running locally on a Ubuntu 18.04 (Bionic Beaver)
-machine:
+## Initial setup
+
+Open a terminal
+and `cd` to the projects directory. The project directory or folder is usually the same
+name as the git repo that was cloned ({{ cookiecutter.project_slug }}).
+
+The instructions shown here assume that you are logged into a Linux system
+(`uname -o`) and are running Ubuntu 18 (`lsb_release -a`).
+
+### Create `dev` user and project source directory
+
+Use `ssh` to login into the development machine either as root 
+(`ssh root@local-{{ cookiecutter.project_slug }}`)
+or as a user that has `sudo`
+permissions.
+
+Example ways of logging into the development machine using `ssh`.
+```bash
+# As root user
+ssh root@local-{{ cookiecutter.project_slug }};
+
+# Or with a vagrant setup
+vagrant ssh;
+```
+
+Create the `dev` user for the development machine. This user will own the sqlite
+database among other things. There are other commands that set up ssh and adds
+your public key to your virtual machine. See the bin/init.sh for that if you are
+using a separate machine (virtual machine) as your development machine.
+
+While logged into the development machine.
 
 ```bash
 # Run only some commands from bin/init.sh to create the 'dev' user:
@@ -32,12 +87,62 @@ sudo adduser dev
 sudo usermod -aG sudo dev
 ```
 
-Run the initial `bin/setup.sh` script after logging into the development
-machine.
+Create the initial source directory that files will be `rsync`ed to on the
+development machine.
 
 ```bash
-# Install other software dependencies with apt-get and npm.
+sudo mkdir -p /usr/local/src/{{ cookiecutter.project_slug }};
+sudo chown dev:dev /usr/local/src/{{ cookiecutter.project_slug }};
+```
+
+Logout (exit) from the development machine. Most of the time this will be
+implied in the different sections of this guide.
+
+```bash
+# Get back to your local machine by exiting the development machine.
+exit;
+```
+
+### Add initial files to `/usr/local/src/{{ cookiecutter.project_slug }}`
+
+Development can be done with any text editor or IDE that you are comfortable
+with. To better match a production environment the project's source files are
+copied over to the 
+/usr/local/src/{{ cookiecutter.project_slug }}/ 
+directory on the development machine.
+
+The `bin/devsync.sh` script is a wrapper around `rsync` that will upload the
+source files to the development machine. The destination path is by default the 
+`/usr/local/src/{{ cookiecutter.project_slug }}/`
+directory that was created when the dev user was made.
+
+```bash
+# On the local machine
+./bin/devsync.sh;
+```
+
+### Install dependencies
+
+Should be logged into the development machine
+
+```bash
+ssh dev@local-{{ cookiecutter.project_slug }};
+```
+
+Run the initial setup script that will install many of the dependencies with
+apt-get the Debian based package manager. 
+
+```bash
+# Install other software dependencies with apt-get.
 sudo ./bin/setup.sh;
+```
+
+### Create local SSL certs (optional)
+
+Should be logged into the development machine
+
+```bash
+ssh dev@local-{{ cookiecutter.project_slug }};
 ```
 
 To have TLS (SSL) on your development machine run the
@@ -48,35 +153,25 @@ always trusted. The Firefox web browser will require importing the
 `localhost-CA.pem` certificate authority file.
 
 ```bash
+cd /usr/local/src/{{ cookiecutter.project_slug }}/;
 ./bin/provision-local-ssl-certs.sh
 ```
 
-### The 'dev' user and sqlite db file
+### Create the `.env` and `.htpasswd` files
 
-The sqlite db file is owned by dev with group dev. If developing with
-a different user then run `adduser nameofuser dev` to include the 'nameofuser'
-to the dev group. Make sure to be signed in as the dev user when manually
-modifying the database.
+Use these scripts to create the `.env` file and the `.htpasswd` file. These should
+**not** be added to the distribution or to source control (git). Edit them as
+needed for your use case. They should both stay within the project's directory.
 
-If using Vagrant then change the password for dev user and login as that user
-when doing anything with the sqlite db file. Any other commands that modify the
-source files and such should be done as the vagrant user (default user when
-using `vagrant ssh`).
+Run these on the _local machine_ from within the project's directory (use `exit`
+command if still logged into development machine).
 
 ```bash
-sudo passwd dev;
-su dev;
-```
+# Creates the .env file
+./bin/create_dot_env.sh;
 
-## Configuration with `.env`
-
-Create the `.env` and `.htpasswd` files. These should not be added to the
-distribution or to source control (git).
-
-```bash
-echo "EXAMPLE_PUBLIC_KEY=fill-this-in" > .env;
-echo "EXAMPLE_SECRET_KEY=fill-this-in" >> .env;
-htpasswd -c .htpasswd admin;
+# Creates the .htpasswd file
+./bin/create_dot_htpasswd.sh;
 ```
 
 ## Setup For Building
@@ -88,40 +183,36 @@ The service config files are created by running `make` and installed with
 and activating each time for a new shell with `source bin/activate` before
 running `make`.
 
-**All commands are run from the project's directory unless otherwise noted.** For
-the Vagrant setup this is the shared folder `/vagrant/`.
-
-```bash
-vagrant ssh;
-cd /vagrant/;
-```
-
 Some git commit hooks are installed and rely on commands to be installed to
 format the python code (black) and format other code (prettier). Committing
 before following the below setup will result in an error if these commands
 haven't been installed on the development machine.
 
+### Install `nvm`
+
 If `nvm` isn't available on the dev machine then install it. See
 [github.com/nvm-sh/nvm](https://github.com/nvm-sh/nvm) for more
 information.
 
-```bash
-# Install Node Version Manager
+Run these on the local machine from within the project's directory.
 
+```bash
+# Install Node Version Manager (nvm)
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash
 source ~/.bashrc
-
-# Update to latest Nodejs LTS version and update the .nvmrc
-# This is optional.
-#nvm install --lts=Erbium
-#nvm current > .nvmrc
 
 # Install and use the version set in .nvmrc
 nvm install
 nvm use
 ```
 
-When first installing on a development machine (not production) run:
+### Initialize the project
+
+On the local machine install dependencies for prettier and black. These tools
+are needed to autoformat the changed code before committing. The `virtualenv`
+can be installed on your local machine with a package manager
+(`sudo apt-get install virtualenv`). 
+Or skip using virtualenv and create one with `python3 -m venv .` .
 
 ```bash
 # Setup to use a virtual python environment
@@ -132,6 +223,7 @@ source bin/activate;
 pip install black;
 
 # Install build dependencies with npm
+nvm use;
 npm install;
 
 # Checkout any git submodules in this repo if didn't
@@ -142,24 +234,37 @@ git submodule update;
 # Build the dist files for local development
 npm run build;
 
+# Upload the changes to the development machine
+./bin/devsync.sh
+```
+
+### Initialize the development machine
+
+Should be logged into the development machine.
+
+```bash
+ssh dev@local-puzzle-massive;
+```
+
+```bash
+cd /usr/local/src/puzzle-massive/;
+
+# Setup to use a virtual python environment
+virtualenv . -p python3;
+source bin/activate;
+
 # Makes the initial development version
 make;
 
+# Install the files that were compiled.
 sudo make install;
-sudo systemctl reload nginx
-```
 
-Update `/etc/hosts` to have local-{{ cookiecutter.project_slug }} map to your machine.
-Access your local development version of the website at
-http://local-{{ cookiecutter.project_slug }}/ .  If using vagrant you'll need to use the
-8080 port http://local-{{ cookiecutter.project_slug }}:8080/ .
+# Test and reload the nginx configurations
+sudo nginx -t;
+sudo systemctl reload nginx;
 
-Append to your `/etc/hosts` file on the host machine (Not vagrant). The
-location of this file on a Windows machine is different.
-
-```
-# Append to /etc/hosts
-127.0.0.1 local-{{ cookiecutter.project_slug }}
+# Monitor the logs
+sudo ./bin/log.sh;
 ```
 
 ### Building the `dist/` files
@@ -179,7 +284,18 @@ classes follow the
 
 When editing files in `src/` either run `npm run debug` or `npm run watch`. The
 production version is done with `npm run build` which will create compressed
-versions of the files.
+versions of the files. To upload the just compiled files in the `dist/`
+directory use the `bin/devsync.sh` command.
+
+```bash
+# Build the dist files and rsync them to the development machine
+npm run debug && ./bin/devsync.sh;
+
+# Or watch for changes in src/, build, and rsync to development machine
+./bin/distwatch.js &
+npm run watch;
+pkill --full -u $(whoami) "\./bin/distwatch\.js";
+```
 
 ## Creating a versioned dist for deployment
 
