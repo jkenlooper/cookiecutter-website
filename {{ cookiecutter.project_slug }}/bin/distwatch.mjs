@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
-/* distwatch.js
+/**
+ * distwatch.mjs
  * Watches the dist directory for any changes and then runs the devsync.sh
  * script that uploads those files to the development machine.
  */
@@ -50,4 +51,3 @@ wp.on("aggregated", () => {
     stdio: [0, 1, 2],
   });
 });
-

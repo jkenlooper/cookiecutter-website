@@ -48,7 +48,7 @@
     "webpack-cli": "^3.3.11"
   },
   "engines": {
-    "node": ">=12.16.1"
+    "node": ">=14.7.0"
   },
   "husky": {
     "hooks": {
@@ -56,7 +56,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,ts,css,json,md,html}": [
+    "*.{mjs,js,ts,css,json,md,html}": [
       "prettier --write"
     ],
     "*.py": [

@@ -292,9 +292,9 @@ directory use the `bin/devsync.sh` command.
 npm run debug && ./bin/devsync.sh;
 
 # Or watch for changes in src/, build, and rsync to development machine
-./bin/distwatch.js &
+./bin/distwatch.mjs &
 npm run watch;
-pkill --full -u $(whoami) "\./bin/distwatch\.js";
+pkill --full -u $(whoami) "\./bin/distwatch\.mjs";
 ```
 
 ## Creating a versioned dist for deployment
