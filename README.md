@@ -1,4 +1,4 @@
-# Cookiecutter for making a [chill](https://github.com/jkenlooper/chill) website
+# Cookiecutter for making a [Chill](https://github.com/jkenlooper/chill) website
 
 Version 0.4.0 <!-- Update cookiecutter.json generated_by_cookiecutter_website_version value as well. -->
 
@@ -21,11 +21,11 @@ Then read the README.md that was created along with all the other files.
   - Python 3
   - sqlite3
   - Flask
-  - Chill
+  - [Chill](https://github.com/jkenlooper/chill)
   - webpack
 
 - Example Python API app in Flask.
-- Database driven static website content created by chill.
+- Database driven static website content created by [Chill](https://github.com/jkenlooper/chill).
 - Example automated image processing using Makefiles and imagemagick.
 - Client-side resources (Javascript, CSS) are built with webpack.
 - Deployment files are all generated and isolated in a tar.gz file. This
@@ -33,11 +33,11 @@ Then read the README.md that was created along with all the other files.
 - CSS is structured to follow best practices.
 - Uses design tokens. See [README in projects design-tokens directory](https://github.com/jkenlooper/cookiecutter-website/blob/master/%7B%7B%20cookiecutter.project_slug%20%7D%7D/design-tokens/README.md).
 - HTML is rendered on server side via Jinja2 templates.
-- Development can be done with a [Vagrant](https://www.vagrantup.com/) virtual machine using [VirtualBox](https://www.virtualbox.org/).
+- Development can be done with a virtual machine ([Vagrant](https://www.vagrantup.com/), [VirtualBox](https://www.virtualbox.org/), [KVM](https://wiki.debian.org/KVM), etc.).
 - Deployment includes setup for https:// support with [Let's Encrypt](https://letsencrypt.org/).
 - Includes AWStats. <!-- TODO: replace AWStats with https://goaccess.io/ -->
-- Changelog for keeping a history of version updates for the website.
-- Instructions on regenerating project for future versions of cookiecutter-website
+- Change log for keeping a history of version updates for the website.
+- Instructions on regenerating project for future versions of cookiecutter-website.
 
 
 **[Changelog since 0.1.0](CHANGELOG.md)**
