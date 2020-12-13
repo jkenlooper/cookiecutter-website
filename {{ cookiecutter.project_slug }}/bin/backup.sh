@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eu -o pipefail
+set -o pipefail -o errexit -o nounset
 
 function usage {
   cat <<USAGE

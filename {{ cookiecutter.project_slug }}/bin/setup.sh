@@ -20,12 +20,12 @@ apt-get --yes install \
   python \
   python-dev \
   python3-dev \
+  python3-venv \
   python-pip \
   python-numpy \
   sqlite3 \
   libpq-dev \
-  python-psycopg2 \
-  virtualenv
+  python-psycopg2
 
 apt-get --yes install \
   awstats

@@ -3,7 +3,7 @@
 Get a local development version of the website to run on your machine by
 following these instructions.
 
-Written for a Linux machine that is Debian based. Only tested on 
+Written for a Linux machine that is Debian based. Only tested on
 [Ubuntu 18.04.4 LTS (Bionic Beaver)](http://releases.ubuntu.com/18.04/).
 It is recommended to use a virtual machine of some sort to keep dependencies for
 the website services isolated and manageable. Some virtualization software suggestions
@@ -34,7 +34,7 @@ machine. It is recommended that access to this development machine should be
 limited so be careful if you use a development machine that is hosted in the
 cloud. The local development version of the website will be at
 http://local-{{ cookiecutter.project_slug }}/ . If using vagrant for the virtual machine then
-you'll need to use the 8080 port http://local-{{ cookiecutter.project_slug }}:8080/ . 
+you'll need to use the 8080 port http://local-{{ cookiecutter.project_slug }}:8080/ .
 
 Append "127.0.0.1 local-{{ cookiecutter.project_slug }}" to your `/etc/hosts` file on the local
 machine (not the development machine). You'll then be able to access your local
@@ -59,12 +59,13 @@ The instructions shown here assume that you are logged into a Linux system
 
 ### Create `dev` user and project source directory
 
-Use `ssh` to login into the development machine either as root 
+Use `ssh` to login into the development machine either as root
 (`ssh root@local-{{ cookiecutter.project_slug }}`)
 or as a user that has `sudo`
 permissions.
 
 Example ways of logging into the development machine using `ssh`.
+
 ```bash
 # As root user
 ssh root@local-{{ cookiecutter.project_slug }};
@@ -107,12 +108,12 @@ exit;
 
 Development can be done with any text editor or IDE that you are comfortable
 with. To better match a production environment the project's source files are
-copied over to the 
-/usr/local/src/{{ cookiecutter.project_slug }}/ 
+copied over to the
+/usr/local/src/{{ cookiecutter.project_slug }}/
 directory on the development machine.
 
 The `bin/devsync.sh` script is a wrapper around `rsync` that will upload the
-source files to the development machine. The destination path is by default the 
+source files to the development machine. The destination path is by default the
 `/usr/local/src/{{ cookiecutter.project_slug }}/`
 directory that was created when the dev user was made.
 
@@ -130,7 +131,7 @@ ssh dev@local-{{ cookiecutter.project_slug }};
 ```
 
 Run the initial setup script that will install many of the dependencies with
-apt-get the Debian based package manager. 
+apt-get the Debian based package manager.
 
 ```bash
 # Install other software dependencies with apt-get.
@@ -179,7 +180,7 @@ command if still logged into development machine).
 The website apps are managed as
 [systemd](https://freedesktop.org/wiki/Software/systemd/) services.
 The service config files are created by running `make` and installed with
-`sudo make install`. It is recommended to use Python's `virtualenv . -p python3`
+`sudo make install`. It is recommended to use Python's virtual environment
 and activating each time for a new shell with `source bin/activate` before
 running `make`.
 
@@ -209,14 +210,12 @@ nvm use
 ### Initialize the project
 
 On the local machine install dependencies for prettier and black. These tools
-are needed to autoformat the changed code before committing. The `virtualenv`
-can be installed on your local machine with a package manager
-(`sudo apt-get install virtualenv`). 
-Or skip using virtualenv and create one with `python3 -m venv .` .
+are needed to autoformat the changed code before committing.
+Create a python virtual environment with `python3 -m venv .` .
 
 ```bash
 # Setup to use a virtual python environment
-virtualenv . -p python3;
+python3 -m venv .
 source bin/activate;
 
 # Install black to format python code when developing
@@ -243,14 +242,14 @@ npm run build;
 Should be logged into the development machine.
 
 ```bash
-ssh dev@local-puzzle-massive;
+ssh dev@local-{{ cookiecutter.project_slug }};
 ```
 
 ```bash
-cd /usr/local/src/puzzle-massive/;
+cd /usr/local/src/{{ cookiecutter.project_slug }}/;
 
 # Setup to use a virtual python environment
-virtualenv . -p python3;
+python3 -m venv .
 source bin/activate;
 
 # Makes the initial development version
@@ -305,7 +304,7 @@ is uploaded to the server and the guide to do deployments should then be
 followed.
 
 To create the versioned distribution file (like `{{ cookiecutter.project_slug }}-{{ cookiecutter.version }}.tar.gz`) use the
-`make dist` command.  Note that the version is set in the `package.json`.
+`make dist` command. Note that the version is set in the `package.json`.
 
 The script to create the distribution file only includes the files that have
 been committed to git. It will also limit these to what is listed in the
@@ -353,7 +352,7 @@ sudo make install;
 ## Uninstalling the app
 
 Run the below commands to remove {{ cookiecutter.project_slug }} from your
-development machine.  This will uninstall and disable the services, remove any
+development machine. This will uninstall and disable the services, remove any
 files installed outside of the project's directory including the sqlite3
 database. _Only do this on a development machine if it's database and other
 data is no longer needed._
@@ -413,7 +412,7 @@ cd {{ cookiecutter.project_slug }};
 git clean -fdx --exclude=.env --exclude=.htpasswd;
 cd ../;
 
-# Use rsync to copy over the generated project 
+# Use rsync to copy over the generated project
 # ({{ cookiecutter.project_slug }}--${now}/{{ cookiecutter.project_slug }})
 # files to the initial project.
 # This will delete all files from the initial project.

@@ -1,6 +1,7 @@
 /{{ cookiecutter.project_slug }}-api
 /activate*
 /black
+/black-primer
 /blackd
 /chardetect
 /chill

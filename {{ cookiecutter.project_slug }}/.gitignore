@@ -35,8 +35,10 @@
 
 /include/
 /lib/
+/lib64
 /local/
 /share/
+/pyvenv.cfg
 
 *.pyc
 *.egg-info/
