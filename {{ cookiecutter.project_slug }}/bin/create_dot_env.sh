@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e -u -o pipefail
+set -o errexit -o nounset -o pipefail
 
 function usage {
   cat <<USAGE
@@ -27,6 +27,10 @@ done;
 shift "$((OPTIND-1))";
 
 read -p "What is your favorite Muppet character (should be one word): " MUPPET_CHARACTER;
+read -p "
+Name of the aws configure profile (in $HOME/.aws/config) to use for the site:
+" AWSCONFIG_PROFILE;
+[ ! -z $AWSCONFIG_PROFILE ]
 echo ""
 
 if [ -f .env ]; then
@@ -36,20 +40,36 @@ fi
 (
 cat <<HERE
 
-# TODO: change this comment to explain how to get these public and secret keys
-# for the website (if applicable).
+# Any changes to this .env should also match changes in the buildspec.yml. Note
+# that the buildspec.yml uses parameter-store for any variables that should not
+# be committed to version control.
+
+# Example purposes only.
 EXAMPLE_PUBLIC_KEY=fill-this-in
 EXAMPLE_SECRET_KEY=fill-this-in
 
 # TODO: this is an example of how to set some value from the prompt.
 # [List of Muppet characters](https://en.wikipedia.org/wiki/List_of_Muppets).
 MUPPET_CHARACTER='${MUPPET_CHARACTER}'
+# This profile will be used for aws cli commands.
+AWSCONFIG_PROFILE=$AWSCONFIG_PROFILE
 
 HERE
 ) > .env
+
+read -p "
+Name of S3 bucket to use for artifacts:
+" S3_ARTIFACT_BUCKET_NAME
+[ ! -z $S3_ARTIFACT_BUCKET_NAME ]
+aws configure set artifact_bucket $S3_ARTIFACT_BUCKET_NAME --profile $AWSCONFIG_PROFILE
+
+read -p "
+Name of S3 bucket to use for static website hosting:
+" S3_WEBSITE_BUCKET_NAME
+[ ! -z $S3_WEBSITE_BUCKET_NAME ]
+aws configure set staticwebsite_bucket $S3_WEBSITE_BUCKET_NAME --profile $AWSCONFIG_PROFILE
 
 echo "Created .env file with the below contents:"
 echo ""
 cat .env
 echo ""
-

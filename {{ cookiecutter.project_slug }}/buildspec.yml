@@ -1,0 +1,59 @@
+version: 0.2
+
+env:
+  shell: bash
+  git-credential-helper: yes
+
+  parameter-store:
+    EXAMPLE_PUBLIC_KEY: /{{ cookiecutter.project_slug }}/example_public_key
+    EXAMPLE_SECRET_KEY: /{{ cookiecutter.project_slug }}/example_secret_key
+
+  variables:
+
+    # GIT_BRANCH is typically set by the GitBranchToBuildFrom parameter value.
+    GIT_BRANCH: release
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 12
+    commands:
+      - git checkout $GIT_BRANCH
+      - git submodule update --init --recursive
+      # Run npm clean install early in case it has an error
+      - npm ci
+      - apt-get update
+      - apt-get --yes install imagemagick
+      - apt-get --yes install sqlite3
+      - apt-get --yes install libpq-dev
+      - apt-get --yes install python-psycopg2
+      - apt-get --yes install zip
+
+  pre_build:
+    commands:
+      - python3 -m venv .
+      - source bin/activate
+      - |
+          cat << HERE > .env
+            EXAMPLE_PUBLIC_KEY=$EXAMPLE_PUBLIC_KEY
+            EXAMPLE_SECRET_KEY=$EXAMPLE_SECRET_KEY
+          HERE
+  build:
+    commands:
+      - npm run build
+      - make ENVIRONMENT=production
+      - make dist
+      - ./bin/static.sh {{ cookiecutter.project_slug }}-*.tar.gz
+  post_build:
+    finally:
+      - echo "Creating source.zip"
+      - TMP_CLEAN_DIR=$(mktemp -d);
+      - git clone . $TMP_CLEAN_DIR
+      - SOURCE_DIR=$PWD
+      - (cd $TMP_CLEAN_DIR && zip -r $SOURCE_DIR/source.zip .)
+
+artifacts:
+  files:
+    - static.zip
+    - source.zip
+    - parameters.json

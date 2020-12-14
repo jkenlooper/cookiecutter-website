@@ -30,12 +30,6 @@ while getopts ":h" opt; do
 done;
 shift "$((OPTIND-1))";
 
-params="$*"
-if test -z "${params}"; then
-  # Use the default source and destination
-  params=". dev@local-{{ cookiecutter.project_slug }}:/usr/local/src/{{ cookiecutter.project_slug }}/"
-fi
-
 which rsync > /dev/null || (echo "No rsync command found. Install rsync." && exit 1)
 
 # Use --delay-updates to put files into place at the end. This way any file
@@ -56,14 +50,22 @@ rsync --archive \
   --exclude=.vagrant \
   --exclude=node_modules \
   --exclude=package-lock.json \
-  ${params}
+  . dev@local-{{ cookiecutter.project_slug }}:/usr/local/src/{{ cookiecutter.project_slug }}/
 
 # Include any other files that are not part of the MANIFEST, but are created on
 # the local machine.
 rsync --archive \
   --delay-updates \
   --itemize-changes \
-  --include=".env" \
-  --include=".htpasswd" \
-  --exclude="*" \
-  ${params}
+  .env \
+  .htpasswd \
+  dev@local-{{ cookiecutter.project_slug }}:/usr/local/src/{{ cookiecutter.project_slug }}/
+
+rsync --archive \
+  --delay-updates \
+  --itemize-changes \
+  --relative \
+  bin/dist.sh \
+  bin/deploy-patch.sh \
+  bin/static.sh \
+  dev@local-{{ cookiecutter.project_slug }}:/usr/local/src/{{ cookiecutter.project_slug }}/

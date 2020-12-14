@@ -118,14 +118,6 @@ all: bin/chill bin/{{ cookiecutter.project_slug }}-api media $(objects)
 install:
 	./bin/install.sh $(SRVDIR) $(NGINXDIR) $(NGINXLOGDIR) $(AWSTATSLOGDIR) $(SYSTEMDDIR) $(DATABASEDIR)
 
-.PHONY: deploy
-deploy:
-ifeq ($(ENVIRONMENT),production)
-	./bin/deploy.sh
-else
-	./bin/deploy.sh --dryrun
-endif
-
 # Remove any created files in the src directory which were created by the
 # `make all` recipe.
 .PHONY: clean
