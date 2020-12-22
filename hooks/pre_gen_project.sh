@@ -4,15 +4,12 @@ set -o pipefail
 set -o nounset
 set -o errexit
 
+[ -e $HOME/.nvm ] && NVM_DIR="$HOME/.nvm"
+[ -e $HOME/.config/nvm ] && NVM_DIR="$HOME/.config/nvm"
 [ ! -z $NVM_DIR ] || (
-  [ -e $HOME/.nvm ] && NVM_DIR="$HOME/.nvm"
-  [ -e $HOME/.config/nvm ] && NVM_DIR="$HOME/.config/nvm"
-  [ ! -z $NVM_DIR ] || (
-    echo "Error: no $HOME/.nvm or $HOME/.config/nvm found." \
-      && exit 1
-  )
-  export NVM_DIR=$NVM_DIR
+    echo "Error: no $HOME/.nvm or $HOME/.config/nvm found."
 )
+export NVM_DIR
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 
 echo "Checking for required commands";
